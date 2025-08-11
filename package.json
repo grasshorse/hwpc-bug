@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "npx cucumber-js -p runner & npx ts-node ./src/support/reporter/HTMLReporter.ts & npx ts-node ./src/support/reporter/CucumberReporter.ts",
+    "test:fast": "npx cucumber-js -p runner",
+    "build": "npx tsc",
+    "test:compiled": "npm run build && npx cucumber-js -p compiled",
     "test:tags": "npx cucumber-js -p runner --tags",
     "test:navigation": "npx cucumber-js -p runner --tags @navigation & npx ts-node ./src/support/reporter/HTMLReporter.ts & npx ts-node ./src/support/reporter/CucumberReporter.ts",
+    "test:navigation:fast": "npx cucumber-js -p runner --tags @navigation",
     "test:navigation:mobile": "npx cucumber-js -p runner --tags \"@navigation and @mobile\" & npx ts-node ./src/support/reporter/HTMLReporter.ts & npx ts-node ./src/support/reporter/CucumberReporter.ts",
     "test:navigation:responsive": "npx cucumber-js -p runner --tags \"@navigation and @responsive\" & npx ts-node ./src/support/reporter/HTMLReporter.ts & npx ts-node ./src/support/reporter/CucumberReporter.ts",
     "test:navigation:performance": "npx cucumber-js -p runner --tags \"@navigation and @performance\" & npx ts-node ./src/support/reporter/HTMLReporter.ts & npx ts-node ./src/support/reporter/CucumberReporter.ts",

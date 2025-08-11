@@ -20,9 +20,27 @@ let options = [
     `--tags "not @ignore"`,
 ].join(' ');
 
+let compiledOptions = [
+    '--require ./dist/**/steps/*.js',
+    '--require ./dist/src/support/config/hooks.js',
+    '--format summary',
+    '--format rerun:@rerun.txt',
+    '--format json:./test-results/reports/cucumber.json',
+    '--publish-quiet true',
+    `--parallel=${process.env.PARALLEL_THREAD}`,
+    `--format-options '{"snippetInterface":"async-await"}'`,
+    `--retry=${process.env.RETRIES}`,
+    `--tags "not @ignore"`,
+].join(' ');
+
 let runner = [
     './features/',
     options,
+].join(' ');
+
+let compiled = [
+    './features/',
+    compiledOptions,
 ].join(' ');
 
 let rerun = [
@@ -30,4 +48,4 @@ let rerun = [
     options,
 ].join(' ');
 
-module.exports = { runner, rerun }
+module.exports = { runner, compiled, rerun }
