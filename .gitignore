@@ -1,6 +1,5 @@
 /test-results
-/allure-results
-/allure-report
+/screenshots
 /node_modules
 node_modules
 /.vscode

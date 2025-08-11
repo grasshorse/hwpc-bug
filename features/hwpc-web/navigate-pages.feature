@@ -9,14 +9,14 @@ Feature: Page Navigation Testing
   @navigation @responsive @regression @sanity
   Scenario Outline: Navigate to main pages with responsive validation
     When the user clicks "<page>"
+    And I pause for debugging
     Then user should be on "<page>"
-    #And I pause for debugging
     #And the navigation interface should be responsive
 
     Examples:
       | page      |
       | tickets   |
-#      | customers |
+      | customers |
 #      | routes    |
 #      | reports   |
 #      | dashboard |

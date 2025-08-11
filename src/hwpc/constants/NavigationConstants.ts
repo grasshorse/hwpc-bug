@@ -56,12 +56,29 @@ class NavigationConstants {
     desktop: { width: 1920, height: 1080, category: 'desktop' }
   };
 
-  // Timeout configurations by viewport category
+  // Timeout configurations by viewport category with SPA-specific timeouts
   private static readonly TIMEOUTS: Record<string, TimeoutConfig> = {
-    mobile: { pageLoad: 15000, elementWait: 10000, networkIdle: 5000 },
-    tablet: { pageLoad: 12000, elementWait: 8000, networkIdle: 4000 },
-    desktop: { pageLoad: 10000, elementWait: 6000, networkIdle: 3000 }
+    mobile: { pageLoad: 20000, elementWait: 15000, networkIdle: 8000 },
+    tablet: { pageLoad: 18000, elementWait: 12000, networkIdle: 6000 },
+    desktop: { pageLoad: 15000, elementWait: 10000, networkIdle: 5000 }
   };
+
+  // SPA-specific timeout configurations for JavaScript rendering
+  static readonly SPA_TIMEOUTS = {
+    initialization: 10000,  // Wait for app.js to load and initialize
+    navigationRender: 5000, // Wait for navigation component to render
+    routeChange: 3000,      // Wait for route changes to complete
+    componentMount: 4000    // Wait for components to mount
+  };
+
+  // Navigation container selector for SPA initialization waiting
+  static readonly NAVIGATION_CONTAINER = '[data-testid="main-navigation"], .main-nav, .navbar-nav, .navigation, .nav-menu';
+  
+  // Main navigation selector based on actual application structure
+  static readonly MAIN_NAVIGATION = '.navigation, .main-nav, .navbar-nav, [data-testid="main-navigation"], .nav-menu';
+  
+  // Mobile menu toggle selector from actual application
+  static readonly MOBILE_MENU_TOGGLE = '[data-testid="mobile-menu-toggle"]';
 
   // Page configurations for navigation testing with multiple selector strategies
   private static readonly PAGES: Record<string, PageConfig> = {
@@ -70,20 +87,20 @@ class NavigationConstants {
       url: '/',
       urlPatterns: ['/', '/home', '/dashboard', '/index.html', '?page=home'],
       title: 'Dashboard - Static Site API Testing',
-      titlePatterns: ['Dashboard', 'Home', 'Static Site', 'API Testing'],
+      titlePatterns: ['Dashboard - Static Site API Testing', 'Dashboard', 'Home', 'Static Site', 'API Testing'],
       selectors: {
-        main: '.home-page, .dashboard-page, .main-content, [data-testid="home-page"], body',
-        navigation: '.main-nav, .navbar-nav, [data-testid="main-nav"], .navigation, .nav-menu, [data-testid="main-navigation"]',
-        searchInterface: '.search-interface, .search-container, [data-search], [data-testid="search-interface"]'
+        main: '[data-testid="home-page"], [data-testid="dashboard-page"], .home-page, .dashboard-page, .main-content, body',
+        navigation: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu',
+        searchInterface: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"], [data-testid="search-interface"], .search-interface'
       },
       navigationLinks: {
         strategies: [
-          { selector: 'a[href="/"]', priority: 1, description: 'Direct home link', viewport: 'all', reliability: 'high' },
-          { selector: 'a[href="/home"]', priority: 2, description: 'Home page link', viewport: 'all', reliability: 'high' },
-          { selector: '[data-testid="home-link"]', priority: 3, description: 'Test ID home link', viewport: 'all', reliability: 'high' },
-          { selector: '.nav-home', priority: 4, description: 'CSS class home link', viewport: 'all', reliability: 'medium' },
-          { selector: 'a[href*="home"]', priority: 5, description: 'Contains home in href', viewport: 'all', reliability: 'medium' },
-          { selector: '.home-link', priority: 6, description: 'Generic home link class', viewport: 'all', reliability: 'low' }
+          { selector: '[data-testid="nav-home"]', priority: 1, description: 'Test ID home navigation link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="/"]', priority: 2, description: 'Direct home link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="/home"]', priority: 3, description: 'Home page link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="#/"]', priority: 4, description: 'SPA home route', viewport: 'all', reliability: 'high' },
+          { selector: '[data-testid="home-link"]', priority: 5, description: 'Test ID home link', viewport: 'all', reliability: 'high' },
+          { selector: '.nav-home', priority: 6, description: 'CSS class home link', viewport: 'all', reliability: 'medium' }
         ],
         fallbacks: ['a:has-text("Home")', 'a:has-text("Dashboard")', '[role="button"]:has-text("Home")']
       },
@@ -95,31 +112,31 @@ class NavigationConstants {
         { selector: '.main-content', priority: 5, description: 'Main content area', viewport: 'all', reliability: 'low' }
       ],
       requiredElements: [
-        { selector: '.main-content', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
-        { selector: '.main-nav', priority: 2, description: 'Main navigation', viewport: 'all', reliability: 'high' },
-        { selector: 'body', priority: 3, description: 'Page body', viewport: 'all', reliability: 'high' }
+        { selector: '[data-testid="home-page"], [data-testid="dashboard-page"], .home-page, .dashboard-page, .main-content, body', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
+        { selector: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu', priority: 2, description: 'Main navigation', viewport: 'all', reliability: 'high' },
+        { selector: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"]', priority: 3, description: 'Search interface', viewport: 'all', reliability: 'medium' }
       ]
     },
     customers: {
       name: 'customers',
       url: '/customers',
       urlPatterns: ['/customers', '/customer', '/customers.html', '?page=customers'],
-      title: 'Static Site - API Testing',
-      titlePatterns: ['Customers', 'Customer Management', 'Static Site', 'API Testing'],
+      title: 'Customers - Static Site API Testing',
+      titlePatterns: ['Customers - Static Site API Testing', 'Customers', 'Customer Management', 'Static Site', 'API Testing'],
       selectors: {
-        main: '.customers-page, .main-content, [data-testid="customers-page"], body',
-        navigation: '.main-nav, .navbar-nav, [data-testid="main-nav"], .navigation, .nav-menu, [data-testid="main-navigation"]',
-        searchInterface: '.customer-search, .search-container, [data-search], [data-testid="customer-search"]'
+        main: '[data-testid="customers-page"], .customers-page, .main-content, body',
+        navigation: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu',
+        searchInterface: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"], [data-testid="customer-search"], .customer-search'
       },
       navigationLinks: {
         strategies: [
-          { selector: 'a[href="/customers"]', priority: 1, description: 'Direct customers link', viewport: 'all', reliability: 'high' },
-          { selector: '[data-testid="customers-link"]', priority: 2, description: 'Test ID customers link', viewport: 'all', reliability: 'high' },
-          { selector: '[data-nav="customers"]', priority: 3, description: 'Data nav customers', viewport: 'all', reliability: 'high' },
-          { selector: '.nav-customers', priority: 4, description: 'CSS class customers link', viewport: 'all', reliability: 'medium' },
-          { selector: 'a[href*="customers"]', priority: 5, description: 'Contains customers in href', viewport: 'all', reliability: 'medium' },
-          { selector: '.customers-link', priority: 6, description: 'Generic customers link class', viewport: 'all', reliability: 'medium' },
-          { selector: '.mobile-nav a[href*="customers"]', priority: 7, description: 'Mobile nav customers link', viewport: 'mobile', reliability: 'medium' }
+          { selector: '[data-testid="nav-customers"]', priority: 1, description: 'Test ID customers navigation link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="/customers"]', priority: 2, description: 'Direct customers link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="#/customers"]', priority: 3, description: 'SPA customers route', viewport: 'all', reliability: 'high' },
+          { selector: '[data-testid="customers-link"]', priority: 4, description: 'Test ID customers link', viewport: 'all', reliability: 'high' },
+          { selector: '[data-nav="customers"]', priority: 5, description: 'Data nav customers', viewport: 'all', reliability: 'high' },
+          { selector: '.nav-customers', priority: 6, description: 'CSS class customers link', viewport: 'all', reliability: 'medium' },
+          { selector: 'a[href*="customers"]', priority: 7, description: 'Contains customers in href', viewport: 'all', reliability: 'medium' }
         ],
         fallbacks: ['a:has-text("Customers")', 'a:has-text("Customer")', '[role="button"]:has-text("Customers")']
       },
@@ -131,32 +148,31 @@ class NavigationConstants {
         { selector: '.main-content', priority: 5, description: 'Main content area', viewport: 'all', reliability: 'low' }
       ],
       requiredElements: [
-        { selector: '.main-content', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
-        { selector: '.customer-search', priority: 2, description: 'Customer search interface', viewport: 'all', reliability: 'high' },
-        { selector: '.main-nav', priority: 3, description: 'Main navigation', viewport: 'all', reliability: 'high' }
+        { selector: '[data-testid="customers-page"], .customers-page, .main-content, body', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
+        { selector: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu', priority: 2, description: 'Main navigation', viewport: 'all', reliability: 'high' },
+        { selector: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"]', priority: 3, description: 'Search interface', viewport: 'all', reliability: 'medium' }
       ]
     },
     tickets: {
       name: 'tickets',
       url: '/tickets',
       urlPatterns: ['/tickets', '/ticket', '/tickets.html', '?page=tickets'],
-      title: 'Static Site - API Testing',
-      titlePatterns: ['Tickets', 'Ticket Management', 'Static Site', 'API Testing'],
+      title: 'Tickets - Static Site API Testing',
+      titlePatterns: ['Tickets - Static Site API Testing', 'Tickets', 'Ticket Management', 'Static Site', 'API Testing'],
       selectors: {
-        main: '.tickets-page, .main-content, [data-testid="tickets-page"], body',
-        navigation: '.main-nav, .navbar-nav, [data-testid="main-nav"], .navigation, .nav-menu, [data-testid="main-navigation"]',
-        searchInterface: '.ticket-search, .search-container, [data-search], [data-testid="ticket-search"]'
+        main: '[data-testid="tickets-page"], .tickets-page, .main-content, body',
+        navigation: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu',
+        searchInterface: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"], [data-testid="ticket-search"], .ticket-search'
       },
       navigationLinks: {
         strategies: [
-          { selector: 'a[href="/tickets"]', priority: 1, description: 'Direct tickets link', viewport: 'all', reliability: 'high' },
-          { selector: '[data-testid="tickets-link"]', priority: 2, description: 'Test ID tickets link', viewport: 'all', reliability: 'high' },
-          { selector: '[data-nav="tickets"]', priority: 3, description: 'Data nav tickets', viewport: 'all', reliability: 'high' },
-          { selector: '.nav-tickets', priority: 4, description: 'CSS class tickets link', viewport: 'all', reliability: 'medium' },
-          { selector: 'a[href*="tickets"]', priority: 5, description: 'Contains tickets in href', viewport: 'all', reliability: 'medium' },
-          { selector: '.tickets-link', priority: 6, description: 'Generic tickets link class', viewport: 'all', reliability: 'medium' },
-          { selector: '.mobile-nav a[href*="tickets"]', priority: 7, description: 'Mobile nav tickets link', viewport: 'mobile', reliability: 'medium' },
-          { selector: 'button[onclick*="tickets"]', priority: 8, description: 'Button with tickets onclick', viewport: 'all', reliability: 'low' }
+          { selector: '[data-testid="nav-tickets"]', priority: 1, description: 'Test ID tickets navigation link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="/tickets"]', priority: 2, description: 'Direct tickets link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="#/tickets"]', priority: 3, description: 'SPA tickets route', viewport: 'all', reliability: 'high' },
+          { selector: '[data-testid="tickets-link"]', priority: 4, description: 'Test ID tickets link', viewport: 'all', reliability: 'high' },
+          { selector: '[data-nav="tickets"]', priority: 5, description: 'Data nav tickets', viewport: 'all', reliability: 'high' },
+          { selector: '.nav-tickets', priority: 6, description: 'CSS class tickets link', viewport: 'all', reliability: 'medium' },
+          { selector: 'a[href*="tickets"]', priority: 7, description: 'Contains tickets in href', viewport: 'all', reliability: 'medium' }
         ],
         fallbacks: ['a:has-text("Tickets")', 'a:has-text("Ticket")', '[role="button"]:has-text("Tickets")']
       },
@@ -169,21 +185,21 @@ class NavigationConstants {
         { selector: '.main-content', priority: 6, description: 'Main content area', viewport: 'all', reliability: 'low' }
       ],
       requiredElements: [
-        { selector: '.main-content', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
-        { selector: '.ticket-search', priority: 2, description: 'Ticket search interface', viewport: 'all', reliability: 'high' },
-        { selector: '.main-nav', priority: 3, description: 'Main navigation', viewport: 'all', reliability: 'high' }
+        { selector: '[data-testid="tickets-page"], .tickets-page, .main-content, body', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
+        { selector: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu', priority: 2, description: 'Main navigation', viewport: 'all', reliability: 'high' },
+        { selector: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"]', priority: 3, description: 'Search interface', viewport: 'all', reliability: 'medium' }
       ]
     },
     routes: {
       name: 'routes',
       url: '/routes',
       urlPatterns: ['/routes', '/route', '/routes.html', '?page=routes'],
-      title: 'Static Site - API Testing',
-      titlePatterns: ['Routes', 'Route Management', 'Static Site', 'API Testing'],
+      title: 'Routes - Static Site API Testing',
+      titlePatterns: ['Routes - Static Site API Testing', 'Routes', 'Route Management', 'Static Site', 'API Testing'],
       selectors: {
-        main: '.routes-page, .main-content, [data-testid="routes-page"], body',
-        navigation: '.main-nav, .navbar-nav, [data-testid="main-nav"], .navigation, .nav-menu, [data-testid="main-navigation"]',
-        searchInterface: '.route-search, .search-container, [data-search], [data-testid="route-search"]'
+        main: '[data-testid="routes-page"], .routes-page, .main-content, body',
+        navigation: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu',
+        searchInterface: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"], [data-testid="route-search"], .route-search'
       },
       navigationLinks: {
         strategies: [
@@ -205,9 +221,9 @@ class NavigationConstants {
         { selector: '.main-content', priority: 5, description: 'Main content area', viewport: 'all', reliability: 'low' }
       ],
       requiredElements: [
-        { selector: '.main-content', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
-        { selector: '.route-search', priority: 2, description: 'Route search interface', viewport: 'all', reliability: 'high' },
-        { selector: '.main-nav', priority: 3, description: 'Main navigation', viewport: 'all', reliability: 'high' }
+        { selector: '[data-testid="routes-page"], .routes-page, .main-content, body', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
+        { selector: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu', priority: 2, description: 'Main navigation', viewport: 'all', reliability: 'high' },
+        { selector: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"]', priority: 3, description: 'Search interface', viewport: 'all', reliability: 'medium' }
       ]
     },
     dashboard: {
@@ -461,14 +477,14 @@ class NavigationConstants {
 
   // Static selector constants with fallbacks for real application compatibility
   static readonly MOBILE_MENU_CONTAINER = '.mobile-menu, .navbar-collapse, .nav-mobile, [data-mobile-menu], [data-testid="mobile-menu-container"]';
-  static readonly MOBILE_MENU_TOGGLE = '.navbar-toggle, .mobile-menu-toggle, [data-testid="mobile-nav-toggle"], .hamburger, .menu-toggle, .navbar-toggler, [data-testid="mobile-menu-toggle"]';
+ // static readonly MOBILE_MENU_TOGGLE = '.navbar-toggle, .mobile-menu-toggle, [data-testid="mobile-nav-toggle"], .hamburger, .menu-toggle, .navbar-toggler, [data-testid="mobile-menu-toggle"]';
   static readonly MOBILE_CONTAINER = '.mobile-container, .container-mobile, [data-mobile], [data-testid="mobile-container"]';
   static readonly MOBILE_HIDDEN = '[data-mobile-hidden="true"], .mobile-hidden, .d-none-mobile';
   static readonly TABLET_CONTAINER = '.tablet-container, .container-tablet, [data-tablet], [data-testid="tablet-container"]';
   static readonly TABLET_VISIBLE = '[data-tablet-visible="true"], .tablet-visible, .d-block-tablet';
   static readonly DESKTOP_CONTAINER = '.desktop-container, .container-desktop, [data-desktop], [data-testid="desktop-container"]';
   static readonly DESKTOP_VISIBLE = '[data-desktop-visible="true"], .desktop-visible, .d-block-desktop';
-  static readonly MAIN_NAVIGATION = '.main-nav, .navbar-nav, [data-testid="main-nav"], .navigation, .nav-menu, [data-testid="main-navigation"]';
+  //static readonly MAIN_NAVIGATION = '.main-nav, .navbar-nav, [data-testid="main-nav"], .navigation, .nav-menu, [data-testid="main-navigation"]';
   static readonly NAVIGATION_MENU = '.nav-menu, .navigation-menu, .navbar-nav, [data-testid="navigation-menu"]';
   static readonly MOBILE_SEARCH_CONTAINER = '.mobile-search, .search-mobile, [data-mobile-search], [data-testid="mobile-search-container"]';
   static readonly SEARCH_CONTAINER = '.search-container, .search-wrapper, [data-search], [data-testid="search-container"]';

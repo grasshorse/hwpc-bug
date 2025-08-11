@@ -29,6 +29,9 @@ Given('user is on baseurl', async function () {
         const timeout = NavigationConstants.getTimeout(viewportCategory, 'pageLoad');
         await this.web.getPage().waitForLoadState('networkidle', { timeout });
         
+        // Initialize SPA after navigation
+        await navigationPage.initializeSPAAfterNavigation();
+        
         // Verify basic page elements are present
         await navigationPage.waitForLoadingComplete();
         
