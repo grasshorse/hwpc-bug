@@ -17,9 +17,9 @@ Feature: Page Navigation Testing
       | page      |
       | tickets   |
       | customers |
-#      | routes    |
-#      | reports   |
-#      | dashboard |
+      | routes    |
+      | reports   |
+      | dashboard |
 
 #   @navigation @mobile @responsive
 #   Scenario Outline: Mobile navigation via mobile menu

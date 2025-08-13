@@ -229,31 +229,71 @@ class NavigationConstants {
     dashboard: {
       name: 'dashboard',
       url: '/dashboard',
-      title: 'Static Site - API Testing',
+      urlPatterns: ['/dashboard', '/', '/home', '/dashboard.html', '?page=dashboard'],
+      title: 'Dashboard - Static Site API Testing',
+      titlePatterns: ['Dashboard - Static Site API Testing', 'Dashboard', 'Home', 'Static Site', 'API Testing'],
       selectors: {
-        main: '.dashboard-page, .main-content, [data-testid="dashboard-page"], body',
-        navigation: '.main-nav, .navbar-nav, [data-testid="main-nav"], .navigation, .nav-menu, [data-testid="main-navigation"]'
-      }
-           ,urlPatterns: [],
-  titlePatterns: [],
-  navigationLinks: { strategies: [], fallbacks: [] },
-  pageIdentifiers: [],
-  requiredElements: []
+        main: '[data-testid="dashboard-page"], .dashboard-page, .main-content, body',
+        navigation: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu'
+      },
+      navigationLinks: {
+        strategies: [
+          { selector: '[data-testid="nav-dashboard"]', priority: 1, description: 'Test ID dashboard navigation link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="/dashboard"]', priority: 2, description: 'Direct dashboard link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="/"]', priority: 3, description: 'Home/dashboard link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="#/dashboard"]', priority: 4, description: 'SPA dashboard route', viewport: 'all', reliability: 'high' },
+          { selector: '[data-testid="dashboard-link"]', priority: 5, description: 'Test ID dashboard link', viewport: 'all', reliability: 'high' },
+          { selector: '[data-nav="dashboard"]', priority: 6, description: 'Data nav dashboard', viewport: 'all', reliability: 'high' },
+          { selector: '.nav-dashboard', priority: 7, description: 'CSS class dashboard link', viewport: 'all', reliability: 'medium' }
+        ],
+        fallbacks: ['a:has-text("Dashboard")', 'a:has-text("Home")', '[role="button"]:has-text("Dashboard")']
+      },
+      pageIdentifiers: [
+        { selector: '.dashboard-page', priority: 1, description: 'Dashboard page container', viewport: 'all', reliability: 'high' },
+        { selector: '[data-testid="dashboard-page"]', priority: 2, description: 'Test ID dashboard page', viewport: 'all', reliability: 'high' },
+        { selector: 'h1:has-text("Dashboard")', priority: 3, description: 'Dashboard heading', viewport: 'all', reliability: 'medium' },
+        { selector: '.main-content', priority: 4, description: 'Main content area', viewport: 'all', reliability: 'low' }
+      ],
+      requiredElements: [
+        { selector: '[data-testid="dashboard-page"], .dashboard-page, .main-content, body', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
+        { selector: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu', priority: 2, description: 'Main navigation', viewport: 'all', reliability: 'high' },
+        { selector: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"]', priority: 3, description: 'Search interface', viewport: 'all', reliability: 'medium' }
+      ]
     },
     reports: {
       name: 'reports',
       url: '/reports',
-      title: 'Static Site - API Testing',
+      urlPatterns: ['/reports', '/report', '/reports.html', '?page=reports'],
+      title: 'Reports - Static Site API Testing',
+      titlePatterns: ['Reports - Static Site API Testing', 'Reports', 'Report Management', 'Static Site', 'API Testing'],
       selectors: {
-        main: '.reports-page, .main-content, [data-testid="reports-page"], body',
-        navigation: '.main-nav, .navbar-nav, [data-testid="main-nav"], .navigation, .nav-menu, [data-testid="main-navigation"]',
-        searchInterface: '.report-search, .search-container, [data-search], [data-testid="report-search"]'
-      }
-     ,urlPatterns: [],
-  titlePatterns: [],
-  navigationLinks: { strategies: [], fallbacks: [] },
-  pageIdentifiers: [],
-  requiredElements: []
+        main: '[data-testid="reports-page"], .reports-page, .main-content, body',
+        navigation: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu'
+      },
+      navigationLinks: {
+        strategies: [
+          { selector: '[data-testid="nav-reports"]', priority: 1, description: 'Test ID reports navigation link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="/reports"]', priority: 2, description: 'Direct reports link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="#/reports"]', priority: 3, description: 'SPA reports route', viewport: 'all', reliability: 'high' },
+          { selector: '[data-testid="reports-link"]', priority: 4, description: 'Test ID reports link', viewport: 'all', reliability: 'high' },
+          { selector: '[data-nav="reports"]', priority: 5, description: 'Data nav reports', viewport: 'all', reliability: 'high' },
+          { selector: '.nav-reports', priority: 6, description: 'CSS class reports link', viewport: 'all', reliability: 'medium' },
+          { selector: 'a[href*="reports"]', priority: 7, description: 'Contains reports in href', viewport: 'all', reliability: 'medium' }
+        ],
+        fallbacks: ['a:has-text("Reports")', 'a:has-text("Report")', '[role="button"]:has-text("Reports")']
+      },
+      pageIdentifiers: [
+        { selector: '.reports-page', priority: 1, description: 'Reports page container', viewport: 'all', reliability: 'high' },
+        { selector: '[data-testid="reports-page"]', priority: 2, description: 'Test ID reports page', viewport: 'all', reliability: 'high' },
+        { selector: 'h1:has-text("Reports")', priority: 3, description: 'Reports heading', viewport: 'all', reliability: 'medium' },
+        { selector: '.report-list', priority: 4, description: 'Report list container', viewport: 'all', reliability: 'medium' },
+        { selector: '.main-content', priority: 5, description: 'Main content area', viewport: 'all', reliability: 'low' }
+      ],
+      requiredElements: [
+        { selector: '[data-testid="reports-page"], .reports-page, .main-content, body', priority: 1, description: 'Main content container', viewport: 'all', reliability: 'high' },
+        { selector: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu', priority: 2, description: 'Main navigation', viewport: 'all', reliability: 'high' },
+        { selector: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"]', priority: 3, description: 'Search interface', viewport: 'all', reliability: 'medium' }
+      ]
     }
   };
 

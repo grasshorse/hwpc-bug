@@ -1031,16 +1031,21 @@ export default class NavigationPage extends BasePage {
                 }
             }
 
-            // Verify search interface with dynamic content wait
-            const searchInterfaceSelector = NavigationConstants.getSearchInterfaceSelector(pageName, this.isMobile);
-            validation.searchInterfacePresent = await this.waitForJavaScriptElement(
-                searchInterfaceSelector, 
-                `${pageName} Search Interface`,
-                NavigationConstants.SPA_TIMEOUTS.componentMount
-            );
-            
-            if (!validation.searchInterfacePresent) {
-                validation.errors.push(`Search interface not found for ${pageName}: ${searchInterfaceSelector}`);
+            // Verify search interface with dynamic content wait (only if page has search interface)
+            if (NavigationConstants.hasSearchInterface(pageName)) {
+                const searchInterfaceSelector = NavigationConstants.getSearchInterfaceSelector(pageName, this.isMobile);
+                validation.searchInterfacePresent = await this.waitForJavaScriptElement(
+                    searchInterfaceSelector, 
+                    `${pageName} Search Interface`,
+                    NavigationConstants.SPA_TIMEOUTS.componentMount
+                );
+                
+                if (!validation.searchInterfacePresent) {
+                    validation.errors.push(`Search interface not found for ${pageName}: ${searchInterfaceSelector}`);
+                }
+            } else {
+                // Page doesn't have search interface, mark as not present but don't add error
+                validation.searchInterfacePresent = false;
             }
 
             // Verify responsive interface with dynamic content support
