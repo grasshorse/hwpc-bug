@@ -957,6 +957,132 @@ export default class NavigationPage extends BasePage {
         }
     }
 
+    // ===== ERROR AND WARNING MESSAGE GENERATION =====
+
+    /**
+     * Generate descriptive error message for missing required search interface
+     */
+    private generateSearchInterfaceErrorMessage(pageName: string, selector: string, type: 'required' | 'optional'): string {
+        const pageConfig = NavigationConstants.getPageConfig(pageName);
+        const currentUrl = this.page.url();
+        
+        let message = `Search interface validation failed for ${pageName} page.\n`;
+        message += `  • Issue: Required search interface element not found\n`;
+        message += `  • Page URL: ${currentUrl}\n`;
+        message += `  • Expected selector: ${selector}\n`;
+        message += `  • Viewport: ${this.isMobile ? 'Mobile' : 'Desktop'}\n`;
+        
+        // Add actionable suggestions
+        message += `  • Possible causes:\n`;
+        message += `    - Search functionality not implemented on this page\n`;
+        message += `    - Element selector has changed in the application\n`;
+        message += `    - Search interface loads dynamically and needs more time\n`;
+        message += `    - Page configuration incorrectly marks search as required\n`;
+        
+        message += `  • Suggested actions:\n`;
+        message += `    - Verify if search functionality should exist on ${pageName} page\n`;
+        message += `    - Update page configuration to mark search as optional if not needed\n`;
+        message += `    - Check if selector needs updating: ${selector}\n`;
+        message += `    - Increase wait time for dynamic content loading`;
+        
+        return message;
+    }
+
+    /**
+     * Generate descriptive warning message for missing optional search interface
+     */
+    private generateSearchInterfaceWarningMessage(pageName: string, selector: string): string {
+        const currentUrl = this.page.url();
+        
+        let message = `Optional search interface not found on ${pageName} page.\n`;
+        message += `  • Status: Non-critical - validation will continue\n`;
+        message += `  • Page URL: ${currentUrl}\n`;
+        message += `  • Expected selector: ${selector}\n`;
+        message += `  • Viewport: ${this.isMobile ? 'Mobile' : 'Desktop'}\n`;
+        
+        message += `  • Note: This is expected behavior if:\n`;
+        message += `    - Search functionality is not implemented on this page\n`;
+        message += `    - Search is only available on specific pages\n`;
+        message += `    - Page is functioning correctly without search\n`;
+        
+        message += `  • Action required: None - this is informational only`;
+        
+        return message;
+    }
+
+    /**
+     * Generate descriptive error message for general page validation failures
+     */
+    private generatePageValidationErrorMessage(pageName: string, errorType: string, details: string): string {
+        const currentUrl = this.page.url();
+        
+        let message = `Page validation failed for ${pageName}.\n`;
+        message += `  • Error type: ${errorType}\n`;
+        message += `  • Details: ${details}\n`;
+        message += `  • Current URL: ${currentUrl}\n`;
+        message += `  • Viewport: ${this.isMobile ? 'Mobile' : 'Desktop'}\n`;
+        
+        // Add specific guidance based on error type
+        switch (errorType.toLowerCase()) {
+            case 'url':
+                message += `  • Issue: Page URL doesn't match expected pattern\n`;
+                message += `  • Suggested actions:\n`;
+                message += `    - Check if navigation completed successfully\n`;
+                message += `    - Verify URL patterns in page configuration\n`;
+                message += `    - Check for redirects or route changes`;
+                break;
+            case 'title':
+                message += `  • Issue: Page title doesn't match expected pattern\n`;
+                message += `  • Suggested actions:\n`;
+                message += `    - Verify page title patterns in configuration\n`;
+                message += `    - Check if page title loads dynamically\n`;
+                message += `    - Ensure page has fully loaded`;
+                break;
+            case 'element':
+                message += `  • Issue: Required page element not found\n`;
+                message += `  • Suggested actions:\n`;
+                message += `    - Check if element selector is correct\n`;
+                message += `    - Verify element loads dynamically\n`;
+                message += `    - Increase wait time for element loading`;
+                break;
+            default:
+                message += `  • Suggested actions:\n`;
+                message += `    - Check browser console for JavaScript errors\n`;
+                message += `    - Verify page loads completely\n`;
+                message += `    - Review page configuration settings`;
+        }
+        
+        return message;
+    }
+
+    /**
+     * Categorize and format validation results with enhanced messaging
+     */
+    private categorizeValidationResults(validation: PageValidation, pageName: string): void {
+        // Add summary information to errors and warnings
+        if (validation.errors.length > 0) {
+            const errorSummary = `\n=== VALIDATION ERRORS SUMMARY for ${pageName} ===\n`;
+            const errorDetails = `Total errors: ${validation.errors.length}\n`;
+            const errorActions = `Action required: Fix these issues before proceeding\n`;
+            const separator = `${'='.repeat(50)}\n`;
+            
+            // Prepend summary to first error
+            validation.errors[0] = errorSummary + errorDetails + errorActions + separator + validation.errors[0];
+        }
+        
+        if (validation.warnings.length > 0) {
+            const warningSummary = `\n=== VALIDATION WARNINGS SUMMARY for ${pageName} ===\n`;
+            const warningDetails = `Total warnings: ${validation.warnings.length}\n`;
+            const warningActions = `Action required: Review but validation continues\n`;
+            const separator = `${'='.repeat(50)}\n`;
+            
+            // Prepend summary to first warning
+            validation.warnings[0] = warningSummary + warningDetails + warningActions + separator + validation.warnings[0];
+        }
+    }
+
+    // ===== PAGE VERIFICATION METHODS =====
+
     /**
      * Verify that a page has loaded correctly with comprehensive validation
      * Enhanced for SPA compatibility with route change detection and JavaScript-rendered content
@@ -971,7 +1097,10 @@ export default class NavigationPage extends BasePage {
             isLoaded: false,
             isResponsive: false,
             searchInterfacePresent: false,
+            searchInterfaceRequired: false,
+            searchInterfaceValidationSkipped: false,
             loadTime: 0,
+            warnings: [],
             errors: []
         };
 
@@ -995,7 +1124,12 @@ export default class NavigationPage extends BasePage {
             validation.url = currentUrl;
             
             if (!this.verifySPARouteUrl(currentUrl, pageName)) {
-                validation.errors.push(`URL does not match expected SPA route pattern for ${pageName}. Current: ${currentUrl}`);
+                const errorMessage = this.generatePageValidationErrorMessage(
+                    pageName, 
+                    'url', 
+                    `URL does not match expected SPA route pattern. Current: ${currentUrl}`
+                );
+                validation.errors.push(errorMessage);
             }
 
             // Verify page title with SPA title updates
@@ -1003,7 +1137,12 @@ export default class NavigationPage extends BasePage {
             validation.title = currentTitle;
             
             if (!NavigationConstants.matchesPageTitle(currentTitle, pageName)) {
-                validation.errors.push(`Page title does not match expected for ${pageName}. Current: ${currentTitle}`);
+                const errorMessage = this.generatePageValidationErrorMessage(
+                    pageName, 
+                    'title', 
+                    `Page title does not match expected pattern. Current: ${currentTitle}`
+                );
+                validation.errors.push(errorMessage);
             }
 
             // Verify page identifier element with JavaScript rendering wait
@@ -1015,7 +1154,12 @@ export default class NavigationPage extends BasePage {
             );
             
             if (!isPageIdentifierVisible) {
-                validation.errors.push(`Page identifier not found for ${pageName}: ${pageIdentifierSelector}`);
+                const errorMessage = this.generatePageValidationErrorMessage(
+                    pageName, 
+                    'element', 
+                    `Page identifier not found. Expected selector: ${pageIdentifierSelector}`
+                );
+                validation.errors.push(errorMessage);
             }
 
             // Verify required elements with JavaScript rendering wait
@@ -1027,12 +1171,25 @@ export default class NavigationPage extends BasePage {
                     NavigationConstants.SPA_TIMEOUTS.componentMount
                 );
                 if (!isElementVisible) {
-                    validation.errors.push(`Required element not found: ${elementSelector}`);
+                    const errorMessage = this.generatePageValidationErrorMessage(
+                        pageName, 
+                        'element', 
+                        `Required element not found. Expected selector: ${elementSelector}`
+                    );
+                    validation.errors.push(errorMessage);
                 }
             }
 
-            // Verify search interface with dynamic content wait (only if page has search interface)
-            if (NavigationConstants.hasSearchInterface(pageName)) {
+            // Verify search interface with enhanced validation logic for optional interfaces
+            const hasSearchInterfaceSelector = pageConfig?.selectors.searchInterface;
+            const searchInterfaceRequired = NavigationConstants.hasSearchInterface(pageName);
+            
+            // Set validation fields based on configuration
+            validation.searchInterfaceRequired = searchInterfaceRequired;
+            
+            if (hasSearchInterfaceSelector) {
+                console.log(`Checking search interface for ${pageName} (required: ${searchInterfaceRequired})`);
+                
                 const searchInterfaceSelector = NavigationConstants.getSearchInterfaceSelector(pageName, this.isMobile);
                 validation.searchInterfacePresent = await this.waitForJavaScriptElement(
                     searchInterfaceSelector, 
@@ -1041,11 +1198,27 @@ export default class NavigationPage extends BasePage {
                 );
                 
                 if (!validation.searchInterfacePresent) {
-                    validation.errors.push(`Search interface not found for ${pageName}: ${searchInterfaceSelector}`);
+                    if (searchInterfaceRequired) {
+                        // Required search interface missing - add descriptive error
+                        const errorMessage = this.generateSearchInterfaceErrorMessage(pageName, searchInterfaceSelector, 'required');
+                        validation.errors.push(errorMessage);
+                        console.log(`ERROR: Required search interface not found for ${pageName}`);
+                    } else {
+                        // Optional search interface missing - add descriptive warning
+                        const warningMessage = this.generateSearchInterfaceWarningMessage(pageName, searchInterfaceSelector);
+                        validation.warnings.push(warningMessage);
+                        console.log(`WARNING: Optional search interface not found for ${pageName}, continuing validation`);
+                    }
+                } else {
+                    console.log(`Search interface found for ${pageName} using selector: ${searchInterfaceSelector}`);
                 }
+                
+                validation.searchInterfaceValidationSkipped = false;
             } else {
-                // Page doesn't have search interface, mark as not present but don't add error
+                // Page has no search interface selector configured
                 validation.searchInterfacePresent = false;
+                validation.searchInterfaceValidationSkipped = true;
+                console.log(`Search interface validation skipped for ${pageName} - no selector configured`);
             }
 
             // Verify responsive interface with dynamic content support
@@ -1059,23 +1232,43 @@ export default class NavigationPage extends BasePage {
 
             if (validation.isLoaded) {
                 console.log(`${pageName} page verification completed successfully in ${validation.loadTime}ms`);
+                if (validation.warnings.length > 0) {
+                    console.log(`${pageName} page verification completed with ${validation.warnings.length} warnings:`);
+                    validation.warnings.forEach(warning => console.log(`- WARNING: ${warning}`));
+                }
             } else {
                 console.log(`${pageName} page verification failed with ${validation.errors.length} errors`);
-                validation.errors.forEach(error => console.log(`- ${error}`));
+                validation.errors.forEach(error => console.log(`- ERROR: ${error}`));
+                
+                if (validation.warnings.length > 0) {
+                    console.log(`${pageName} page verification also had ${validation.warnings.length} warnings:`);
+                    validation.warnings.forEach(warning => console.log(`- WARNING: ${warning}`));
+                }
                 
                 // Capture enhanced debugging for SPA failures
                 await this.captureNavigationErrorWithSPAState(pageName, `Page verification failed with ${validation.errors.length} errors`, 'spa');
             }
 
+            // Categorize and enhance validation results with detailed messaging
+            this.categorizeValidationResults(validation, pageName);
+
             return validation;
 
         } catch (error) {
-            validation.errors.push(`Page verification failed: ${error.message}`);
+            const errorMessage = this.generatePageValidationErrorMessage(
+                pageName, 
+                'general', 
+                `Unexpected error during page verification: ${error.message}`
+            );
+            validation.errors.push(errorMessage);
             validation.loadTime = Date.now() - startTime;
             console.log(`Page verification error for ${pageName}: ${error.message}`);
             
             // Capture enhanced debugging for SPA errors
             await this.captureNavigationErrorWithSPAState(pageName, error.message, 'spa');
+            
+            // Categorize error results
+            this.categorizeValidationResults(validation, pageName);
             
             return validation;
         }

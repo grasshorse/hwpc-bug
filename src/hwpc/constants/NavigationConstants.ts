@@ -28,6 +28,19 @@ export interface NavigationLinkSelectors {
   fallbacks: string[];
 }
 
+export interface PageValidation {
+  isLoaded: boolean;
+  url: string;
+  title: string;
+  loadTime: number;
+  searchInterfacePresent: boolean;
+  searchInterfaceRequired: boolean;
+  searchInterfaceValidationSkipped: boolean;
+  isResponsive: boolean;
+  warnings: string[];
+  errors: string[];
+}
+
 export interface PageConfig {
   name: string;
   url: string;
@@ -38,6 +51,10 @@ export interface PageConfig {
     main: string;
     navigation: string;
     searchInterface?: string;
+  };
+  validation?: {
+    searchInterfaceRequired?: boolean;
+    searchInterfaceOptional?: boolean;
   };
   navigationLinks: NavigationLinkSelectors;
   pageIdentifiers: SelectorStrategy[];
@@ -127,6 +144,10 @@ class NavigationConstants {
         main: '[data-testid="customers-page"], .customers-page, .main-content, body',
         navigation: '.navigation, [data-testid="main-navigation"], .main-nav, .navbar-nav, .nav-menu',
         searchInterface: '.search-container, .search-wrapper, [data-search], [data-testid="search-container"], [data-testid="customer-search"], .customer-search'
+      },
+      validation: {
+        searchInterfaceRequired: false,
+        searchInterfaceOptional: true
       },
       navigationLinks: {
         strategies: [
@@ -374,11 +395,27 @@ class NavigationConstants {
   }
 
   /**
-   * Check if page has search interface
+   * Check if page has search interface that is required for validation
+   * Returns true only if the page has a search interface AND it's required for validation
+   * Returns false for pages with optional search interfaces or no search interface
    */
   static hasSearchInterface(pageName: string): boolean {
     const pageConfig = this.getPageConfig(pageName);
-    return pageConfig?.selectors.searchInterface !== undefined;
+    
+    // If no page config or no search interface selector, return false
+    if (!pageConfig || !pageConfig.selectors.searchInterface) {
+      return false;
+    }
+    
+    // Check validation configuration
+    if (pageConfig.validation) {
+      // If validation config exists, check if search interface is required
+      return pageConfig.validation.searchInterfaceRequired === true;
+    }
+    
+    // Backward compatibility: if no validation config exists, 
+    // default to true (required) to maintain existing behavior
+    return true;
   }
 
   /**
@@ -552,7 +589,10 @@ export interface PageValidation {
   title: string;
   loadTime: number;
   searchInterfacePresent: boolean;
+  searchInterfaceRequired: boolean;
+  searchInterfaceValidationSkipped: boolean;
   isResponsive: boolean;
+  warnings: string[];
   errors: string[];
 }
 
