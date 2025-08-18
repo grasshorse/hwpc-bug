@@ -1,0 +1,2825 @@
+[
+  {
+    "description": "  As a QA engineer\n  I want to test HWPC API endpoints\n  So that I can verify the API functionality works correctly",
+    "elements": [
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-check-hwpc-api-health",
+        "keyword": "Scenario",
+        "line": 11,
+        "name": "User can check HWPC API health",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 229376599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8273599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 12,
+            "name": "user checks HWPC API health",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:22"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 49432399
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/health' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"status\": \"healthy\",\n  \"data\": {\n    \"service\": \"Local Backend API\",\n    \"uptime\": 1094.0729179,\n    \"memory\": {\n      \"rss\": 116580352,\n      \"heapTotal\": 65105920,\n      \"heapUsed\": 60521056,\n      \"external\": 2599356,\n      \"arrayBuffers\": 399222\n    },\n    \"timestamp\": \"2025-08-18T14:36:32.256Z\",\n    \"environment\": \"development\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9671199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "user should get HWPC API success response",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:304"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3884500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 15,
+            "name": "user should get HWPC API response with data",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:310"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3082899
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 144986100
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 443000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@smoke",
+            "line": 10
+          },
+          {
+            "name": "@health",
+            "line": 10
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-retrieve-all-tickets-via-api",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "User can retrieve all tickets via API",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 271894399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 11247700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 19,
+            "name": "user makes a request to retrieve all HWPC tickets",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:46"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 225398899
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"4e727691-e6db-4909-8ab6-e57247d60f6e\",\n      \"customerId\": \"5895fdfd-4305-485a-b4da-9f2f8e20ef1a\",\n      \"routeId\": \"62ebc039-bd9a-497e-8af3-660c3b05103a\",\n      \"title\": \"Inspection - ventito temeritas\",\n      \"description\": \"Vespillo carbo conservo decimus culpo. Paulatim repellendus animus. Cariosus canto constans tredecim argentum aliquam conculco tabgo appello.\",\n      \"status\": \"completed\",\n      \"priority\": \"low\",\n      \"assignedTo\": \"David Brown\",\n      \"scheduledDate\": \"2025-10-07T12:17:37.440Z\",\n      \"completedDate\": \"2025-10-07T14:44:03.005Z\",\n      \"address\": \"134 Runolfsson Way\",\n      \"lat\": 30.1532,\n      \"lng\": -68.2161,\n      \"createdAt\": \"2025-08-15T17:19:38.851Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.851Z\"\n    },\n    {\n      \"id\": \"75b04ab1-1f64-4aa1-a26a-6f34b94a60b3\",\n      \"customerId\": \"fe05bd6a-b2f4-4523-9583-2d3967ba05d0\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Testing - reiciendis cultura\",\n      \"description\": \"Ara defleo suffragium thesis decipio laboriosam ullus articulus suus angustus. Ademptio suadeo veritas tergeo tergo demitto terebro bardus vix causa. Contego depraedor exercitationem theca.\",\n      \"status\": \"in_progress\",\n      \"priority\": \"urgent\",\n      \"assignedTo\": \"John Smith\",\n      \"scheduledDate\": \"2025-10-10T18:23:31.092Z\",\n      \"completedDate\": null,\n      \"address\": \"5203 School Street\",\n      \"lat\": 34.7182,\n      \"lng\": -69.1893,\n      \"createdAt\": \"2025-08-15T17:19:38.847Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.847Z\"\n    },\n    {\n      \"id\": \"153da2fe-5d8d-4195-a825-481aaa859e56\",\n      \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"routeId\": \"c3c4f498-8a5d-448e-9bb3-2492ab6185a3\",\n      \"title\": \"Removal - allatus quae\",\n      \"description\": \"Odit aggero aduro vetus repellendus undique audeo volva. Autus officia thymum paulatim varius demitto. Voluptatem artificiose campana copiose.\",\n      \"status\": \"completed\",\n      \"priority\": \"high\",\n      \"assignedTo\": \"Sarah Johnson\",\n      \"scheduledDate\": \"2025-09-13T17:15:40.350Z\",\n      \"completedDate\": \"2025-09-17T02:56:03.789Z\",\n      \"address\": \"8888 Chestnut Street\",\n      \"lat\": 26.7655,\n      \"lng\": -74.3277,\n      \"createdAt\": \"2025-08-15T17:19:38.844Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.844Z\"\n    },\n    {\n      \"id\": \"4f9fed3e-f7d9-4f46-a296-fe0be10b732b\",\n      \"customerId\": \"6c3aaf1e-86b4-4f96-8cc4-231f575bcf3a\",\n      \"routeId\": \"62ebc039-bd9a-497e-8af3-660c3b05103a\",\n      \"title\": \"Inspection - turbo uredo\",\n      \"description\": \"Barba subito correptius temeritas officia. Rem dolore voluptatum sortitus cruentus tego uredo. Nulla porro alias tot.\",\n      \"status\": \"completed\",\n      \"priority\": \"high\",\n      \"assignedTo\": \"David Brown\",\n      \"scheduledDate\": \"2025-07-17T20:41:27.875Z\",\n      \"completedDate\": \"2025-07-23T14:28:58.065Z\",\n      \"address\": \"2261 E 6th Avenue\",\n      \"lat\": 31.0564,\n      \"lng\": -97.899,\n      \"createdAt\": \"2025-08-15T17:19:38.840Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.840Z\"\n    },\n    {\n      \"id\": \"35267b45-dea6-474c-9126-dc2202ce967f\",\n      \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Removal - acerbitas nam\",\n      \"description\": \"Aeger adhuc suscipio deorsum rem ars compello. Utor correptius correptius celo amiculum debitis omnis cumque claustrum. Uxor vinculum ciminatio quod utpote.\",\n      \"status\": \"open\",\n      \"priority\": \"medium\",\n      \"assignedTo\": \"Amanda Martinez\",\n      \"scheduledDate\": \"2025-08-10T18:51:33.667Z\",\n      \"completedDate\": null,\n      \"address\": \"8888 Chestnut Street\",\n      \"lat\": 26.7655,\n      \"lng\": -74.3277,\n      \"createdAt\": \"2025-08-15T17:19:38.837Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.837Z\"\n    },\n    {\n      \"id\": \"0b66b414-e235-4b12-a966-e56ed3b9c552\",\n      \"customerId\": \"fe05bd6a-b2f4-4523-9583-2d3967ba05d0\",\n      \"routeId\": \"62ebc039-bd9a-497e-8af3-660c3b05103a\",\n      \"title\": \"Cleaning - spargo utrimque\",\n      \"description\": \"Constans cauda thermae nisi. Curtus bonus perferendis. Verto quo argentum pecto suscipio pax terebro crudelis auctor.\",\n      \"status\": \"in_progress\",\n      \"priority\": \"high\",\n      \"assignedTo\": \"Chris Anderson\",\n      \"scheduledDate\": \"2025-08-27T23:00:36.018Z\",\n      \"completedDate\": null,\n      \"address\": \"5203 School Street\",\n      \"lat\": 34.7182,\n      \"lng\": -69.1893,\n      \"createdAt\": \"2025-08-15T17:19:38.833Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.833Z\"\n    },\n    {\n      \"id\": \"03e1520a-3109-4e18-863d-cb18376bd28c\",\n      \"customerId\": \"33dfd7ab-fb0f-4409-b058-e49fd95ee7d8\",\n      \"routeId\": \"62ebc039-bd9a-497e-8af3-660c3b05103a\",\n      \"title\": \"Consultation - voluptatum deputo\",\n      \"description\": \"Desipio una aqua. Rerum curatio patria testimonium conicio contego clarus. Coma suffragium deprimo tergeo acquiro stella confugo tui.\",\n      \"status\": \"cancelled\",\n      \"priority\": \"urgent\",\n      \"assignedTo\": \"Chris Anderson\",\n      \"scheduledDate\": \"2025-08-15T06:54:43.375Z\",\n      \"completedDate\": null,\n      \"address\": \"354 Oda Way\",\n      \"lat\": 25.3655,\n      \"lng\": -118.2043,\n      \"createdAt\": \"2025-08-15T17:19:38.829Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.829Z\"\n    },\n    {\n      \"id\": \"00614e91-0ba8-4cff-b7e3-63c6f77a61aa\",\n      \"customerId\": \"df44c5be-2f59-4c05-9804-febfaaff5f53\",\n      \"routeId\": \"c3c4f498-8a5d-448e-9bb3-2492ab6185a3\",\n      \"title\": \"Cleaning - deinde nemo\",\n      \"description\": \"Combibo suscipio quibusdam verbum fuga valde admoneo. Civis careo absconditus avaritia. Sortitus truculenter paulatim iure conatus corpus audeo textor.\",\n      \"status\": \"open\",\n      \"priority\": \"low\",\n      \"assignedTo\": \"John Smith\",\n      \"scheduledDate\": \"2025-09-29T15:17:42.902Z\",\n      \"completedDate\": null,\n      \"address\": \"34153 The Green\",\n      \"lat\": 39.6892,\n      \"lng\": -92.8775,\n      \"createdAt\": \"2025-08-15T17:19:38.826Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.826Z\"\n    },\n    {\n      \"id\": \"87750fad-eb4a-4f95-9e70-64e1f7516214\",\n      \"customerId\": \"fe05bd6a-b2f4-4523-9583-2d3967ba05d0\",\n      \"routeId\": null,\n      \"title\": \"Emergency - terminatio viridis\",\n      \"description\": \"Conitor agnitio aggero tergum clementia subnecto officia texo utroque acquiro. Quas aestivus vaco decens. Casso officiis attero sit terebro capto magni truculenter deinde terminatio.\",\n      \"status\": \"open\",\n      \"priority\": \"medium\",\n      \"assignedTo\": null,\n      \"scheduledDate\": \"2025-08-16T06:44:10.506Z\",\n      \"completedDate\": null,\n      \"address\": \"5203 School Street\",\n      \"lat\": 34.7182,\n      \"lng\": -69.1893,\n      \"createdAt\": \"2025-08-15T17:19:38.822Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.822Z\"\n    },\n    {\n      \"id\": \"82da92d6-5fb0-4ac3-80e6-7d58f03315c7\",\n      \"customerId\": \"934d89d3-0d77-4051-ac83-a68d3f8e76b6\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Removal - canto conitor\",\n      \"description\": \"Aegrotatio adnuo deorsum. Voluptatum validus ancilla cicuta ambulo nemo audax cinis tenax synagoga. Decet abduco abbas alioqui arceo ait torrens utilis via dapifer.\",\n      \"status\": \"open\",\n      \"priority\": \"medium\",\n      \"assignedTo\": \"Sarah Johnson\",\n      \"scheduledDate\": \"2025-09-03T10:04:26.545Z\",\n      \"completedDate\": null,\n      \"address\": \"1458 Railroad Street\",\n      \"lat\": 37.5345,\n      \"lng\": -70.5574,\n      \"createdAt\": \"2025-08-15T17:19:38.818Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.818Z\"\n    },\n    {\n      \"id\": \"263ca49f-9660-4509-a54b-79ce28f4ec2d\",\n      \"customerId\": \"335fa832-141a-4257-8478-506d508ce379\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Repair - suppellex est\",\n      \"description\": \"Cultura clam bene conforto. Artificiose alveus spoliatio strues. Verto suffoco caelestis voluptate vulgo vulnus maxime venustas.\",\n      \"status\": \"completed\",\n      \"priority\": \"medium\",\n      \"assignedTo\": \"Chris Anderson\",\n      \"scheduledDate\": \"2025-07-25T15:27:23.000Z\",\n      \"completedDate\": \"2025-07-29T09:41:54.178Z\",\n      \"address\": \"49714 Reba Course\",\n      \"lat\": 35.6733,\n      \"lng\": -74.7344,\n      \"createdAt\": \"2025-08-15T17:19:38.815Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.815Z\"\n    },\n    {\n      \"id\": \"c7d39ee3-4f7e-49b6-8150-7485939b3a8b\",\n      \"customerId\": \"5895fdfd-4305-485a-b4da-9f2f8e20ef1a\",\n      \"routeId\": null,\n      \"title\": \"Emergency - absum vos\",\n      \"description\": \"A vinitor tondeo suscipit. Tabella tres ater conspergo charisma arbitro pax. Aeneus adamo adnuo voveo tantum vulgivagus custodia autus.\",\n      \"status\": \"cancelled\",\n      \"priority\": \"urgent\",\n      \"assignedTo\": \"David Brown\",\n      \"scheduledDate\": \"2025-08-30T19:03:06.947Z\",\n      \"completedDate\": null,\n      \"address\": \"134 Runolfsson Way\",\n      \"lat\": 30.1532,\n      \"lng\": -68.2161,\n      \"createdAt\": \"2025-08-15T17:19:38.811Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.811Z\"\n    },\n    {\n      \"id\": \"a36add5b-63f7-492f-969a-25e8e84f6356\",\n      \"customerId\": \"335fa832-141a-4257-8478-506d508ce379\",\n      \"routeId\": \"62ebc039-bd9a-497e-8af3-660c3b05103a\",\n      \"title\": \"Repair - deficio arto\",\n      \"description\": \"Clamo vallum cupiditas. Ocer alienus sumptus tamisium claro verecundia minus vociferor. Arguo decens conservo.\",\n      \"status\": \"cancelled\",\n      \"priority\": \"urgent\",\n      \"assignedTo\": \"Sarah Johnson\",\n      \"scheduledDate\": \"2025-08-27T12:28:30.768Z\",\n      \"completedDate\": null,\n      \"address\": \"49714 Reba Course\",\n      \"lat\": 35.6733,\n      \"lng\": -74.7344,\n      \"createdAt\": \"2025-08-15T17:19:38.807Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.807Z\"\n    },\n    {\n      \"id\": \"1a21e788-0c9b-4b61-9d05-74233422b769\",\n      \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Removal - advenio venia\",\n      \"description\": \"Defaeco velum absque thorax ara sit patria. Contra armarium adnuo. Surgo nemo victus teres decipio demonstro synagoga vere explicabo perspiciatis.\",\n      \"status\": \"open\",\n      \"priority\": \"urgent\",\n      \"assignedTo\": \"Sarah Johnson\",\n      \"scheduledDate\": \"2025-09-26T23:19:49.202Z\",\n      \"completedDate\": null,\n      \"address\": \"8888 Chestnut Street\",\n      \"lat\": 26.7655,\n      \"lng\": -74.3277,\n      \"createdAt\": \"2025-08-15T17:19:38.803Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.803Z\"\n    },\n    {\n      \"id\": \"d201ad5a-e3c6-4d7c-87a3-ecb6b13f5bec\",\n      \"customerId\": \"1320076e-867a-45c8-a944-55d0c433163e\",\n      \"routeId\": null,\n      \"title\": \"Cleaning - adhaero summa\",\n      \"description\": \"Hic templum laborum. Curia exercitationem administratio caterva. Admitto antiquus inventore voveo collum sodalitas.\",\n      \"status\": \"in_progress\",\n      \"priority\": \"urgent\",\n      \"assignedTo\": \"John Smith\",\n      \"scheduledDate\": \"2025-08-21T10:10:10.213Z\",\n      \"completedDate\": null,\n      \"address\": \"481 Alexandra Road\",\n      \"lat\": 43.7833,\n      \"lng\": -76.6285,\n      \"createdAt\": \"2025-08-15T17:19:38.799Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.799Z\"\n    }\n  ],\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:32.611Z\",\n    \"version\": \"v1\",\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 50,\n      \"total\": 15,\n      \"totalPages\": 1,\n      \"hasNextPage\": false,\n      \"hasPreviousPage\": false,\n      \"nextPage\": null,\n      \"previousPage\": null\n    }\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 20,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 10069300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 21,
+            "name": "user should get list of HWPC tickets",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:316"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 28064999
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 61824400
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 208099
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@tickets",
+            "line": 17
+          },
+          {
+            "name": "@get",
+            "line": 17
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-retrieve-a-specific-ticket-by-id",
+        "keyword": "Scenario",
+        "line": 24,
+        "name": "User can retrieve a specific ticket by ID",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 181753200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 401199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 25,
+            "name": "user makes a request to retrieve HWPC ticket with ID \"1a21e788-0c9b-4b61-9d05-74233422b769\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 64260000
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/1a21e788-0c9b-4b61-9d05-74233422b769' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"id\": \"1a21e788-0c9b-4b61-9d05-74233422b769\",\n    \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n    \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n    \"title\": \"Removal - advenio venia\",\n    \"description\": \"Defaeco velum absque thorax ara sit patria. Contra armarium adnuo. Surgo nemo victus teres decipio demonstro synagoga vere explicabo perspiciatis.\",\n    \"status\": \"open\",\n    \"priority\": \"urgent\",\n    \"assignedTo\": \"Sarah Johnson\",\n    \"scheduledDate\": \"2025-09-26T23:19:49.202Z\",\n    \"completedDate\": null,\n    \"address\": \"8888 Chestnut Street\",\n    \"lat\": 26.7655,\n    \"lng\": -74.3277,\n    \"createdAt\": \"2025-08-15T17:19:38.803Z\",\n    \"updatedAt\": \"2025-08-15T17:19:38.803Z\",\n    \"customerName\": \"Daffy Duck\",\n    \"customerEmail\": \"daffy@2cld.com\",\n    \"customerPhone\": \"130-850-1356\",\n    \"customerStreet\": \"2384 120th Street\",\n    \"customerCity\": \"Winfield\",\n    \"customerState\": \"IA\",\n    \"customerZipCode\": \"52659\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:32.628Z\",\n    \"version\": \"v1\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 26,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 20450699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 27,
+            "name": "user should get HWPC ticket with ID \"1a21e788-0c9b-4b61-9d05-74233422b769\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:346"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5254500
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 41797999
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 109099
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@tickets",
+            "line": 23
+          },
+          {
+            "name": "@get",
+            "line": 23
+          },
+          {
+            "name": "@catdebug",
+            "line": 23
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-create-a-new-ticket-via-api",
+        "keyword": "Scenario",
+        "line": 30,
+        "name": "User can create a new ticket via API",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 260583300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6140900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 31,
+            "name": "user creates a new HWPC ticket with title \"Test API Ticket\", description \"This is a test ticket created via API\", and priority \"medium\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:55"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 73794600
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X POST -H \"content-type: application/json\" -H \"accept: application/json\" --data-binary '{\n  \"title\": \"Test API Ticket\",\n  \"description\": \"This is a test ticket created via API\",\n  \"priority\": \"medium\",\n  \"status\": \"open\",\n  \"category\": \"general\",\n  \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\"\n}'",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"id\": \"84cd2bab-2a38-4f4d-b75b-965c29f182bf\",\n    \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n    \"routeId\": null,\n    \"title\": \"Test API Ticket\",\n    \"description\": \"This is a test ticket created via API\",\n    \"status\": \"open\",\n    \"priority\": \"medium\",\n    \"assignedTo\": null,\n    \"scheduledDate\": null,\n    \"completedDate\": null,\n    \"address\": null,\n    \"lat\": null,\n    \"lng\": null,\n    \"createdAt\": \"2025-08-18T14:36:32.829Z\",\n    \"updatedAt\": \"2025-08-18T14:36:32.829Z\",\n    \"customerName\": \"Daffy Duck\",\n    \"customerEmail\": \"daffy@2cld.com\",\n    \"customerPhone\": \"130-850-1356\",\n    \"customerStreet\": \"2384 120th Street\",\n    \"customerCity\": \"Winfield\",\n    \"customerState\": \"IA\",\n    \"customerZipCode\": \"52659\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:32.833Z\",\n    \"version\": \"v1\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 32,
+            "name": "user should get a successful response with status code 201",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6923200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 33,
+            "name": "user should get created HWPC ticket with title \"Test API Ticket\", priority \"medium\", and status \"open\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:394"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16712900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 34,
+            "name": "user stores HWPC ticket ID from response",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:540"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1896700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 35,
+            "name": "user cleans up the created HWPC ticket",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:498"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16861400
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/84cd2bab-2a38-4f4d-b75b-965c29f182bf' -X DELETE -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"deleted\": true,\n    \"id\": \"84cd2bab-2a38-4f4d-b75b-965c29f182bf\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:32.890Z\",\n    \"version\": \"v1\",\n    \"operation\": \"delete\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 50514500
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 625900
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@tickets",
+            "line": 29
+          },
+          {
+            "name": "@create",
+            "line": 29
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-update-an-existing-ticket-via-api",
+        "keyword": "Scenario",
+        "line": 38,
+        "name": "User can update an existing ticket via API",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 396556799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8879399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 39,
+            "name": "user creates a new HWPC ticket with title \"Original Title\", description \"Original description\", and priority \"low\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:55"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 103451300
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X POST -H \"content-type: application/json\" -H \"accept: application/json\" --data-binary '{\n  \"title\": \"Original Title\",\n  \"description\": \"Original description\",\n  \"priority\": \"low\",\n  \"status\": \"open\",\n  \"category\": \"general\",\n  \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\"\n}'",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"id\": \"b0db8f04-ce89-4a70-95bb-524c254623d4\",\n    \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n    \"routeId\": null,\n    \"title\": \"Original Title\",\n    \"description\": \"Original description\",\n    \"status\": \"open\",\n    \"priority\": \"low\",\n    \"assignedTo\": null,\n    \"scheduledDate\": null,\n    \"completedDate\": null,\n    \"address\": null,\n    \"lat\": null,\n    \"lng\": null,\n    \"createdAt\": \"2025-08-18T14:36:33.086Z\",\n    \"updatedAt\": \"2025-08-18T14:36:33.086Z\",\n    \"customerName\": \"Daffy Duck\",\n    \"customerEmail\": \"daffy@2cld.com\",\n    \"customerPhone\": \"130-850-1356\",\n    \"customerStreet\": \"2384 120th Street\",\n    \"customerCity\": \"Winfield\",\n    \"customerState\": \"IA\",\n    \"customerZipCode\": \"52659\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.090Z\",\n    \"version\": \"v1\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 40,
+            "name": "user stores HWPC ticket ID from response",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:540"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1765899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 41,
+            "name": "user updates HWPC ticket with stored ID with title \"Updated Title\" and status \"in_progress\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:129"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 68176699
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/b0db8f04-ce89-4a70-95bb-524c254623d4' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"id\": \"b0db8f04-ce89-4a70-95bb-524c254623d4\",\n    \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n    \"routeId\": null,\n    \"title\": \"Original Title\",\n    \"description\": \"Original description\",\n    \"status\": \"open\",\n    \"priority\": \"low\",\n    \"assignedTo\": null,\n    \"scheduledDate\": null,\n    \"completedDate\": null,\n    \"address\": null,\n    \"lat\": null,\n    \"lng\": null,\n    \"createdAt\": \"2025-08-18T14:36:33.086Z\",\n    \"updatedAt\": \"2025-08-18T14:36:33.086Z\",\n    \"customerName\": \"Daffy Duck\",\n    \"customerEmail\": \"daffy@2cld.com\",\n    \"customerPhone\": \"130-850-1356\",\n    \"customerStreet\": \"2384 120th Street\",\n    \"customerCity\": \"Winfield\",\n    \"customerState\": \"IA\",\n    \"customerZipCode\": \"52659\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.124Z\",\n    \"version\": \"v1\"\n  }\n}",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/b0db8f04-ce89-4a70-95bb-524c254623d4' -X PUT -H \"content-type: application/json\" -H \"accept: application/json\" --data-binary '{\n  \"id\": \"b0db8f04-ce89-4a70-95bb-524c254623d4\",\n  \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n  \"routeId\": null,\n  \"title\": \"Updated Title\",\n  \"description\": \"Original description\",\n  \"status\": \"in_progress\",\n  \"priority\": \"low\",\n  \"createdAt\": \"2025-08-18T14:36:33.086Z\",\n  \"updatedAt\": \"2025-08-18T14:36:33.086Z\"\n}'",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"id\": \"b0db8f04-ce89-4a70-95bb-524c254623d4\",\n    \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n    \"routeId\": null,\n    \"title\": \"Updated Title\",\n    \"description\": \"Original description\",\n    \"status\": \"in_progress\",\n    \"priority\": \"low\",\n    \"assignedTo\": null,\n    \"scheduledDate\": null,\n    \"completedDate\": null,\n    \"address\": null,\n    \"lat\": null,\n    \"lng\": null,\n    \"createdAt\": \"2025-08-18T14:36:33.086Z\",\n    \"updatedAt\": \"2025-08-18T14:36:33.162Z\",\n    \"customerName\": \"Daffy Duck\",\n    \"customerEmail\": \"daffy@2cld.com\",\n    \"customerPhone\": \"130-850-1356\",\n    \"customerStreet\": \"2384 120th Street\",\n    \"customerCity\": \"Winfield\",\n    \"customerState\": \"IA\",\n    \"customerZipCode\": \"52659\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.165Z\",\n    \"version\": \"v1\",\n    \"operation\": \"update\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 42,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3695700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 43,
+            "name": "user should get HWPC ticket with title \"Updated Title\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:367"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4659299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 44,
+            "name": "user should get HWPC ticket with status \"in_progress\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:376"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3445899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 45,
+            "name": "user cleans up the created HWPC ticket",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:498"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15999700
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/b0db8f04-ce89-4a70-95bb-524c254623d4' -X DELETE -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"deleted\": true,\n    \"id\": \"b0db8f04-ce89-4a70-95bb-524c254623d4\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.196Z\",\n    \"version\": \"v1\",\n    \"operation\": \"delete\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 65495800
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 193699
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@tickets",
+            "line": 37
+          },
+          {
+            "name": "@update",
+            "line": 37
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-delete-a-ticket-via-api",
+        "keyword": "Scenario",
+        "line": 48,
+        "name": "User can delete a ticket via API",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 196551800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 351700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 49,
+            "name": "user creates a new HWPC ticket with title \"Ticket to Delete\", description \"This ticket will be deleted\", and priority \"low\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:55"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 27977399
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X POST -H \"content-type: application/json\" -H \"accept: application/json\" --data-binary '{\n  \"title\": \"Ticket to Delete\",\n  \"description\": \"This ticket will be deleted\",\n  \"priority\": \"low\",\n  \"status\": \"open\",\n  \"category\": \"general\",\n  \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\"\n}'",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"id\": \"723b1495-435f-4bcf-8ba6-818a07949ee9\",\n    \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n    \"routeId\": null,\n    \"title\": \"Ticket to Delete\",\n    \"description\": \"This ticket will be deleted\",\n    \"status\": \"open\",\n    \"priority\": \"low\",\n    \"assignedTo\": null,\n    \"scheduledDate\": null,\n    \"completedDate\": null,\n    \"address\": null,\n    \"lat\": null,\n    \"lng\": null,\n    \"createdAt\": \"2025-08-18T14:36:32.965Z\",\n    \"updatedAt\": \"2025-08-18T14:36:32.965Z\",\n    \"customerName\": \"Daffy Duck\",\n    \"customerEmail\": \"daffy@2cld.com\",\n    \"customerPhone\": \"130-850-1356\",\n    \"customerStreet\": \"2384 120th Street\",\n    \"customerCity\": \"Winfield\",\n    \"customerState\": \"IA\",\n    \"customerZipCode\": \"52659\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:32.969Z\",\n    \"version\": \"v1\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 50,
+            "name": "user stores HWPC ticket ID from response",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:540"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2147599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 51,
+            "name": "user deletes HWPC ticket with stored ID",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:186"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16710399
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/723b1495-435f-4bcf-8ba6-818a07949ee9' -X DELETE -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"deleted\": true,\n    \"id\": \"723b1495-435f-4bcf-8ba6-818a07949ee9\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:32.989Z\",\n    \"version\": \"v1\",\n    \"operation\": \"delete\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 52,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1747799
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 49896700
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 117500
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@tickets",
+            "line": 47
+          },
+          {
+            "name": "@delete",
+            "line": 47
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-retrieve-tickets-by-customer",
+        "keyword": "Scenario",
+        "line": 55,
+        "name": "User can retrieve tickets by customer",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 252375000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 250799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 56,
+            "name": "user retrieves HWPC tickets for customer \"64fcec34-150a-476f-804a-3e9072a7e6bf\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:194"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 24563100
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/customer/64fcec34-150a-476f-804a-3e9072a7e6bf' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"153da2fe-5d8d-4195-a825-481aaa859e56\",\n      \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"routeId\": \"c3c4f498-8a5d-448e-9bb3-2492ab6185a3\",\n      \"title\": \"Removal - allatus quae\",\n      \"description\": \"Odit aggero aduro vetus repellendus undique audeo volva. Autus officia thymum paulatim varius demitto. Voluptatem artificiose campana copiose.\",\n      \"status\": \"completed\",\n      \"priority\": \"high\",\n      \"assignedTo\": \"Sarah Johnson\",\n      \"scheduledDate\": \"2025-09-13T17:15:40.350Z\",\n      \"completedDate\": \"2025-09-17T02:56:03.789Z\",\n      \"address\": \"8888 Chestnut Street\",\n      \"lat\": 26.7655,\n      \"lng\": -74.3277,\n      \"createdAt\": \"2025-08-15T17:19:38.844Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.844Z\"\n    },\n    {\n      \"id\": \"35267b45-dea6-474c-9126-dc2202ce967f\",\n      \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Removal - acerbitas nam\",\n      \"description\": \"Aeger adhuc suscipio deorsum rem ars compello. Utor correptius correptius celo amiculum debitis omnis cumque claustrum. Uxor vinculum ciminatio quod utpote.\",\n      \"status\": \"open\",\n      \"priority\": \"medium\",\n      \"assignedTo\": \"Amanda Martinez\",\n      \"scheduledDate\": \"2025-08-10T18:51:33.667Z\",\n      \"completedDate\": null,\n      \"address\": \"8888 Chestnut Street\",\n      \"lat\": 26.7655,\n      \"lng\": -74.3277,\n      \"createdAt\": \"2025-08-15T17:19:38.837Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.837Z\"\n    },\n    {\n      \"id\": \"1a21e788-0c9b-4b61-9d05-74233422b769\",\n      \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Removal - advenio venia\",\n      \"description\": \"Defaeco velum absque thorax ara sit patria. Contra armarium adnuo. Surgo nemo victus teres decipio demonstro synagoga vere explicabo perspiciatis.\",\n      \"status\": \"open\",\n      \"priority\": \"urgent\",\n      \"assignedTo\": \"Sarah Johnson\",\n      \"scheduledDate\": \"2025-09-26T23:19:49.202Z\",\n      \"completedDate\": null,\n      \"address\": \"8888 Chestnut Street\",\n      \"lat\": 26.7655,\n      \"lng\": -74.3277,\n      \"createdAt\": \"2025-08-15T17:19:38.803Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.803Z\"\n    }\n  ],\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.071Z\",\n    \"version\": \"v1\",\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 50,\n      \"total\": 3,\n      \"totalPages\": 1,\n      \"hasNextPage\": false,\n      \"hasPreviousPage\": false,\n      \"nextPage\": null,\n      \"previousPage\": null\n    }\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 57,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1053199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 58,
+            "name": "user should get list of HWPC tickets",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:316"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1682099
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 52470299
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 113000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@tickets",
+            "line": 54
+          },
+          {
+            "name": "@customer",
+            "line": 54
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-retrieve-tickets-by-status",
+        "keyword": "Scenario",
+        "line": 61,
+        "name": "User can retrieve tickets by status",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 166815700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 202499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 62,
+            "name": "user retrieves HWPC tickets with status \"open\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:198"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 42171000
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/status/open' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"b0db8f04-ce89-4a70-95bb-524c254623d4\",\n      \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"routeId\": null,\n      \"title\": \"Original Title\",\n      \"description\": \"Original description\",\n      \"status\": \"open\",\n      \"priority\": \"low\",\n      \"assignedTo\": null,\n      \"scheduledDate\": null,\n      \"completedDate\": null,\n      \"address\": null,\n      \"lat\": null,\n      \"lng\": null,\n      \"createdAt\": \"2025-08-18T14:36:33.086Z\",\n      \"updatedAt\": \"2025-08-18T14:36:33.086Z\"\n    },\n    {\n      \"id\": \"35267b45-dea6-474c-9126-dc2202ce967f\",\n      \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Removal - acerbitas nam\",\n      \"description\": \"Aeger adhuc suscipio deorsum rem ars compello. Utor correptius correptius celo amiculum debitis omnis cumque claustrum. Uxor vinculum ciminatio quod utpote.\",\n      \"status\": \"open\",\n      \"priority\": \"medium\",\n      \"assignedTo\": \"Amanda Martinez\",\n      \"scheduledDate\": \"2025-08-10T18:51:33.667Z\",\n      \"completedDate\": null,\n      \"address\": \"8888 Chestnut Street\",\n      \"lat\": 26.7655,\n      \"lng\": -74.3277,\n      \"createdAt\": \"2025-08-15T17:19:38.837Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.837Z\"\n    },\n    {\n      \"id\": \"00614e91-0ba8-4cff-b7e3-63c6f77a61aa\",\n      \"customerId\": \"df44c5be-2f59-4c05-9804-febfaaff5f53\",\n      \"routeId\": \"c3c4f498-8a5d-448e-9bb3-2492ab6185a3\",\n      \"title\": \"Cleaning - deinde nemo\",\n      \"description\": \"Combibo suscipio quibusdam verbum fuga valde admoneo. Civis careo absconditus avaritia. Sortitus truculenter paulatim iure conatus corpus audeo textor.\",\n      \"status\": \"open\",\n      \"priority\": \"low\",\n      \"assignedTo\": \"John Smith\",\n      \"scheduledDate\": \"2025-09-29T15:17:42.902Z\",\n      \"completedDate\": null,\n      \"address\": \"34153 The Green\",\n      \"lat\": 39.6892,\n      \"lng\": -92.8775,\n      \"createdAt\": \"2025-08-15T17:19:38.826Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.826Z\"\n    },\n    {\n      \"id\": \"87750fad-eb4a-4f95-9e70-64e1f7516214\",\n      \"customerId\": \"fe05bd6a-b2f4-4523-9583-2d3967ba05d0\",\n      \"routeId\": null,\n      \"title\": \"Emergency - terminatio viridis\",\n      \"description\": \"Conitor agnitio aggero tergum clementia subnecto officia texo utroque acquiro. Quas aestivus vaco decens. Casso officiis attero sit terebro capto magni truculenter deinde terminatio.\",\n      \"status\": \"open\",\n      \"priority\": \"medium\",\n      \"assignedTo\": null,\n      \"scheduledDate\": \"2025-08-16T06:44:10.506Z\",\n      \"completedDate\": null,\n      \"address\": \"5203 School Street\",\n      \"lat\": 34.7182,\n      \"lng\": -69.1893,\n      \"createdAt\": \"2025-08-15T17:19:38.822Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.822Z\"\n    },\n    {\n      \"id\": \"82da92d6-5fb0-4ac3-80e6-7d58f03315c7\",\n      \"customerId\": \"934d89d3-0d77-4051-ac83-a68d3f8e76b6\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Removal - canto conitor\",\n      \"description\": \"Aegrotatio adnuo deorsum. Voluptatum validus ancilla cicuta ambulo nemo audax cinis tenax synagoga. Decet abduco abbas alioqui arceo ait torrens utilis via dapifer.\",\n      \"status\": \"open\",\n      \"priority\": \"medium\",\n      \"assignedTo\": \"Sarah Johnson\",\n      \"scheduledDate\": \"2025-09-03T10:04:26.545Z\",\n      \"completedDate\": null,\n      \"address\": \"1458 Railroad Street\",\n      \"lat\": 37.5345,\n      \"lng\": -70.5574,\n      \"createdAt\": \"2025-08-15T17:19:38.818Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.818Z\"\n    },\n    {\n      \"id\": \"1a21e788-0c9b-4b61-9d05-74233422b769\",\n      \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"routeId\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"title\": \"Removal - advenio venia\",\n      \"description\": \"Defaeco velum absque thorax ara sit patria. Contra armarium adnuo. Surgo nemo victus teres decipio demonstro synagoga vere explicabo perspiciatis.\",\n      \"status\": \"open\",\n      \"priority\": \"urgent\",\n      \"assignedTo\": \"Sarah Johnson\",\n      \"scheduledDate\": \"2025-09-26T23:19:49.202Z\",\n      \"completedDate\": null,\n      \"address\": \"8888 Chestnut Street\",\n      \"lat\": 26.7655,\n      \"lng\": -74.3277,\n      \"createdAt\": \"2025-08-15T17:19:38.803Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.803Z\"\n    }\n  ],\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.142Z\",\n    \"version\": \"v1\",\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 50,\n      \"total\": 6,\n      \"totalPages\": 1,\n      \"hasNextPage\": false,\n      \"hasPreviousPage\": false,\n      \"nextPage\": null,\n      \"previousPage\": null\n    }\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 63,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1715900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 64,
+            "name": "user should get list of HWPC tickets",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:316"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3342099
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 38150500
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 163899
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@tickets",
+            "line": 60
+          },
+          {
+            "name": "@status",
+            "line": 60
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-retrieve-ticket-statistics",
+        "keyword": "Scenario",
+        "line": 67,
+        "name": "User can retrieve ticket statistics",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 159347499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 161099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 68,
+            "name": "user retrieves HWPC ticket statistics",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:202"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15569799
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/stats' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"total\": 15,\n    \"byStatus\": {\n      \"open\": 5,\n      \"completed\": 4,\n      \"cancelled\": 3,\n      \"in_progress\": 3\n    },\n    \"byPriority\": {\n      \"urgent\": 6,\n      \"high\": 3,\n      \"medium\": 4,\n      \"low\": 2\n    }\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.219Z\",\n    \"version\": \"v1\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 69,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2372400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 70,
+            "name": "user should get HWPC API success response",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:304"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1400400
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 62180800
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 99000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@tickets",
+            "line": 66
+          },
+          {
+            "name": "@stats",
+            "line": 66
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-gets-error-when-retrieving-user-profile-(no-authenticated-user)",
+        "keyword": "Scenario",
+        "line": 73,
+        "name": "User gets error when retrieving user profile (no authenticated user)",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 218118500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 264900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 74,
+            "name": "user retrieves current HWPC user profile",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:28"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 19412500
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/auth/user' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": false,\n  \"error\": {\n    \"code\": \"USER_NOT_FOUND\",\n    \"message\": \"Authenticated user not found in database\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.371Z\",\n    \"version\": \"v1\",\n    \"requestId\": \"de4bff27-224c-472d-a3a4-03785318741a\",\n    \"method\": \"GET\",\n    \"url\": \"/api/v1/auth/user\",\n    \"userAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36\",\n    \"ip\": \"::ffff:10.147.17.219\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 75,
+            "name": "user should get an error response with status code 404",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:299"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3628999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 76,
+            "name": "user should get HWPC API error with code \"USER_NOT_FOUND\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:472"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 12776800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 77,
+            "name": "user should get HWPC API error message containing \"not found\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:481"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7612699
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 60765800
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 70999
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@users",
+            "line": 72
+          },
+          {
+            "name": "@profile",
+            "line": 72
+          },
+          {
+            "name": "@error-handling",
+            "line": 72
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-gets-error-when-updating-preferences-(no-authenticated-user)",
+        "keyword": "Scenario",
+        "line": 80,
+        "name": "User gets error when updating preferences (no authenticated user)",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 200254600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 188000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 81,
+            "name": "user updates HWPC user preferences with theme \"dark\" and notifications \"true\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 20069599
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/auth/user/preferences' -X PUT -H \"content-type: application/json\" -H \"accept: application/json\" --data-binary '{\n  \"preferences\": {\n    \"theme\": \"dark\",\n    \"notifications\": true\n  }\n}'",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": false,\n  \"error\": {\n    \"code\": \"INTERNAL_ERROR\",\n    \"message\": \"An error occurred while updating user preferences\",\n    \"details\": \"User with id dev-user-id not found\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.421Z\",\n    \"version\": \"v1\",\n    \"requestId\": \"f659f461-d7d0-4ead-9059-a879b46d8911\",\n    \"method\": \"PUT\",\n    \"url\": \"/api/v1/auth/user/preferences\",\n    \"userAgent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36\",\n    \"ip\": \"::ffff:10.147.17.219\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 82,
+            "name": "user should get an error response with status code 500",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:299"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2318200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 83,
+            "name": "user should get HWPC API error with code \"INTERNAL_ERROR\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:472"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2234300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 84,
+            "name": "user should get HWPC API error message containing \"error occurred\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:481"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2624099
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 67824899
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 117899
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@users",
+            "line": 79
+          },
+          {
+            "name": "@preferences",
+            "line": 79
+          },
+          {
+            "name": "@error-handling",
+            "line": 79
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-manage-customers-via-api",
+        "keyword": "Scenario",
+        "line": 87,
+        "name": "User can manage customers via API",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 262843899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 297800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 88,
+            "name": "user makes a request to retrieve all HWPC customers",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:208"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 41200400
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/customers' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"df44c5be-2f59-4c05-9804-febfaaff5f53\",\n      \"name\": \"Marvin T. Martian\",\n      \"email\": \"mtm@2cld.com\",\n      \"phone\": \"227-655-6598\",\n      \"street\": \"330 Sonderen St\",\n      \"city\": \"O'Fallon\",\n      \"state\": \"MO\",\n      \"zipCode\": \"63366\",\n      \"lat\": 38.80864,\n      \"lng\": -90.69417,\n      \"serviceType\": \"Municipal\",\n      \"notes\": \"Good News Brewing and Pizza\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.777Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.777Z\"\n    },\n    {\n      \"id\": \"33dfd7ab-fb0f-4409-b058-e49fd95ee7d8\",\n      \"name\": \"Yosemite Sam\",\n      \"email\": \"ysam@2cld.com\",\n      \"phone\": \"701-843-5635\",\n      \"street\": \"108 S Main St\",\n      \"city\": \"O'Fallon\",\n      \"state\": \"MO\",\n      \"zipCode\": \"63366\",\n      \"lat\": 38.81077,\n      \"lng\": -90.69967,\n      \"serviceType\": \"Municipal\",\n      \"notes\": \"GoodWood Drinks and Food\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.773Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.773Z\"\n    },\n    {\n      \"id\": \"88d84fe3-e10d-4642-bb14-1e77f92ca5a1\",\n      \"name\": \"Foghorn Leghorn\",\n      \"email\": \"foghorn@2cld.com\",\n      \"phone\": \"391-192-1496\",\n      \"street\": \"1605 Summit Estates\",\n      \"city\": \"O'Fallon\",\n      \"state\": \"MO\",\n      \"zipCode\": \"63366\",\n      \"lat\": 38.82889,\n      \"lng\": -90.7596,\n      \"serviceType\": \"Residential\",\n      \"notes\": \"guscamp https://guscamp-2025.conversehouse.com/\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.769Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.769Z\"\n    },\n    {\n      \"id\": \"1320076e-867a-45c8-a944-55d0c433163e\",\n      \"name\": \"Tasmanian Devil\",\n      \"email\": \"tazd@2cld.com\",\n      \"phone\": \"483-022-5584\",\n      \"street\": \"200 State St Suite 201-C\",\n      \"city\": \"Cedar Falls\",\n      \"state\": \"IA\",\n      \"zipCode\": \"50613\",\n      \"lat\": 42.53634,\n      \"lng\": -92.4439,\n      \"serviceType\": \"Commercial\",\n      \"notes\": \"Taz at RiverPlace co-working\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.766Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.766Z\"\n    },\n    {\n      \"id\": \"fe05bd6a-b2f4-4523-9583-2d3967ba05d0\",\n      \"name\": \"Road Runner\",\n      \"email\": \"rr@2cld.com\",\n      \"phone\": \"036-624-6236\",\n      \"street\": \"2821 Horseshoe Dr\",\n      \"city\": \"Cedar Falls\",\n      \"state\": \"IA\",\n      \"zipCode\": \"50613\",\n      \"lat\": 42.50313,\n      \"lng\": -92.47982,\n      \"serviceType\": \"Commercial\",\n      \"notes\": \"Fletcher Motor Co., LLC\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.760Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.760Z\"\n    },\n    {\n      \"id\": \"934d89d3-0d77-4051-ac83-a68d3f8e76b6\",\n      \"name\": \"Wile E. Coyote\",\n      \"email\": \"wec@2cld.com\",\n      \"phone\": \"713-177-0465\",\n      \"street\": \"2416 Rownd Street\",\n      \"city\": \"Cedar Falls\",\n      \"state\": \"IA\",\n      \"zipCode\": \"50613\",\n      \"lat\": 42.51606,\n      \"lng\": -92.42056,\n      \"serviceType\": \"Residential\",\n      \"notes\": \"WEC Super Genius\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.756Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.756Z\"\n    },\n    {\n      \"id\": \"335fa832-141a-4257-8478-506d508ce379\",\n      \"name\": \"Porky Pig\",\n      \"email\": \"ppig@2cld.com\",\n      \"phone\": \"979-520-5701\",\n      \"street\": \"111 N Locust St\",\n      \"city\": \"Winfield\",\n      \"state\": \"IA\",\n      \"zipCode\": \"52659\",\n      \"lat\": 41.12913,\n      \"lng\": -91.43797,\n      \"serviceType\": \"Commercial\",\n      \"notes\": \"Grasshorse artist Porky Pig\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.752Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.752Z\"\n    },\n    {\n      \"id\": \"6c3aaf1e-86b4-4f96-8cc4-231f575bcf3a\",\n      \"name\": \"Bugs Bunny\",\n      \"email\": \"bugs@2cld.com\",\n      \"phone\": \"500-469-2164\",\n      \"street\": \"2378 120th Street\",\n      \"city\": \"Winfield\",\n      \"state\": \"IA\",\n      \"zipCode\": \"52659\",\n      \"lat\": 41.13326,\n      \"lng\": -91.45204,\n      \"serviceType\": \"Residential\",\n      \"notes\": \"BooBoo Bunny Infestation.  contact booboo@conversehouse.com\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.749Z\",\n      \"updatedAt\": \"2025-08-15T17:25:52.544Z\"\n    },\n    {\n      \"id\": \"5895fdfd-4305-485a-b4da-9f2f8e20ef1a\",\n      \"name\": \"Elmer Fudd\",\n      \"email\": \"efudd@2cld.com\",\n      \"phone\": \"229-924-9482\",\n      \"street\": \"2224 120th St\",\n      \"city\": \"Winfield\",\n      \"state\": \"IA\",\n      \"zipCode\": \"52659\",\n      \"lat\": 41.13308,\n      \"lng\": -91.48079,\n      \"serviceType\": \"Commercial\",\n      \"notes\": \"TH Twig, LLC\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.745Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.745Z\"\n    },\n    {\n      \"id\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\",\n      \"name\": \"Daffy Duck\",\n      \"email\": \"daffy@2cld.com\",\n      \"phone\": \"130-850-1356\",\n      \"street\": \"2384 120th Street\",\n      \"city\": \"Winfield\",\n      \"state\": \"IA\",\n      \"zipCode\": \"52659\",\n      \"lat\": 41.122404,\n      \"lng\": -91.4508,\n      \"serviceType\": \"Commercial\",\n      \"notes\": \"Gerling Repair\",\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.737Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.737Z\"\n    }\n  ],\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.547Z\",\n    \"version\": \"v1\",\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 50,\n      \"total\": 10,\n      \"totalPages\": 1,\n      \"hasNextPage\": false,\n      \"hasPreviousPage\": false,\n      \"nextPage\": null,\n      \"previousPage\": null\n    }\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 89,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2107399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 90,
+            "name": "user should get list of HWPC customers",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:326"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 7915499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 92,
+            "name": "user creates a new HWPC customer with name \"Test Customer\", email \"test@example.com\", and phone \"555-0123\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:217"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 40958499
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/customers' -X POST -H \"content-type: application/json\" -H \"accept: application/json\" --data-binary '{\n  \"name\": \"Test Customer\",\n  \"email\": \"test@example.com\",\n  \"phone\": \"555-0123\",\n  \"serviceType\": \"standard\",\n  \"isActive\": true\n}'",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"id\": \"e59081d7-2b1f-489d-b3bc-9af01752c6ff\",\n    \"name\": \"Test Customer\",\n    \"email\": \"test@example.com\",\n    \"phone\": \"555-0123\",\n    \"street\": null,\n    \"city\": null,\n    \"state\": null,\n    \"zipCode\": null,\n    \"lat\": null,\n    \"lng\": null,\n    \"serviceType\": \"standard\",\n    \"notes\": null,\n    \"isActive\": 1,\n    \"createdAt\": \"2025-08-18T14:36:33.618Z\",\n    \"updatedAt\": \"2025-08-18T14:36:33.618Z\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.623Z\",\n    \"version\": \"v1\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 93,
+            "name": "user should get a successful response with status code 201",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1116399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 94,
+            "name": "user should get HWPC API success response",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:304"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1818900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 95,
+            "name": "user cleans up the created HWPC customer",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:509"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13900599
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/customers/e59081d7-2b1f-489d-b3bc-9af01752c6ff' -X DELETE -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"deleted\": true,\n    \"id\": \"e59081d7-2b1f-489d-b3bc-9af01752c6ff\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.641Z\",\n    \"version\": \"v1\",\n    \"operation\": \"delete\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 44154400
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 113900
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@customers",
+            "line": 86
+          },
+          {
+            "name": "@crud",
+            "line": 86
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-retrieve-routes-via-api",
+        "keyword": "Scenario",
+        "line": 98,
+        "name": "User can retrieve routes via API",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 234810499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 164200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 99,
+            "name": "user makes a request to retrieve all HWPC routes",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:277"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 21852900
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/routes' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"62ebc039-bd9a-497e-8af3-660c3b05103a\",\n      \"name\": \"LooneyTunes Route 3 - O'Fallon Test\",\n      \"description\": \"Test O'Fallon\",\n      \"startLocation\": \"1605 Summit Estates, O'Fallon\",\n      \"endLocation\": \"1605 Summit Estates, O'Fallon\",\n      \"estimatedDuration\": 160,\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.790Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.790Z\"\n    },\n    {\n      \"id\": \"c3c4f498-8a5d-448e-9bb3-2492ab6185a3\",\n      \"name\": \"LooneyTunes Route 2 - Cedar Falls Test\",\n      \"description\": \"Test Cedar Falls\",\n      \"startLocation\": \"2416 Rownd Street, Cedar Falls\",\n      \"endLocation\": \"2416 Rownd Street, Cedar Falls\",\n      \"estimatedDuration\": 120,\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.787Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.787Z\"\n    },\n    {\n      \"id\": \"1f62999b-074e-49a7-b73b-03da4cf0f480\",\n      \"name\": \"LooneyTunes Route 1 - Winfield Test\",\n      \"description\": \"Test Winfield\",\n      \"startLocation\": \"2378 120th Street, Winfield\",\n      \"endLocation\": \"2378 120th Street Winfield\",\n      \"estimatedDuration\": 60,\n      \"isActive\": 1,\n      \"createdAt\": \"2025-08-15T17:19:38.784Z\",\n      \"updatedAt\": \"2025-08-15T17:19:38.784Z\"\n    }\n  ],\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.540Z\",\n    \"version\": \"v1\",\n    \"pagination\": {\n      \"page\": 1,\n      \"limit\": 50,\n      \"total\": 3,\n      \"totalPages\": 1,\n      \"hasNextPage\": false,\n      \"hasPreviousPage\": false,\n      \"nextPage\": null,\n      \"previousPage\": null\n    }\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 100,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 25399000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 101,
+            "name": "user should get list of HWPC routes",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:336"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5160400
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 60708099
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 67399
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@routes",
+            "line": 97
+          },
+          {
+            "name": "@get",
+            "line": 97
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-can-retrieve-dashboard-data",
+        "keyword": "Scenario",
+        "line": 104,
+        "name": "User can retrieve dashboard data",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 213894000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 121899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 105,
+            "name": "user retrieves HWPC dashboard data",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:288"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 24016099
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/reports/dashboard' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": true,\n  \"data\": {\n    \"summary\": {\n      \"totalTickets\": 15,\n      \"totalCustomers\": 10,\n      \"totalRoutes\": 3,\n      \"overdueTickets\": 2,\n      \"todayTickets\": 0\n    },\n    \"statusCounts\": [\n      {\n        \"status\": \"open\",\n        \"count\": 5\n      },\n      {\n        \"status\": \"completed\",\n        \"count\": 4\n      },\n      {\n        \"status\": \"cancelled\",\n        \"count\": 3\n      },\n      {\n        \"status\": \"in_progress\",\n        \"count\": 3\n      }\n    ],\n    \"priorityCounts\": [\n      {\n        \"priority\": \"urgent\",\n        \"count\": 6\n      },\n      {\n        \"priority\": \"high\",\n        \"count\": 3\n      },\n      {\n        \"priority\": \"medium\",\n        \"count\": 4\n      },\n      {\n        \"priority\": \"low\",\n        \"count\": 2\n      }\n    ],\n    \"dateFilteredData\": null,\n    \"performance\": {\n      \"responseTime\": 2,\n      \"timestamp\": \"2025-08-18T14:36:33.687Z\"\n    },\n    \"charts\": {\n      \"statusChart\": {\n        \"labels\": [\n          \"open\",\n          \"completed\",\n          \"cancelled\",\n          \"in_progress\"\n        ],\n        \"data\": [\n          5,\n          4,\n          3,\n          3\n        ],\n        \"type\": \"doughnut\"\n      },\n      \"priorityChart\": {\n        \"labels\": [\n          \"urgent\",\n          \"high\",\n          \"medium\",\n          \"low\"\n        ],\n        \"data\": [\n          6,\n          3,\n          4,\n          2\n        ],\n        \"type\": \"bar\"\n      }\n    }\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.688Z\",\n    \"version\": \"v1\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 106,
+            "name": "user should get a successful response with status code 200",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:294"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2341099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 107,
+            "name": "user should get HWPC API success response",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:304"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1783099
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 57568699
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 83999
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@dashboard",
+            "line": 103
+          },
+          {
+            "name": "@reports",
+            "line": 103
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-gets-error-when-retrieving-non-existent-ticket",
+        "keyword": "Scenario",
+        "line": 110,
+        "name": "User gets error when retrieving non-existent ticket",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 182685199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 160199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 111,
+            "name": "user makes a request to retrieve HWPC ticket with ID \"550e8400-e29b-41d4-a716-999999999999\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 17808100
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/550e8400-e29b-41d4-a716-999999999999' -X GET -H \"content-type: application/json\" -H \"accept: application/json\"",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": false,\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Ticket with id '550e8400-e29b-41d4-a716-999999999999' not found\"\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.696Z\",\n    \"version\": \"v1\"\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 112,
+            "name": "user should get an error response with status code 404",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:299"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1183300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 113,
+            "name": "user should get HWPC API error with code \"NOT_FOUND\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:472"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1415399
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 114,
+            "name": "user should get HWPC API error message containing \"not found\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:481"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1812200
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 40385299
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 142100
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@error-handling",
+            "line": 109
+          },
+          {
+            "name": "@tickets",
+            "line": 109
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;user-gets-validation-error-when-creating-ticket-with-missing-data",
+        "keyword": "Scenario",
+        "line": 117,
+        "name": "User gets validation error when creating ticket with missing data",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 239834300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 161900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 118,
+            "name": "user creates a new HWPC ticket with title \"\", description \"Missing title\", and priority \"invalid_priority\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:55"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 22646399
+            },
+            "embeddings": [
+              {
+                "data": "Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X POST -H \"content-type: application/json\" -H \"accept: application/json\" --data-binary '{\n  \"title\": \"\",\n  \"description\": \"Missing title\",\n  \"priority\": \"invalid_priority\",\n  \"status\": \"open\",\n  \"category\": \"general\",\n  \"customerId\": \"64fcec34-150a-476f-804a-3e9072a7e6bf\"\n}'",
+                "mime_type": "text/plain"
+              },
+              {
+                "data": "Response body: {\n  \"success\": false,\n  \"error\": {\n    \"type\": \"validation_error\",\n    \"code\": \"VALIDATION_FAILED\",\n    \"message\": \"The submitted data contains validation errors\",\n    \"fields\": {\n      \"title\": {\n        \"message\": \"Title cannot be empty\",\n        \"value\": \"\",\n        \"type\": \"string.empty\",\n        \"suggestion\": \"Please enter a meaningful title for the ticket\"\n      },\n      \"priority\": {\n        \"message\": \"priority must be one of: low, medium, high, urgent\",\n        \"value\": \"invalid_priority\",\n        \"type\": \"any.only\",\n        \"suggestion\": \"Please select a valid option for priority\"\n      }\n    },\n    \"suggestions\": [\n      \"Please enter a meaningful title for the ticket\",\n      \"Please select a valid option for priority\"\n    ]\n  },\n  \"meta\": {\n    \"timestamp\": \"2025-08-18T14:36:33.898Z\",\n    \"requestId\": \"ab900e67-78d6-4f8c-a929-bc710d0c3f0f\",\n    \"validationContext\": {\n      \"schema\": \"ticket\",\n      \"source\": \"body\",\n      \"fieldCount\": 2\n    }\n  }\n}",
+                "mime_type": "text/plain"
+              }
+            ]
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 119,
+            "name": "user should get an error response with status code 400",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:299"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2275099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 120,
+            "name": "user should get HWPC API error with code \"VALIDATION_FAILED\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:472"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5418300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 121,
+            "name": "user should get validation error for field \"title\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:490"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3554199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 122,
+            "name": "user should get validation error for field \"priority\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:490"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1624199
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 56733000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 87700
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@error-handling",
+            "line": 116
+          },
+          {
+            "name": "@tickets",
+            "line": 116
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "hwpc-api-testing;cleanup-api-client",
+        "keyword": "Scenario",
+        "line": 125,
+        "name": "Cleanup API client",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 186874200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 8,
+            "name": "user has access to HWPC API",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:15"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 169300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 126,
+            "name": "user cleans up HWPC API client",
+            "match": {
+              "location": "src\\hwpc\\steps\\HWPCAPISteps.ts:520"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1470499
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 53796600
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 71000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@api",
+            "line": 1
+          },
+          {
+            "name": "@cleanup",
+            "line": 124
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "hwpc-api-testing",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "HWPC API Testing",
+    "tags": [
+      {
+        "name": "@hwpc",
+        "line": 1
+      },
+      {
+        "name": "@api",
+        "line": 1
+      }
+    ],
+    "uri": "features\\hwpc-api\\hwpc_api.feature"
+  },
+  {
+    "description": "    As a QA engineer, I want to test page navigation functionality\n    So that I can ensure users can access all main application areas reliably",
+    "elements": [
+      {
+        "description": "",
+        "id": "page-navigation-testing;navigate-to-main-pages-with-responsive-validation",
+        "keyword": "Scenario Outline",
+        "line": 10,
+        "name": "Navigate to main pages with responsive validation",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 214324200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "user is on baseurl",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9382394599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the user clicks \"tickets\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6886976900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "user should be on \"tickets\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:79"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18198623100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the navigation interface should be responsive",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:118"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15088209100
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 55454799
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 66299
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@navigation",
+            "line": 1
+          },
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@catdebug",
+            "line": 1
+          },
+          {
+            "name": "@navigation",
+            "line": 9
+          },
+          {
+            "name": "@responsive",
+            "line": 9
+          },
+          {
+            "name": "@regression",
+            "line": 9
+          },
+          {
+            "name": "@sanity",
+            "line": 9
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "page-navigation-testing;navigate-to-main-pages-with-responsive-validation",
+        "keyword": "Scenario Outline",
+        "line": 10,
+        "name": "Navigate to main pages with responsive validation",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 251445799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "user is on baseurl",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9456587400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the user clicks \"customers\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6764004199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "user should be on \"customers\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:79"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 23009480900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the navigation interface should be responsive",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:118"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15879259399
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 88165200
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 135000
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@navigation",
+            "line": 1
+          },
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@catdebug",
+            "line": 1
+          },
+          {
+            "name": "@navigation",
+            "line": 9
+          },
+          {
+            "name": "@responsive",
+            "line": 9
+          },
+          {
+            "name": "@regression",
+            "line": 9
+          },
+          {
+            "name": "@sanity",
+            "line": 9
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "page-navigation-testing;navigate-to-main-pages-with-responsive-validation",
+        "keyword": "Scenario Outline",
+        "line": 10,
+        "name": "Navigate to main pages with responsive validation",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 186995600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "user is on baseurl",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9422705599
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the user clicks \"routes\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6709229500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "user should be on \"routes\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:79"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 18116182300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the navigation interface should be responsive",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:118"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15128385600
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 79573700
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 74100
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@navigation",
+            "line": 1
+          },
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@catdebug",
+            "line": 1
+          },
+          {
+            "name": "@navigation",
+            "line": 9
+          },
+          {
+            "name": "@responsive",
+            "line": 9
+          },
+          {
+            "name": "@regression",
+            "line": 9
+          },
+          {
+            "name": "@sanity",
+            "line": 9
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "page-navigation-testing;navigate-to-main-pages-with-responsive-validation",
+        "keyword": "Scenario Outline",
+        "line": 10,
+        "name": "Navigate to main pages with responsive validation",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 179641500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "user is on baseurl",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9388263700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the user clicks \"reports\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6708551700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "user should be on \"reports\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:79"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16816496999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the navigation interface should be responsive",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:118"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 15950521800
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 94219700
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 146699
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@navigation",
+            "line": 1
+          },
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@catdebug",
+            "line": 1
+          },
+          {
+            "name": "@navigation",
+            "line": 9
+          },
+          {
+            "name": "@responsive",
+            "line": 9
+          },
+          {
+            "name": "@regression",
+            "line": 9
+          },
+          {
+            "name": "@sanity",
+            "line": 9
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "page-navigation-testing;navigate-to-main-pages-with-responsive-validation",
+        "keyword": "Scenario Outline",
+        "line": 10,
+        "name": "Navigate to main pages with responsive validation",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 158095300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "user is on baseurl",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 9247524600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "the user clicks \"dashboard\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 6750505199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 13,
+            "name": "user should be on \"dashboard\"",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:79"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16891842799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "the navigation interface should be responsive",
+            "match": {
+              "location": "src\\hwpc\\steps\\NavigationSteps.ts:118"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16045619299
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 105235800
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 132199
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@navigation",
+            "line": 1
+          },
+          {
+            "name": "@hwpc",
+            "line": 1
+          },
+          {
+            "name": "@catdebug",
+            "line": 1
+          },
+          {
+            "name": "@navigation",
+            "line": 9
+          },
+          {
+            "name": "@responsive",
+            "line": 9
+          },
+          {
+            "name": "@regression",
+            "line": 9
+          },
+          {
+            "name": "@sanity",
+            "line": 9
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "page-navigation-testing",
+    "line": 2,
+    "keyword": "Feature",
+    "name": "Page Navigation Testing",
+    "tags": [
+      {
+        "name": "@navigation",
+        "line": 1
+      },
+      {
+        "name": "@hwpc",
+        "line": 1
+      },
+      {
+        "name": "@catdebug",
+        "line": 1
+      }
+    ],
+    "uri": "features\\hwpc-web\\navigate-pages.feature"
+  }
+]

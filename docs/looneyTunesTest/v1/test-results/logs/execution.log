@@ -1,0 +1,1593 @@
+2025-08-18 09:36:31 info: 	##############################################################################
+2025-08-18 09:36:31 info: 	SCENARIO: USER CAN CHECK HWPC API HEALTH: 11 - STARTED
+2025-08-18 09:36:31 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN RETRIEVE ALL TICKETS VIA API: 18 - STARTED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	Checking API health
+2025-08-18 09:36:32 info: 	Making GET request for API Health
+2025-08-18 09:36:32 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/health' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:32 info: 	Response body: {
+  "success": true,
+  "status": "healthy",
+  "data": {
+    "service": "Local Backend API",
+    "uptime": 1094.0729179,
+    "memory": {
+      "rss": 116580352,
+      "heapTotal": 65105920,
+      "heapUsed": 60521056,
+      "external": 2599356,
+      "arrayBuffers": 399222
+    },
+    "timestamp": "2025-08-18T14:36:32.256Z",
+    "environment": "development"
+  }
+}
+2025-08-18 09:36:32 info: 	Getting status code of API Health
+2025-08-18 09:36:32 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:32 info: 	Getting response body of API Health
+2025-08-18 09:36:32 info: 	Verifying that API Success Flag has text 'true'
+2025-08-18 09:36:32 info: 	Getting response body of API Health
+2025-08-18 09:36:32 info: 	Verifying that Response Data is not null
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN CHECK HWPC API HEALTH: 11 - PASSED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN RETRIEVE A SPECIFIC TICKET BY ID: 24 - STARTED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	Retrieving all tickets
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN CREATE A NEW TICKET VIA API: 30 - STARTED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	Making GET request for All Tickets
+2025-08-18 09:36:32 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN UPDATE AN EXISTING TICKET VIA API: 38 - STARTED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	Retrieving ticket with ID: 1a21e788-0c9b-4b61-9d05-74233422b769
+2025-08-18 09:36:32 info: 	Making GET request for Single Ticket
+2025-08-18 09:36:32 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/1a21e788-0c9b-4b61-9d05-74233422b769' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:32 info: 	Response body: {
+  "success": true,
+  "data": {
+    "id": "1a21e788-0c9b-4b61-9d05-74233422b769",
+    "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+    "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+    "title": "Removal - advenio venia",
+    "description": "Defaeco velum absque thorax ara sit patria. Contra armarium adnuo. Surgo nemo victus teres decipio demonstro synagoga vere explicabo perspiciatis.",
+    "status": "open",
+    "priority": "urgent",
+    "assignedTo": "Sarah Johnson",
+    "scheduledDate": "2025-09-26T23:19:49.202Z",
+    "completedDate": null,
+    "address": "8888 Chestnut Street",
+    "lat": 26.7655,
+    "lng": -74.3277,
+    "createdAt": "2025-08-15T17:19:38.803Z",
+    "updatedAt": "2025-08-15T17:19:38.803Z",
+    "customerName": "Daffy Duck",
+    "customerEmail": "daffy@2cld.com",
+    "customerPhone": "130-850-1356",
+    "customerStreet": "2384 120th Street",
+    "customerCity": "Winfield",
+    "customerState": "IA",
+    "customerZipCode": "52659"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:32.628Z",
+    "version": "v1"
+  }
+}
+2025-08-18 09:36:32 info: 	Response body: {
+  "success": true,
+  "data": [
+    {
+      "id": "4e727691-e6db-4909-8ab6-e57247d60f6e",
+      "customerId": "5895fdfd-4305-485a-b4da-9f2f8e20ef1a",
+      "routeId": "62ebc039-bd9a-497e-8af3-660c3b05103a",
+      "title": "Inspection - ventito temeritas",
+      "description": "Vespillo carbo conservo decimus culpo. Paulatim repellendus animus. Cariosus canto constans tredecim argentum aliquam conculco tabgo appello.",
+      "status": "completed",
+      "priority": "low",
+      "assignedTo": "David Brown",
+      "scheduledDate": "2025-10-07T12:17:37.440Z",
+      "completedDate": "2025-10-07T14:44:03.005Z",
+      "address": "134 Runolfsson Way",
+      "lat": 30.1532,
+      "lng": -68.2161,
+      "createdAt": "2025-08-15T17:19:38.851Z",
+      "updatedAt": "2025-08-15T17:19:38.851Z"
+    },
+    {
+      "id": "75b04ab1-1f64-4aa1-a26a-6f34b94a60b3",
+      "customerId": "fe05bd6a-b2f4-4523-9583-2d3967ba05d0",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Testing - reiciendis cultura",
+      "description": "Ara defleo suffragium thesis decipio laboriosam ullus articulus suus angustus. Ademptio suadeo veritas tergeo tergo demitto terebro bardus vix causa. Contego depraedor exercitationem theca.",
+      "status": "in_progress",
+      "priority": "urgent",
+      "assignedTo": "John Smith",
+      "scheduledDate": "2025-10-10T18:23:31.092Z",
+      "completedDate": null,
+      "address": "5203 School Street",
+      "lat": 34.7182,
+      "lng": -69.1893,
+      "createdAt": "2025-08-15T17:19:38.847Z",
+      "updatedAt": "2025-08-15T17:19:38.847Z"
+    },
+    {
+      "id": "153da2fe-5d8d-4195-a825-481aaa859e56",
+      "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "routeId": "c3c4f498-8a5d-448e-9bb3-2492ab6185a3",
+      "title": "Removal - allatus quae",
+      "description": "Odit aggero aduro vetus repellendus undique audeo volva. Autus officia thymum paulatim varius demitto. Voluptatem artificiose campana copiose.",
+      "status": "completed",
+      "priority": "high",
+      "assignedTo": "Sarah Johnson",
+      "scheduledDate": "2025-09-13T17:15:40.350Z",
+      "completedDate": "2025-09-17T02:56:03.789Z",
+      "address": "8888 Chestnut Street",
+      "lat": 26.7655,
+      "lng": -74.3277,
+      "createdAt": "2025-08-15T17:19:38.844Z",
+      "updatedAt": "2025-08-15T17:19:38.844Z"
+    },
+    {
+      "id": "4f9fed3e-f7d9-4f46-a296-fe0be10b732b",
+      "customerId": "6c3aaf1e-86b4-4f96-8cc4-231f575bcf3a",
+      "routeId": "62ebc039-bd9a-497e-8af3-660c3b05103a",
+      "title": "Inspection - turbo uredo",
+      "description": "Barba subito correptius temeritas officia. Rem dolore voluptatum sortitus cruentus tego uredo. Nulla porro alias tot.",
+      "status": "completed",
+      "priority": "high",
+      "assignedTo": "David Brown",
+      "scheduledDate": "2025-07-17T20:41:27.875Z",
+      "completedDate": "2025-07-23T14:28:58.065Z",
+      "address": "2261 E 6th Avenue",
+      "lat": 31.0564,
+      "lng": -97.899,
+      "createdAt": "2025-08-15T17:19:38.840Z",
+      "updatedAt": "2025-08-15T17:19:38.840Z"
+    },
+    {
+      "id": "35267b45-dea6-474c-9126-dc2202ce967f",
+      "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Removal - acerbitas nam",
+      "description": "Aeger adhuc suscipio deorsum rem ars compello. Utor correptius correptius celo amiculum debitis omnis cumque claustrum. Uxor vinculum ciminatio quod utpote.",
+      "status": "open",
+      "priority": "medium",
+      "assignedTo": "Amanda Martinez",
+      "scheduledDate": "2025-08-10T18:51:33.667Z",
+      "completedDate": null,
+      "address": "8888 Chestnut Street",
+      "lat": 26.7655,
+      "lng": -74.3277,
+      "createdAt": "2025-08-15T17:19:38.837Z",
+      "updatedAt": "2025-08-15T17:19:38.837Z"
+    },
+    {
+      "id": "0b66b414-e235-4b12-a966-e56ed3b9c552",
+      "customerId": "fe05bd6a-b2f4-4523-9583-2d3967ba05d0",
+      "routeId": "62ebc039-bd9a-497e-8af3-660c3b05103a",
+      "title": "Cleaning - spargo utrimque",
+      "description": "Constans cauda thermae nisi. Curtus bonus perferendis. Verto quo argentum pecto suscipio pax terebro crudelis auctor.",
+      "status": "in_progress",
+      "priority": "high",
+      "assignedTo": "Chris Anderson",
+      "scheduledDate": "2025-08-27T23:00:36.018Z",
+      "completedDate": null,
+      "address": "5203 School Street",
+      "lat": 34.7182,
+      "lng": -69.1893,
+      "createdAt": "2025-08-15T17:19:38.833Z",
+      "updatedAt": "2025-08-15T17:19:38.833Z"
+    },
+    {
+      "id": "03e1520a-3109-4e18-863d-cb18376bd28c",
+      "customerId": "33dfd7ab-fb0f-4409-b058-e49fd95ee7d8",
+      "routeId": "62ebc039-bd9a-497e-8af3-660c3b05103a",
+      "title": "Consultation - voluptatum deputo",
+      "description": "Desipio una aqua. Rerum curatio patria testimonium conicio contego clarus. Coma suffragium deprimo tergeo acquiro stella confugo tui.",
+      "status": "cancelled",
+      "priority": "urgent",
+      "assignedTo": "Chris Anderson",
+      "scheduledDate": "2025-08-15T06:54:43.375Z",
+      "completedDate": null,
+      "address": "354 Oda Way",
+      "lat": 25.3655,
+      "lng": -118.2043,
+      "createdAt": "2025-08-15T17:19:38.829Z",
+      "updatedAt": "2025-08-15T17:19:38.829Z"
+    },
+    {
+      "id": "00614e91-0ba8-4cff-b7e3-63c6f77a61aa",
+      "customerId": "df44c5be-2f59-4c05-9804-febfaaff5f53",
+      "routeId": "c3c4f498-8a5d-448e-9bb3-2492ab6185a3",
+      "title": "Cleaning - deinde nemo",
+      "description": "Combibo suscipio quibusdam verbum fuga valde admoneo. Civis careo absconditus avaritia. Sortitus truculenter paulatim iure conatus corpus audeo textor.",
+      "status": "open",
+      "priority": "low",
+      "assignedTo": "John Smith",
+      "scheduledDate": "2025-09-29T15:17:42.902Z",
+      "completedDate": null,
+      "address": "34153 The Green",
+      "lat": 39.6892,
+      "lng": -92.8775,
+      "createdAt": "2025-08-15T17:19:38.826Z",
+      "updatedAt": "2025-08-15T17:19:38.826Z"
+    },
+    {
+      "id": "87750fad-eb4a-4f95-9e70-64e1f7516214",
+      "customerId": "fe05bd6a-b2f4-4523-9583-2d3967ba05d0",
+      "routeId": null,
+      "title": "Emergency - terminatio viridis",
+      "description": "Conitor agnitio aggero tergum clementia subnecto officia texo utroque acquiro. Quas aestivus vaco decens. Casso officiis attero sit terebro capto magni truculenter deinde terminatio.",
+      "status": "open",
+      "priority": "medium",
+      "assignedTo": null,
+      "scheduledDate": "2025-08-16T06:44:10.506Z",
+      "completedDate": null,
+      "address": "5203 School Street",
+      "lat": 34.7182,
+      "lng": -69.1893,
+      "createdAt": "2025-08-15T17:19:38.822Z",
+      "updatedAt": "2025-08-15T17:19:38.822Z"
+    },
+    {
+      "id": "82da92d6-5fb0-4ac3-80e6-7d58f03315c7",
+      "customerId": "934d89d3-0d77-4051-ac83-a68d3f8e76b6",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Removal - canto conitor",
+      "description": "Aegrotatio adnuo deorsum. Voluptatum validus ancilla cicuta ambulo nemo audax cinis tenax synagoga. Decet abduco abbas alioqui arceo ait torrens utilis via dapifer.",
+      "status": "open",
+      "priority": "medium",
+      "assignedTo": "Sarah Johnson",
+      "scheduledDate": "2025-09-03T10:04:26.545Z",
+      "completedDate": null,
+      "address": "1458 Railroad Street",
+      "lat": 37.5345,
+      "lng": -70.5574,
+      "createdAt": "2025-08-15T17:19:38.818Z",
+      "updatedAt": "2025-08-15T17:19:38.818Z"
+    },
+    {
+      "id": "263ca49f-9660-4509-a54b-79ce28f4ec2d",
+      "customerId": "335fa832-141a-4257-8478-506d508ce379",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Repair - suppellex est",
+      "description": "Cultura clam bene conforto. Artificiose alveus spoliatio strues. Verto suffoco caelestis voluptate vulgo vulnus maxime venustas.",
+      "status": "completed",
+      "priority": "medium",
+      "assignedTo": "Chris Anderson",
+      "scheduledDate": "2025-07-25T15:27:23.000Z",
+      "completedDate": "2025-07-29T09:41:54.178Z",
+      "address": "49714 Reba Course",
+      "lat": 35.6733,
+      "lng": -74.7344,
+      "createdAt": "2025-08-15T17:19:38.815Z",
+      "updatedAt": "2025-08-15T17:19:38.815Z"
+    },
+    {
+      "id": "c7d39ee3-4f7e-49b6-8150-7485939b3a8b",
+      "customerId": "5895fdfd-4305-485a-b4da-9f2f8e20ef1a",
+      "routeId": null,
+      "title": "Emergency - absum vos",
+      "description": "A vinitor tondeo suscipit. Tabella tres ater conspergo charisma arbitro pax. Aeneus adamo adnuo voveo tantum vulgivagus custodia autus.",
+      "status": "cancelled",
+      "priority": "urgent",
+      "assignedTo": "David Brown",
+      "scheduledDate": "2025-08-30T19:03:06.947Z",
+      "completedDate": null,
+      "address": "134 Runolfsson Way",
+      "lat": 30.1532,
+      "lng": -68.2161,
+      "createdAt": "2025-08-15T17:19:38.811Z",
+      "updatedAt": "2025-08-15T17:19:38.811Z"
+    },
+    {
+      "id": "a36add5b-63f7-492f-969a-25e8e84f6356",
+      "customerId": "335fa832-141a-4257-8478-506d508ce379",
+      "routeId": "62ebc039-bd9a-497e-8af3-660c3b05103a",
+      "title": "Repair - deficio arto",
+      "description": "Clamo vallum cupiditas. Ocer alienus sumptus tamisium claro verecundia minus vociferor. Arguo decens conservo.",
+      "status": "cancelled",
+      "priority": "urgent",
+      "assignedTo": "Sarah Johnson",
+      "scheduledDate": "2025-08-27T12:28:30.768Z",
+      "completedDate": null,
+      "address": "49714 Reba Course",
+      "lat": 35.6733,
+      "lng": -74.7344,
+      "createdAt": "2025-08-15T17:19:38.807Z",
+      "updatedAt": "2025-08-15T17:19:38.807Z"
+    },
+    {
+      "id": "1a21e788-0c9b-4b61-9d05-74233422b769",
+      "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Removal - advenio venia",
+      "description": "Defaeco velum absque thorax ara sit patria. Contra armarium adnuo. Surgo nemo victus teres decipio demonstro synagoga vere explicabo perspiciatis.",
+      "status": "open",
+      "priority": "urgent",
+      "assignedTo": "Sarah Johnson",
+      "scheduledDate": "2025-09-26T23:19:49.202Z",
+      "completedDate": null,
+      "address": "8888 Chestnut Street",
+      "lat": 26.7655,
+      "lng": -74.3277,
+      "createdAt": "2025-08-15T17:19:38.803Z",
+      "updatedAt": "2025-08-15T17:19:38.803Z"
+    },
+    {
+      "id": "d201ad5a-e3c6-4d7c-87a3-ecb6b13f5bec",
+      "customerId": "1320076e-867a-45c8-a944-55d0c433163e",
+      "routeId": null,
+      "title": "Cleaning - adhaero summa",
+      "description": "Hic templum laborum. Curia exercitationem administratio caterva. Admitto antiquus inventore voveo collum sodalitas.",
+      "status": "in_progress",
+      "priority": "urgent",
+      "assignedTo": "John Smith",
+      "scheduledDate": "2025-08-21T10:10:10.213Z",
+      "completedDate": null,
+      "address": "481 Alexandra Road",
+      "lat": 43.7833,
+      "lng": -76.6285,
+      "createdAt": "2025-08-15T17:19:38.799Z",
+      "updatedAt": "2025-08-15T17:19:38.799Z"
+    }
+  ],
+  "meta": {
+    "timestamp": "2025-08-18T14:36:32.611Z",
+    "version": "v1",
+    "pagination": {
+      "page": 1,
+      "limit": 50,
+      "total": 15,
+      "totalPages": 1,
+      "hasNextPage": false,
+      "hasPreviousPage": false,
+      "nextPage": null,
+      "previousPage": null
+    }
+  }
+}
+2025-08-18 09:36:32 info: 	Getting status code of Single Ticket
+2025-08-18 09:36:32 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:32 info: 	Getting response body of Single Ticket
+2025-08-18 09:36:32 info: 	Verifying that Single Ticket has text '1a21e788-0c9b-4b61-9d05-74233422b769'
+2025-08-18 09:36:32 info: 	Getting status code of All Tickets
+2025-08-18 09:36:32 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:32 info: 	Getting response body of All Tickets
+2025-08-18 09:36:32 info: 	Verifying that All Tickets is not null
+2025-08-18 09:36:32 info: 	Getting response body of All Tickets
+2025-08-18 09:36:32 info: 	Verifying that Tickets List is true
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN RETRIEVE A SPECIFIC TICKET BY ID: 24 - PASSED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN DELETE A TICKET VIA API: 48 - STARTED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	Creating new ticket
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN RETRIEVE ALL TICKETS VIA API: 18 - PASSED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN RETRIEVE TICKETS BY CUSTOMER: 55 - STARTED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	Making POST request for Create Ticket
+2025-08-18 09:36:32 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X POST -H "content-type: application/json" -H "accept: application/json" --data-binary '{
+  "title": "Test API Ticket",
+  "description": "This is a test ticket created via API",
+  "priority": "medium",
+  "status": "open",
+  "category": "general",
+  "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf"
+}'
+2025-08-18 09:36:32 info: 	Response body: {
+  "success": true,
+  "data": {
+    "id": "84cd2bab-2a38-4f4d-b75b-965c29f182bf",
+    "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+    "routeId": null,
+    "title": "Test API Ticket",
+    "description": "This is a test ticket created via API",
+    "status": "open",
+    "priority": "medium",
+    "assignedTo": null,
+    "scheduledDate": null,
+    "completedDate": null,
+    "address": null,
+    "lat": null,
+    "lng": null,
+    "createdAt": "2025-08-18T14:36:32.829Z",
+    "updatedAt": "2025-08-18T14:36:32.829Z",
+    "customerName": "Daffy Duck",
+    "customerEmail": "daffy@2cld.com",
+    "customerPhone": "130-850-1356",
+    "customerStreet": "2384 120th Street",
+    "customerCity": "Winfield",
+    "customerState": "IA",
+    "customerZipCode": "52659"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:32.833Z",
+    "version": "v1"
+  }
+}
+2025-08-18 09:36:32 info: 	Getting status code of Create Ticket
+2025-08-18 09:36:32 info: 	Getting response body of Create Ticket
+2025-08-18 09:36:32 info: 	Getting status code of Create Ticket
+2025-08-18 09:36:32 info: 	Verifying that Status Code has text '201'
+2025-08-18 09:36:32 info: 	Getting content of Create Ticket
+2025-08-18 09:36:32 info: 	Getting content of Create Ticket
+2025-08-18 09:36:32 info: 	Getting content of Create Ticket
+2025-08-18 09:36:32 info: 	Verifying that Created Ticket Title has text 'Test API Ticket'
+2025-08-18 09:36:32 info: 	Verifying that Created Ticket Priority has text 'medium'
+2025-08-18 09:36:32 info: 	Verifying that Created Ticket Status has text 'open'
+2025-08-18 09:36:32 info: 	Getting content of Create Ticket
+2025-08-18 09:36:32 info: 	Verifying that Created Ticket ID is not null
+2025-08-18 09:36:32 info: 	Getting response body of Create Ticket
+2025-08-18 09:36:32 info: 	Deleting ticket with ID: 84cd2bab-2a38-4f4d-b75b-965c29f182bf
+2025-08-18 09:36:32 info: 	Making DELETE request for Delete Ticket
+2025-08-18 09:36:32 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/84cd2bab-2a38-4f4d-b75b-965c29f182bf' -X DELETE -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:32 info: 	Response body: {
+  "success": true,
+  "data": {
+    "deleted": true,
+    "id": "84cd2bab-2a38-4f4d-b75b-965c29f182bf"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:32.890Z",
+    "version": "v1",
+    "operation": "delete"
+  }
+}
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN CREATE A NEW TICKET VIA API: 30 - PASSED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	SCENARIO: USER CAN RETRIEVE TICKETS BY STATUS: 61 - STARTED
+2025-08-18 09:36:32 info: 	##############################################################################
+2025-08-18 09:36:32 info: 	Creating new ticket
+2025-08-18 09:36:32 info: 	Making POST request for Create Ticket
+2025-08-18 09:36:32 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X POST -H "content-type: application/json" -H "accept: application/json" --data-binary '{
+  "title": "Ticket to Delete",
+  "description": "This ticket will be deleted",
+  "priority": "low",
+  "status": "open",
+  "category": "general",
+  "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf"
+}'
+2025-08-18 09:36:32 info: 	Response body: {
+  "success": true,
+  "data": {
+    "id": "723b1495-435f-4bcf-8ba6-818a07949ee9",
+    "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+    "routeId": null,
+    "title": "Ticket to Delete",
+    "description": "This ticket will be deleted",
+    "status": "open",
+    "priority": "low",
+    "assignedTo": null,
+    "scheduledDate": null,
+    "completedDate": null,
+    "address": null,
+    "lat": null,
+    "lng": null,
+    "createdAt": "2025-08-18T14:36:32.965Z",
+    "updatedAt": "2025-08-18T14:36:32.965Z",
+    "customerName": "Daffy Duck",
+    "customerEmail": "daffy@2cld.com",
+    "customerPhone": "130-850-1356",
+    "customerStreet": "2384 120th Street",
+    "customerCity": "Winfield",
+    "customerState": "IA",
+    "customerZipCode": "52659"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:32.969Z",
+    "version": "v1"
+  }
+}
+2025-08-18 09:36:32 info: 	Getting status code of Create Ticket
+2025-08-18 09:36:32 info: 	Getting response body of Create Ticket
+2025-08-18 09:36:32 info: 	Getting response body of Create Ticket
+2025-08-18 09:36:32 info: 	Deleting ticket with ID: 723b1495-435f-4bcf-8ba6-818a07949ee9
+2025-08-18 09:36:32 info: 	Making DELETE request for Delete Ticket
+2025-08-18 09:36:32 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/723b1495-435f-4bcf-8ba6-818a07949ee9' -X DELETE -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:32 info: 	Response body: {
+  "success": true,
+  "data": {
+    "deleted": true,
+    "id": "723b1495-435f-4bcf-8ba6-818a07949ee9"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:32.989Z",
+    "version": "v1",
+    "operation": "delete"
+  }
+}
+2025-08-18 09:36:32 info: 	Getting status code of Delete Ticket
+2025-08-18 09:36:32 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:33 info: 	Creating new ticket
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN DELETE A TICKET VIA API: 48 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN RETRIEVE TICKET STATISTICS: 67 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Retrieving tickets for customer: 64fcec34-150a-476f-804a-3e9072a7e6bf
+2025-08-18 09:36:33 info: 	Making GET request for Customer Tickets
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/customer/64fcec34-150a-476f-804a-3e9072a7e6bf' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	Making POST request for Create Ticket
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X POST -H "content-type: application/json" -H "accept: application/json" --data-binary '{
+  "title": "Original Title",
+  "description": "Original description",
+  "priority": "low",
+  "status": "open",
+  "category": "general",
+  "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf"
+}'
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": [
+    {
+      "id": "153da2fe-5d8d-4195-a825-481aaa859e56",
+      "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "routeId": "c3c4f498-8a5d-448e-9bb3-2492ab6185a3",
+      "title": "Removal - allatus quae",
+      "description": "Odit aggero aduro vetus repellendus undique audeo volva. Autus officia thymum paulatim varius demitto. Voluptatem artificiose campana copiose.",
+      "status": "completed",
+      "priority": "high",
+      "assignedTo": "Sarah Johnson",
+      "scheduledDate": "2025-09-13T17:15:40.350Z",
+      "completedDate": "2025-09-17T02:56:03.789Z",
+      "address": "8888 Chestnut Street",
+      "lat": 26.7655,
+      "lng": -74.3277,
+      "createdAt": "2025-08-15T17:19:38.844Z",
+      "updatedAt": "2025-08-15T17:19:38.844Z"
+    },
+    {
+      "id": "35267b45-dea6-474c-9126-dc2202ce967f",
+      "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Removal - acerbitas nam",
+      "description": "Aeger adhuc suscipio deorsum rem ars compello. Utor correptius correptius celo amiculum debitis omnis cumque claustrum. Uxor vinculum ciminatio quod utpote.",
+      "status": "open",
+      "priority": "medium",
+      "assignedTo": "Amanda Martinez",
+      "scheduledDate": "2025-08-10T18:51:33.667Z",
+      "completedDate": null,
+      "address": "8888 Chestnut Street",
+      "lat": 26.7655,
+      "lng": -74.3277,
+      "createdAt": "2025-08-15T17:19:38.837Z",
+      "updatedAt": "2025-08-15T17:19:38.837Z"
+    },
+    {
+      "id": "1a21e788-0c9b-4b61-9d05-74233422b769",
+      "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Removal - advenio venia",
+      "description": "Defaeco velum absque thorax ara sit patria. Contra armarium adnuo. Surgo nemo victus teres decipio demonstro synagoga vere explicabo perspiciatis.",
+      "status": "open",
+      "priority": "urgent",
+      "assignedTo": "Sarah Johnson",
+      "scheduledDate": "2025-09-26T23:19:49.202Z",
+      "completedDate": null,
+      "address": "8888 Chestnut Street",
+      "lat": 26.7655,
+      "lng": -74.3277,
+      "createdAt": "2025-08-15T17:19:38.803Z",
+      "updatedAt": "2025-08-15T17:19:38.803Z"
+    }
+  ],
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.071Z",
+    "version": "v1",
+    "pagination": {
+      "page": 1,
+      "limit": 50,
+      "total": 3,
+      "totalPages": 1,
+      "hasNextPage": false,
+      "hasPreviousPage": false,
+      "nextPage": null,
+      "previousPage": null
+    }
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of Customer Tickets
+2025-08-18 09:36:33 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:33 info: 	Getting response body of Customer Tickets
+2025-08-18 09:36:33 info: 	Verifying that All Tickets is not null
+2025-08-18 09:36:33 info: 	Getting response body of Customer Tickets
+2025-08-18 09:36:33 info: 	Verifying that Tickets List is true
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": {
+    "id": "b0db8f04-ce89-4a70-95bb-524c254623d4",
+    "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+    "routeId": null,
+    "title": "Original Title",
+    "description": "Original description",
+    "status": "open",
+    "priority": "low",
+    "assignedTo": null,
+    "scheduledDate": null,
+    "completedDate": null,
+    "address": null,
+    "lat": null,
+    "lng": null,
+    "createdAt": "2025-08-18T14:36:33.086Z",
+    "updatedAt": "2025-08-18T14:36:33.086Z",
+    "customerName": "Daffy Duck",
+    "customerEmail": "daffy@2cld.com",
+    "customerPhone": "130-850-1356",
+    "customerStreet": "2384 120th Street",
+    "customerCity": "Winfield",
+    "customerState": "IA",
+    "customerZipCode": "52659"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.090Z",
+    "version": "v1"
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of Create Ticket
+2025-08-18 09:36:33 info: 	Getting response body of Create Ticket
+2025-08-18 09:36:33 info: 	Getting response body of Create Ticket
+2025-08-18 09:36:33 info: 	Retrieving ticket with ID: b0db8f04-ce89-4a70-95bb-524c254623d4
+2025-08-18 09:36:33 info: 	Making GET request for Single Ticket
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/b0db8f04-ce89-4a70-95bb-524c254623d4' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	Retrieving tickets with status: open
+2025-08-18 09:36:33 info: 	Making GET request for Status Tickets
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/status/open' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": {
+    "id": "b0db8f04-ce89-4a70-95bb-524c254623d4",
+    "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+    "routeId": null,
+    "title": "Original Title",
+    "description": "Original description",
+    "status": "open",
+    "priority": "low",
+    "assignedTo": null,
+    "scheduledDate": null,
+    "completedDate": null,
+    "address": null,
+    "lat": null,
+    "lng": null,
+    "createdAt": "2025-08-18T14:36:33.086Z",
+    "updatedAt": "2025-08-18T14:36:33.086Z",
+    "customerName": "Daffy Duck",
+    "customerEmail": "daffy@2cld.com",
+    "customerPhone": "130-850-1356",
+    "customerStreet": "2384 120th Street",
+    "customerCity": "Winfield",
+    "customerState": "IA",
+    "customerZipCode": "52659"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.124Z",
+    "version": "v1"
+  }
+}
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN RETRIEVE TICKETS BY CUSTOMER: 55 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER GETS ERROR WHEN RETRIEVING USER PROFILE (NO AUTHENTICATED USER): 73 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Getting status code of Single Ticket
+2025-08-18 09:36:33 info: 	Getting response body of Single Ticket
+2025-08-18 09:36:33 info: 	Updating ticket with ID: b0db8f04-ce89-4a70-95bb-524c254623d4
+2025-08-18 09:36:33 info: 	Making PUT request for Update Ticket
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/b0db8f04-ce89-4a70-95bb-524c254623d4' -X PUT -H "content-type: application/json" -H "accept: application/json" --data-binary '{
+  "id": "b0db8f04-ce89-4a70-95bb-524c254623d4",
+  "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+  "routeId": null,
+  "title": "Updated Title",
+  "description": "Original description",
+  "status": "in_progress",
+  "priority": "low",
+  "createdAt": "2025-08-18T14:36:33.086Z",
+  "updatedAt": "2025-08-18T14:36:33.086Z"
+}'
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": [
+    {
+      "id": "b0db8f04-ce89-4a70-95bb-524c254623d4",
+      "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "routeId": null,
+      "title": "Original Title",
+      "description": "Original description",
+      "status": "open",
+      "priority": "low",
+      "assignedTo": null,
+      "scheduledDate": null,
+      "completedDate": null,
+      "address": null,
+      "lat": null,
+      "lng": null,
+      "createdAt": "2025-08-18T14:36:33.086Z",
+      "updatedAt": "2025-08-18T14:36:33.086Z"
+    },
+    {
+      "id": "35267b45-dea6-474c-9126-dc2202ce967f",
+      "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Removal - acerbitas nam",
+      "description": "Aeger adhuc suscipio deorsum rem ars compello. Utor correptius correptius celo amiculum debitis omnis cumque claustrum. Uxor vinculum ciminatio quod utpote.",
+      "status": "open",
+      "priority": "medium",
+      "assignedTo": "Amanda Martinez",
+      "scheduledDate": "2025-08-10T18:51:33.667Z",
+      "completedDate": null,
+      "address": "8888 Chestnut Street",
+      "lat": 26.7655,
+      "lng": -74.3277,
+      "createdAt": "2025-08-15T17:19:38.837Z",
+      "updatedAt": "2025-08-15T17:19:38.837Z"
+    },
+    {
+      "id": "00614e91-0ba8-4cff-b7e3-63c6f77a61aa",
+      "customerId": "df44c5be-2f59-4c05-9804-febfaaff5f53",
+      "routeId": "c3c4f498-8a5d-448e-9bb3-2492ab6185a3",
+      "title": "Cleaning - deinde nemo",
+      "description": "Combibo suscipio quibusdam verbum fuga valde admoneo. Civis careo absconditus avaritia. Sortitus truculenter paulatim iure conatus corpus audeo textor.",
+      "status": "open",
+      "priority": "low",
+      "assignedTo": "John Smith",
+      "scheduledDate": "2025-09-29T15:17:42.902Z",
+      "completedDate": null,
+      "address": "34153 The Green",
+      "lat": 39.6892,
+      "lng": -92.8775,
+      "createdAt": "2025-08-15T17:19:38.826Z",
+      "updatedAt": "2025-08-15T17:19:38.826Z"
+    },
+    {
+      "id": "87750fad-eb4a-4f95-9e70-64e1f7516214",
+      "customerId": "fe05bd6a-b2f4-4523-9583-2d3967ba05d0",
+      "routeId": null,
+      "title": "Emergency - terminatio viridis",
+      "description": "Conitor agnitio aggero tergum clementia subnecto officia texo utroque acquiro. Quas aestivus vaco decens. Casso officiis attero sit terebro capto magni truculenter deinde terminatio.",
+      "status": "open",
+      "priority": "medium",
+      "assignedTo": null,
+      "scheduledDate": "2025-08-16T06:44:10.506Z",
+      "completedDate": null,
+      "address": "5203 School Street",
+      "lat": 34.7182,
+      "lng": -69.1893,
+      "createdAt": "2025-08-15T17:19:38.822Z",
+      "updatedAt": "2025-08-15T17:19:38.822Z"
+    },
+    {
+      "id": "82da92d6-5fb0-4ac3-80e6-7d58f03315c7",
+      "customerId": "934d89d3-0d77-4051-ac83-a68d3f8e76b6",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Removal - canto conitor",
+      "description": "Aegrotatio adnuo deorsum. Voluptatum validus ancilla cicuta ambulo nemo audax cinis tenax synagoga. Decet abduco abbas alioqui arceo ait torrens utilis via dapifer.",
+      "status": "open",
+      "priority": "medium",
+      "assignedTo": "Sarah Johnson",
+      "scheduledDate": "2025-09-03T10:04:26.545Z",
+      "completedDate": null,
+      "address": "1458 Railroad Street",
+      "lat": 37.5345,
+      "lng": -70.5574,
+      "createdAt": "2025-08-15T17:19:38.818Z",
+      "updatedAt": "2025-08-15T17:19:38.818Z"
+    },
+    {
+      "id": "1a21e788-0c9b-4b61-9d05-74233422b769",
+      "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "routeId": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "title": "Removal - advenio venia",
+      "description": "Defaeco velum absque thorax ara sit patria. Contra armarium adnuo. Surgo nemo victus teres decipio demonstro synagoga vere explicabo perspiciatis.",
+      "status": "open",
+      "priority": "urgent",
+      "assignedTo": "Sarah Johnson",
+      "scheduledDate": "2025-09-26T23:19:49.202Z",
+      "completedDate": null,
+      "address": "8888 Chestnut Street",
+      "lat": 26.7655,
+      "lng": -74.3277,
+      "createdAt": "2025-08-15T17:19:38.803Z",
+      "updatedAt": "2025-08-15T17:19:38.803Z"
+    }
+  ],
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.142Z",
+    "version": "v1",
+    "pagination": {
+      "page": 1,
+      "limit": 50,
+      "total": 6,
+      "totalPages": 1,
+      "hasNextPage": false,
+      "hasPreviousPage": false,
+      "nextPage": null,
+      "previousPage": null
+    }
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of Status Tickets
+2025-08-18 09:36:33 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:33 info: 	Getting response body of Status Tickets
+2025-08-18 09:36:33 info: 	Verifying that All Tickets is not null
+2025-08-18 09:36:33 info: 	Getting response body of Status Tickets
+2025-08-18 09:36:33 info: 	Verifying that Tickets List is true
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": {
+    "id": "b0db8f04-ce89-4a70-95bb-524c254623d4",
+    "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+    "routeId": null,
+    "title": "Updated Title",
+    "description": "Original description",
+    "status": "in_progress",
+    "priority": "low",
+    "assignedTo": null,
+    "scheduledDate": null,
+    "completedDate": null,
+    "address": null,
+    "lat": null,
+    "lng": null,
+    "createdAt": "2025-08-18T14:36:33.086Z",
+    "updatedAt": "2025-08-18T14:36:33.162Z",
+    "customerName": "Daffy Duck",
+    "customerEmail": "daffy@2cld.com",
+    "customerPhone": "130-850-1356",
+    "customerStreet": "2384 120th Street",
+    "customerCity": "Winfield",
+    "customerState": "IA",
+    "customerZipCode": "52659"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.165Z",
+    "version": "v1",
+    "operation": "update"
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of Update Ticket
+2025-08-18 09:36:33 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:33 info: 	Getting content of Single Ticket
+2025-08-18 09:36:33 info: 	Verifying that Ticket Title has text 'Updated Title'
+2025-08-18 09:36:33 info: 	Getting content of Single Ticket
+2025-08-18 09:36:33 info: 	Verifying that Ticket Status has text 'in_progress'
+2025-08-18 09:36:33 info: 	Deleting ticket with ID: b0db8f04-ce89-4a70-95bb-524c254623d4
+2025-08-18 09:36:33 info: 	Making DELETE request for Delete Ticket
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/b0db8f04-ce89-4a70-95bb-524c254623d4' -X DELETE -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": {
+    "deleted": true,
+    "id": "b0db8f04-ce89-4a70-95bb-524c254623d4"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.196Z",
+    "version": "v1",
+    "operation": "delete"
+  }
+}
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN RETRIEVE TICKETS BY STATUS: 61 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER GETS ERROR WHEN UPDATING PREFERENCES (NO AUTHENTICATED USER): 80 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Retrieving ticket statistics
+2025-08-18 09:36:33 info: 	Making GET request for Ticket Statistics
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/stats' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": {
+    "total": 15,
+    "byStatus": {
+      "open": 5,
+      "completed": 4,
+      "cancelled": 3,
+      "in_progress": 3
+    },
+    "byPriority": {
+      "urgent": 6,
+      "high": 3,
+      "medium": 4,
+      "low": 2
+    }
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.219Z",
+    "version": "v1"
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of Ticket Statistics
+2025-08-18 09:36:33 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:33 info: 	Getting response body of Ticket Statistics
+2025-08-18 09:36:33 info: 	Verifying that API Success Flag has text 'true'
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN UPDATE AN EXISTING TICKET VIA API: 38 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN MANAGE CUSTOMERS VIA API: 87 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN RETRIEVE TICKET STATISTICS: 67 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN RETRIEVE ROUTES VIA API: 98 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Retrieving current user profile
+2025-08-18 09:36:33 info: 	Making GET request for User Profile
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/auth/user' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": false,
+  "error": {
+    "code": "USER_NOT_FOUND",
+    "message": "Authenticated user not found in database"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.371Z",
+    "version": "v1",
+    "requestId": "de4bff27-224c-472d-a3a4-03785318741a",
+    "method": "GET",
+    "url": "/api/v1/auth/user",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+    "ip": "::ffff:10.147.17.219"
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of User Profile
+2025-08-18 09:36:33 info: 	Verifying that Error Status Code has text '404'
+2025-08-18 09:36:33 info: 	Getting content of API Error
+2025-08-18 09:36:33 info: 	Verifying that API Error Code has text 'USER_NOT_FOUND'
+2025-08-18 09:36:33 info: 	Getting content of API Error Message
+2025-08-18 09:36:33 info: 	Verifying that API Error Message: 'Authenticated user not found in database' contains text 'not found'
+2025-08-18 09:36:33 info: 	Updating user preferences
+2025-08-18 09:36:33 info: 	Making PUT request for User Preferences
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/auth/user/preferences' -X PUT -H "content-type: application/json" -H "accept: application/json" --data-binary '{
+  "preferences": {
+    "theme": "dark",
+    "notifications": true
+  }
+}'
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": false,
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "An error occurred while updating user preferences",
+    "details": "User with id dev-user-id not found"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.421Z",
+    "version": "v1",
+    "requestId": "f659f461-d7d0-4ead-9059-a879b46d8911",
+    "method": "PUT",
+    "url": "/api/v1/auth/user/preferences",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36",
+    "ip": "::ffff:10.147.17.219"
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of User Preferences
+2025-08-18 09:36:33 info: 	Verifying that Error Status Code has text '500'
+2025-08-18 09:36:33 info: 	Getting content of API Error
+2025-08-18 09:36:33 info: 	Verifying that API Error Code has text 'INTERNAL_ERROR'
+2025-08-18 09:36:33 info: 	Getting content of API Error Message
+2025-08-18 09:36:33 info: 	Verifying that API Error Message: 'An error occurred while updating user preferences' contains text 'error occurred'
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER GETS ERROR WHEN RETRIEVING USER PROFILE (NO AUTHENTICATED USER): 73 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN RETRIEVE DASHBOARD DATA: 104 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER GETS ERROR WHEN UPDATING PREFERENCES (NO AUTHENTICATED USER): 80 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER GETS ERROR WHEN RETRIEVING NON-EXISTENT TICKET: 110 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Retrieving all routes
+2025-08-18 09:36:33 info: 	Making GET request for All Routes
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/routes' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	Retrieving all customers
+2025-08-18 09:36:33 info: 	Making GET request for All Customers
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/customers' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": [
+    {
+      "id": "62ebc039-bd9a-497e-8af3-660c3b05103a",
+      "name": "LooneyTunes Route 3 - O'Fallon Test",
+      "description": "Test O'Fallon",
+      "startLocation": "1605 Summit Estates, O'Fallon",
+      "endLocation": "1605 Summit Estates, O'Fallon",
+      "estimatedDuration": 160,
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.790Z",
+      "updatedAt": "2025-08-15T17:19:38.790Z"
+    },
+    {
+      "id": "c3c4f498-8a5d-448e-9bb3-2492ab6185a3",
+      "name": "LooneyTunes Route 2 - Cedar Falls Test",
+      "description": "Test Cedar Falls",
+      "startLocation": "2416 Rownd Street, Cedar Falls",
+      "endLocation": "2416 Rownd Street, Cedar Falls",
+      "estimatedDuration": 120,
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.787Z",
+      "updatedAt": "2025-08-15T17:19:38.787Z"
+    },
+    {
+      "id": "1f62999b-074e-49a7-b73b-03da4cf0f480",
+      "name": "LooneyTunes Route 1 - Winfield Test",
+      "description": "Test Winfield",
+      "startLocation": "2378 120th Street, Winfield",
+      "endLocation": "2378 120th Street Winfield",
+      "estimatedDuration": 60,
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.784Z",
+      "updatedAt": "2025-08-15T17:19:38.784Z"
+    }
+  ],
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.540Z",
+    "version": "v1",
+    "pagination": {
+      "page": 1,
+      "limit": 50,
+      "total": 3,
+      "totalPages": 1,
+      "hasNextPage": false,
+      "hasPreviousPage": false,
+      "nextPage": null,
+      "previousPage": null
+    }
+  }
+}
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": [
+    {
+      "id": "df44c5be-2f59-4c05-9804-febfaaff5f53",
+      "name": "Marvin T. Martian",
+      "email": "mtm@2cld.com",
+      "phone": "227-655-6598",
+      "street": "330 Sonderen St",
+      "city": "O'Fallon",
+      "state": "MO",
+      "zipCode": "63366",
+      "lat": 38.80864,
+      "lng": -90.69417,
+      "serviceType": "Municipal",
+      "notes": "Good News Brewing and Pizza",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.777Z",
+      "updatedAt": "2025-08-15T17:19:38.777Z"
+    },
+    {
+      "id": "33dfd7ab-fb0f-4409-b058-e49fd95ee7d8",
+      "name": "Yosemite Sam",
+      "email": "ysam@2cld.com",
+      "phone": "701-843-5635",
+      "street": "108 S Main St",
+      "city": "O'Fallon",
+      "state": "MO",
+      "zipCode": "63366",
+      "lat": 38.81077,
+      "lng": -90.69967,
+      "serviceType": "Municipal",
+      "notes": "GoodWood Drinks and Food",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.773Z",
+      "updatedAt": "2025-08-15T17:19:38.773Z"
+    },
+    {
+      "id": "88d84fe3-e10d-4642-bb14-1e77f92ca5a1",
+      "name": "Foghorn Leghorn",
+      "email": "foghorn@2cld.com",
+      "phone": "391-192-1496",
+      "street": "1605 Summit Estates",
+      "city": "O'Fallon",
+      "state": "MO",
+      "zipCode": "63366",
+      "lat": 38.82889,
+      "lng": -90.7596,
+      "serviceType": "Residential",
+      "notes": "guscamp https://guscamp-2025.conversehouse.com/",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.769Z",
+      "updatedAt": "2025-08-15T17:19:38.769Z"
+    },
+    {
+      "id": "1320076e-867a-45c8-a944-55d0c433163e",
+      "name": "Tasmanian Devil",
+      "email": "tazd@2cld.com",
+      "phone": "483-022-5584",
+      "street": "200 State St Suite 201-C",
+      "city": "Cedar Falls",
+      "state": "IA",
+      "zipCode": "50613",
+      "lat": 42.53634,
+      "lng": -92.4439,
+      "serviceType": "Commercial",
+      "notes": "Taz at RiverPlace co-working",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.766Z",
+      "updatedAt": "2025-08-15T17:19:38.766Z"
+    },
+    {
+      "id": "fe05bd6a-b2f4-4523-9583-2d3967ba05d0",
+      "name": "Road Runner",
+      "email": "rr@2cld.com",
+      "phone": "036-624-6236",
+      "street": "2821 Horseshoe Dr",
+      "city": "Cedar Falls",
+      "state": "IA",
+      "zipCode": "50613",
+      "lat": 42.50313,
+      "lng": -92.47982,
+      "serviceType": "Commercial",
+      "notes": "Fletcher Motor Co., LLC",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.760Z",
+      "updatedAt": "2025-08-15T17:19:38.760Z"
+    },
+    {
+      "id": "934d89d3-0d77-4051-ac83-a68d3f8e76b6",
+      "name": "Wile E. Coyote",
+      "email": "wec@2cld.com",
+      "phone": "713-177-0465",
+      "street": "2416 Rownd Street",
+      "city": "Cedar Falls",
+      "state": "IA",
+      "zipCode": "50613",
+      "lat": 42.51606,
+      "lng": -92.42056,
+      "serviceType": "Residential",
+      "notes": "WEC Super Genius",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.756Z",
+      "updatedAt": "2025-08-15T17:19:38.756Z"
+    },
+    {
+      "id": "335fa832-141a-4257-8478-506d508ce379",
+      "name": "Porky Pig",
+      "email": "ppig@2cld.com",
+      "phone": "979-520-5701",
+      "street": "111 N Locust St",
+      "city": "Winfield",
+      "state": "IA",
+      "zipCode": "52659",
+      "lat": 41.12913,
+      "lng": -91.43797,
+      "serviceType": "Commercial",
+      "notes": "Grasshorse artist Porky Pig",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.752Z",
+      "updatedAt": "2025-08-15T17:19:38.752Z"
+    },
+    {
+      "id": "6c3aaf1e-86b4-4f96-8cc4-231f575bcf3a",
+      "name": "Bugs Bunny",
+      "email": "bugs@2cld.com",
+      "phone": "500-469-2164",
+      "street": "2378 120th Street",
+      "city": "Winfield",
+      "state": "IA",
+      "zipCode": "52659",
+      "lat": 41.13326,
+      "lng": -91.45204,
+      "serviceType": "Residential",
+      "notes": "BooBoo Bunny Infestation.  contact booboo@conversehouse.com",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.749Z",
+      "updatedAt": "2025-08-15T17:25:52.544Z"
+    },
+    {
+      "id": "5895fdfd-4305-485a-b4da-9f2f8e20ef1a",
+      "name": "Elmer Fudd",
+      "email": "efudd@2cld.com",
+      "phone": "229-924-9482",
+      "street": "2224 120th St",
+      "city": "Winfield",
+      "state": "IA",
+      "zipCode": "52659",
+      "lat": 41.13308,
+      "lng": -91.48079,
+      "serviceType": "Commercial",
+      "notes": "TH Twig, LLC",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.745Z",
+      "updatedAt": "2025-08-15T17:19:38.745Z"
+    },
+    {
+      "id": "64fcec34-150a-476f-804a-3e9072a7e6bf",
+      "name": "Daffy Duck",
+      "email": "daffy@2cld.com",
+      "phone": "130-850-1356",
+      "street": "2384 120th Street",
+      "city": "Winfield",
+      "state": "IA",
+      "zipCode": "52659",
+      "lat": 41.122404,
+      "lng": -91.4508,
+      "serviceType": "Commercial",
+      "notes": "Gerling Repair",
+      "isActive": 1,
+      "createdAt": "2025-08-15T17:19:38.737Z",
+      "updatedAt": "2025-08-15T17:19:38.737Z"
+    }
+  ],
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.547Z",
+    "version": "v1",
+    "pagination": {
+      "page": 1,
+      "limit": 50,
+      "total": 10,
+      "totalPages": 1,
+      "hasNextPage": false,
+      "hasPreviousPage": false,
+      "nextPage": null,
+      "previousPage": null
+    }
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of All Routes
+2025-08-18 09:36:33 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:33 info: 	Getting response body of All Routes
+2025-08-18 09:36:33 info: 	Verifying that All Routes is not null
+2025-08-18 09:36:33 info: 	Getting response body of All Routes
+2025-08-18 09:36:33 info: 	Verifying that Routes List is true
+2025-08-18 09:36:33 info: 	Getting status code of All Customers
+2025-08-18 09:36:33 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:33 info: 	Getting response body of All Customers
+2025-08-18 09:36:33 info: 	Verifying that All Customers is not null
+2025-08-18 09:36:33 info: 	Getting response body of All Customers
+2025-08-18 09:36:33 info: 	Verifying that Customers List is true
+2025-08-18 09:36:33 info: 	Creating new customer
+2025-08-18 09:36:33 info: 	Making POST request for Create Customer
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/customers' -X POST -H "content-type: application/json" -H "accept: application/json" --data-binary '{
+  "name": "Test Customer",
+  "email": "test@example.com",
+  "phone": "555-0123",
+  "serviceType": "standard",
+  "isActive": true
+}'
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": {
+    "id": "e59081d7-2b1f-489d-b3bc-9af01752c6ff",
+    "name": "Test Customer",
+    "email": "test@example.com",
+    "phone": "555-0123",
+    "street": null,
+    "city": null,
+    "state": null,
+    "zipCode": null,
+    "lat": null,
+    "lng": null,
+    "serviceType": "standard",
+    "notes": null,
+    "isActive": 1,
+    "createdAt": "2025-08-18T14:36:33.618Z",
+    "updatedAt": "2025-08-18T14:36:33.618Z"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.623Z",
+    "version": "v1"
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of Create Customer
+2025-08-18 09:36:33 info: 	Getting response body of Create Customer
+2025-08-18 09:36:33 info: 	Getting status code of Create Customer
+2025-08-18 09:36:33 info: 	Verifying that Status Code has text '201'
+2025-08-18 09:36:33 info: 	Getting response body of Create Customer
+2025-08-18 09:36:33 info: 	Verifying that API Success Flag has text 'true'
+2025-08-18 09:36:33 info: 	Deleting customer with ID: e59081d7-2b1f-489d-b3bc-9af01752c6ff
+2025-08-18 09:36:33 info: 	Making DELETE request for Delete Customer
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/customers/e59081d7-2b1f-489d-b3bc-9af01752c6ff' -X DELETE -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN RETRIEVE ROUTES VIA API: 98 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": {
+    "deleted": true,
+    "id": "e59081d7-2b1f-489d-b3bc-9af01752c6ff"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.641Z",
+    "version": "v1",
+    "operation": "delete"
+  }
+}
+2025-08-18 09:36:33 info: 	SCENARIO: USER GETS VALIDATION ERROR WHEN CREATING TICKET WITH MISSING DATA: 117 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Retrieving dashboard data
+2025-08-18 09:36:33 info: 	Making GET request for Dashboard
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/reports/dashboard' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Retrieving ticket with ID: 550e8400-e29b-41d4-a716-999999999999
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN MANAGE CUSTOMERS VIA API: 87 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Making GET request for Single Ticket
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets/550e8400-e29b-41d4-a716-999999999999' -X GET -H "content-type: application/json" -H "accept: application/json"
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": true,
+  "data": {
+    "summary": {
+      "totalTickets": 15,
+      "totalCustomers": 10,
+      "totalRoutes": 3,
+      "overdueTickets": 2,
+      "todayTickets": 0
+    },
+    "statusCounts": [
+      {
+        "status": "open",
+        "count": 5
+      },
+      {
+        "status": "completed",
+        "count": 4
+      },
+      {
+        "status": "cancelled",
+        "count": 3
+      },
+      {
+        "status": "in_progress",
+        "count": 3
+      }
+    ],
+    "priorityCounts": [
+      {
+        "priority": "urgent",
+        "count": 6
+      },
+      {
+        "priority": "high",
+        "count": 3
+      },
+      {
+        "priority": "medium",
+        "count": 4
+      },
+      {
+        "priority": "low",
+        "count": 2
+      }
+    ],
+    "dateFilteredData": null,
+    "performance": {
+      "responseTime": 2,
+      "timestamp": "2025-08-18T14:36:33.687Z"
+    },
+    "charts": {
+      "statusChart": {
+        "labels": [
+          "open",
+          "completed",
+          "cancelled",
+          "in_progress"
+        ],
+        "data": [
+          5,
+          4,
+          3,
+          3
+        ],
+        "type": "doughnut"
+      },
+      "priorityChart": {
+        "labels": [
+          "urgent",
+          "high",
+          "medium",
+          "low"
+        ],
+        "data": [
+          6,
+          3,
+          4,
+          2
+        ],
+        "type": "bar"
+      }
+    }
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.688Z",
+    "version": "v1"
+  }
+}
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": false,
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "Ticket with id '550e8400-e29b-41d4-a716-999999999999' not found"
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.696Z",
+    "version": "v1"
+  }
+}
+2025-08-18 09:36:33 info: 	SCENARIO: CLEANUP API CLIENT: 125 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Getting status code of Dashboard
+2025-08-18 09:36:33 info: 	Verifying that Status Code has text '200'
+2025-08-18 09:36:33 info: 	Getting response body of Dashboard
+2025-08-18 09:36:33 info: 	Verifying that API Success Flag has text 'true'
+2025-08-18 09:36:33 info: 	Getting status code of Single Ticket
+2025-08-18 09:36:33 info: 	Verifying that Error Status Code has text '404'
+2025-08-18 09:36:33 info: 	Getting content of API Error
+2025-08-18 09:36:33 info: 	Verifying that API Error Code has text 'NOT_FOUND'
+2025-08-18 09:36:33 info: 	Getting content of API Error Message
+2025-08-18 09:36:33 info: 	Verifying that API Error Message: 'Ticket with id '550e8400-e29b-41d4-a716-999999999999' not found' contains text 'not found'
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER GETS ERROR WHEN RETRIEVING NON-EXISTENT TICKET: 110 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 18 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER CAN RETRIEVE DASHBOARD DATA: 104 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 19 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	Client data cleared
+2025-08-18 09:36:33 info: 	Creating new ticket
+2025-08-18 09:36:33 info: 	Making POST request for Create Ticket
+2025-08-18 09:36:33 info: 	Request:  curl 'http://10.147.17.219:3000/api/v1/tickets' -X POST -H "content-type: application/json" -H "accept: application/json" --data-binary '{
+  "title": "",
+  "description": "Missing title",
+  "priority": "invalid_priority",
+  "status": "open",
+  "category": "general",
+  "customerId": "64fcec34-150a-476f-804a-3e9072a7e6bf"
+}'
+2025-08-18 09:36:33 info: 	Response body: {
+  "success": false,
+  "error": {
+    "type": "validation_error",
+    "code": "VALIDATION_FAILED",
+    "message": "The submitted data contains validation errors",
+    "fields": {
+      "title": {
+        "message": "Title cannot be empty",
+        "value": "",
+        "type": "string.empty",
+        "suggestion": "Please enter a meaningful title for the ticket"
+      },
+      "priority": {
+        "message": "priority must be one of: low, medium, high, urgent",
+        "value": "invalid_priority",
+        "type": "any.only",
+        "suggestion": "Please select a valid option for priority"
+      }
+    },
+    "suggestions": [
+      "Please enter a meaningful title for the ticket",
+      "Please select a valid option for priority"
+    ]
+  },
+  "meta": {
+    "timestamp": "2025-08-18T14:36:33.898Z",
+    "requestId": "ab900e67-78d6-4f8c-a929-bc710d0c3f0f",
+    "validationContext": {
+      "schema": "ticket",
+      "source": "body",
+      "fieldCount": 2
+    }
+  }
+}
+2025-08-18 09:36:33 info: 	Getting status code of Create Ticket
+2025-08-18 09:36:33 info: 	Getting status code of Create Ticket
+2025-08-18 09:36:33 info: 	Verifying that Error Status Code has text '400'
+2025-08-18 09:36:33 info: 	Getting content of API Error
+2025-08-18 09:36:33 info: 	Verifying that API Error Code has text 'VALIDATION_FAILED'
+2025-08-18 09:36:33 info: 	Getting response body of Create Ticket
+2025-08-18 09:36:33 info: 	Verifying that Validation Error Field: '{"success":false,"error":{"type":"validation_error","code":"VALIDATION_FAILED","message":"The submitted data contains validation errors","fields":{"title":{"message":"Title cannot be empty","value":"","type":"string.empty","suggestion":"Please enter a meaningful title for the ticket"},"priority":{"message":"priority must be one of: low, medium, high, urgent","value":"invalid_priority","type":"any.only","suggestion":"Please select a valid option for priority"}},"suggestions":["Please enter a meaningful title for the ticket","Please select a valid option for priority"]},"meta":{"timestamp":"2025-08-18T14:36:33.898Z","requestId":"ab900e67-78d6-4f8c-a929-bc710d0c3f0f","validationContext":{"schema":"ticket","source":"body","fieldCount":2}}}' contains text 'title'
+2025-08-18 09:36:33 info: 	Getting response body of Create Ticket
+2025-08-18 09:36:33 info: 	Verifying that Validation Error Field: '{"success":false,"error":{"type":"validation_error","code":"VALIDATION_FAILED","message":"The submitted data contains validation errors","fields":{"title":{"message":"Title cannot be empty","value":"","type":"string.empty","suggestion":"Please enter a meaningful title for the ticket"},"priority":{"message":"priority must be one of: low, medium, high, urgent","value":"invalid_priority","type":"any.only","suggestion":"Please select a valid option for priority"}},"suggestions":["Please enter a meaningful title for the ticket","Please select a valid option for priority"]},"meta":{"timestamp":"2025-08-18T14:36:33.898Z","requestId":"ab900e67-78d6-4f8c-a929-bc710d0c3f0f","validationContext":{"schema":"ticket","source":"body","fieldCount":2}}}' contains text 'priority'
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: CLEANUP API CLIENT: 125 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 20 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: USER GETS VALIDATION ERROR WHEN CREATING TICKET WITH MISSING DATA: 117 - PASSED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:33 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 21 - STARTED
+2025-08-18 09:36:33 info: 	##############################################################################
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Main Navigation is visible
+2025-08-18 09:36:43 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Navigation Container is visible
+2025-08-18 09:36:43 info: 	Checking if Main Navigation is visible
+2025-08-18 09:36:43 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:36:43 info: 	Checking if Main Navigation is visible
+2025-08-18 09:36:43 info: 	Checking if Main Navigation is visible
+2025-08-18 09:36:43 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:36:43 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:36:49 info: 	Checking if tickets Navigation Link is visible
+2025-08-18 09:36:49 info: 	Wait for tickets Navigation Link to be visible in DOM
+2025-08-18 09:36:49 info: 	Clicking on tickets Navigation Link
+2025-08-18 09:36:50 info: 	Checking if customers Navigation Link is visible
+2025-08-18 09:36:50 info: 	Wait for customers Navigation Link to be visible in DOM
+2025-08-18 09:36:50 info: 	Clicking on customers Navigation Link
+2025-08-18 09:36:50 info: 	Checking if routes Navigation Link is visible
+2025-08-18 09:36:50 info: 	Checking if reports Navigation Link is visible
+2025-08-18 09:36:50 info: 	Wait for routes Navigation Link to be visible in DOM
+2025-08-18 09:36:50 info: 	Wait for reports Navigation Link to be visible in DOM
+2025-08-18 09:36:50 info: 	Clicking on routes Navigation Link
+2025-08-18 09:36:50 info: 	Clicking on reports Navigation Link
+2025-08-18 09:36:50 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:36:50 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:36:50 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:36:50 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:36:55 info: 	Checking if Desktop Container is visible
+2025-08-18 09:36:57 info: 	Checking if Desktop Container is visible
+2025-08-18 09:36:57 info: 	Checking if Desktop Container is visible
+2025-08-18 09:37:01 info: 	Checking if Desktop Container is visible
+2025-08-18 09:37:11 info: 	Checking if Desktop Container is visible
+2025-08-18 09:37:12 info: 	Checking if Desktop Container is visible
+2025-08-18 09:37:12 info: 	Checking if Desktop Container is visible
+2025-08-18 09:37:17 info: 	Checking if Desktop Container is visible
+2025-08-18 09:37:23 info: 	##############################################################################
+2025-08-18 09:37:23 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 21 - PASSED
+2025-08-18 09:37:23 info: 	##############################################################################
+2025-08-18 09:37:23 info: 	##############################################################################
+2025-08-18 09:37:23 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 22 - STARTED
+2025-08-18 09:37:23 info: 	##############################################################################
+2025-08-18 09:37:23 info: 	##############################################################################
+2025-08-18 09:37:23 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 20 - PASSED
+2025-08-18 09:37:23 info: 	##############################################################################
+2025-08-18 09:37:23 info: 	##############################################################################
+2025-08-18 09:37:23 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 18 - PASSED
+2025-08-18 09:37:23 info: 	##############################################################################
+2025-08-18 09:37:29 info: 	##############################################################################
+2025-08-18 09:37:29 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 19 - PASSED
+2025-08-18 09:37:29 info: 	##############################################################################
+2025-08-18 09:37:32 info: 	Checking if Navigation Container is visible
+2025-08-18 09:37:32 info: 	Checking if Navigation Container is visible
+2025-08-18 09:37:32 info: 	Checking if Navigation Container is visible
+2025-08-18 09:37:32 info: 	Checking if Navigation Container is visible
+2025-08-18 09:37:32 info: 	Checking if Main Navigation is visible
+2025-08-18 09:37:32 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:37:39 info: 	Checking if dashboard Navigation Link is visible
+2025-08-18 09:37:39 info: 	Wait for dashboard Navigation Link to be visible in DOM
+2025-08-18 09:37:39 info: 	Clicking on dashboard Navigation Link
+2025-08-18 09:37:39 info: 	Checking if Loading Indicator is visible
+2025-08-18 09:37:44 info: 	Checking if Desktop Container is visible
+2025-08-18 09:38:00 info: 	Checking if Desktop Container is visible
+2025-08-18 09:38:12 info: 	##############################################################################
+2025-08-18 09:38:12 info: 	SCENARIO: NAVIGATE TO MAIN PAGES WITH RESPONSIVE VALIDATION: 22 - PASSED
+2025-08-18 09:38:12 info: 	##############################################################################

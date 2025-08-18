@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../assets/js/darkmode.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Cache-control" content="public">
+    <title>HWPC Test Execution Report</title>
+
+    
+            <!-- Bootstrap -->
+            <link rel="stylesheet" href="../assets/css/bootstrap.min.css" >
+
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+            <!--[if lt IE 9]>
+            <script src="../assets/js/html5shiv.min.js"></script>
+            <script src="../assets/js/respond.min.js"></script>
+            <![endif]-->
+
+            <link href="../assets/css/font-awesome.min.css" rel="stylesheet">
+    
+
+    <!-- Custom Theme Style -->
+    <style type="text/css">
+        body {
+    color: #73879C;
+    background: #F7F7F7;
+    font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.471;
+}
+
+.main_container {
+    padding: 10px 20px 0;
+}
+
+i span {
+    display: none;
+}
+
+/* Navigation */
+nav.navbar {
+    background: #EDEDED;
+    border-bottom: 1px solid #D9DEE4;
+    margin-bottom: 0;
+}
+
+nav .navbar-brand {
+    border-right: 1px solid #D9DEE4;
+    color: #5A738E;
+}
+
+nav .navbar-text {
+    font-size: 18px;
+    height: 50px;
+    margin-bottom: 0;
+    margin-top: 0;
+    padding: 15px 0;
+    float: right;
+}
+
+/* Table */
+table {
+    width: 100%;
+}
+
+table.chart tr th:first-of-type {
+    width: 33.333%;
+}
+
+.table > thead > tr > th {
+    background: #F5F7FA;
+}
+
+table.tile h3, table.tile h4, table.tile span {
+    font-weight: bold;
+    vertical-align: middle !important;
+}
+
+table.tile th, table.tile td {
+    text-align: center;
+}
+
+table.tile th {
+    border-bottom: 1px solid #E6ECEE;
+}
+
+table.tile td {
+    padding: 5px 0;
+}
+
+table.tile td ul {
+    text-align: left;
+    padding-left: 0;
+}
+
+table.tile td ul li {
+    list-style: none;
+    width: 100%;
+}
+
+table.tile td ul li a {
+    width: 100%;
+}
+
+table.tile td ul li a big {
+    right: 0;
+    float: right;
+    margin-right: 13px;
+}
+
+table.tile_info {
+    width: 100%;
+}
+
+table.tile_info td {
+    text-align: left;
+    padding: 1px;
+    font-size: 15px;
+}
+
+table.tile_info td p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
+    line-height: 28px;
+}
+
+table.tile_info td i {
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 17px;
+    float: left;
+    width: 18px;
+    line-height: 28px;
+    text-align: center;
+}
+
+table.tile_info td:first-child {
+    width: 65%;
+}
+
+td span {
+    line-height: 28px;
+}
+
+table.tile_info td.percentage {
+    text-align: right;
+
+}
+
+/* chart in table */
+table td.chart {
+    display: inline-block;
+    position: relative;
+}
+
+table td.chart #feature-chart,
+table td.chart #scenario-chart,
+table td.chart .total {
+    height: 140px;
+    margin: 15px 10px 10px 0;
+    width: 140px;
+}
+
+table td.chart .total {
+    display: inline-block;
+    position: absolute;
+    font-size: 2em;
+    height: 50px;
+    line-height: 50px;
+    top: 45px;
+    left: 45px;
+    text-align: center;
+    vertical-align: middle;
+    width: 50px;
+}
+
+/* colors */
+.ambiguous-color {
+    color: #E74C3C !important;
+}
+
+.failed-color {
+    color: #E74C3C !important;
+}
+
+.not-defined-color {
+    color: #F39C12 !important;
+}
+
+.passed-color {
+    color: #1ABB9C !important;
+}
+
+.pending-color {
+    color: #FFD119 !important;
+}
+
+.skipped-color {
+    color: #3498DB !important;
+}
+
+/* backgrounds */
+.ambiguous-background {
+    background: #b73122 !important;
+}
+
+.failed-background {
+    background: #E74C3C !important;
+}
+
+.not-defined-background {
+    background: #F39C12 !important;
+}
+
+.passed-background {
+    background: #1ABB9C !important;
+}
+
+.pending-background {
+    background: #FFD119 !important;
+}
+
+.skipped-background {
+    background: #3498DB !important;
+}
+
+/* general */
+.x_panel {
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px 17px;
+    display: inline-block;
+    background: #fff;
+    border: 1px solid #E6E9ED;
+    -webkit-column-break-inside: avoid;
+    opacity: 1;
+}
+
+.x_title {
+    border-bottom: 2px solid #E6E9ED;
+    padding: 1px 5px 6px;
+    margin-bottom: 10px;
+}
+
+.x_title .filter {
+    width: 40%;
+    float: right;
+}
+
+.x_title h2 {
+    margin: 5px 0 6px;
+    float: left;
+    font-size: 24px;
+    font-weight: 400;
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.fixed_height_320 {
+    height: 320px;
+}
+
+.x_title span {
+    color: #BDBDBD;
+}
+
+.x_content {
+    padding: 0 5px 6px;
+    position: relative;
+    width: 100%;
+    float: left;
+    clear: both;
+    margin-top: 5px;
+}
+
+.x_content h4 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.panel_toolbox {
+    float: right;
+    margin: 5px 0 0;
+    min-width: 70px;
+}
+
+.panel_toolbox > li {
+    float: right;
+}
+
+.panel_toolbox > li > a {
+    cursor: pointer;
+}
+
+.panel_toolbox > li > a {
+    padding: 5px;
+    color: #C5C7CB;
+    font-size: 14px;
+}
+
+.panel_toolbox > li > a:hover {
+    background: #F5F7FA;
+}
+
+.page-title {
+    width: 100%;
+    padding: 10px 0 30px 0;
+}
+
+.page-title {
+    display: block;
+}
+
+.page-title h1 {
+    margin: 9px 0 9px 13px;
+    font-size: 30px;
+
+}
+
+.page-title .title_right {
+    width: 55%;
+    float: left;
+    display: block;
+}
+
+.page-title .title_right .pull-right {
+    margin: 10px 0;
+}
+
+.page-title p {
+    margin-left: 15px;
+}
+
+.dashboard-widget-content {
+    padding-top: 9px;
+}
+
+.dashboard-widget-content .sidebar-widget {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    background: #fff;
+    border: 1px solid #abd9ea;
+    border-radius: 5px;
+    text-align: center;
+    float: right;
+    padding: 2px;
+    margin-top: 10px;
+}
+
+ul.quick-list {
+    padding-left: 0;
+    display: inline-block;
+}
+
+ul.quick-list li,
+table.quick-list tr {
+    padding-left: 10px;
+    list-style: none;
+    margin: 0;
+    padding-bottom: 6px;
+    padding-top: 4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+ul.quick-list li .meta-data-title,
+table.quick-list td.meta-data-title {
+    display: inline-block;
+    min-width: 75px;
+    font-weight: bold;
+}
+
+ul.quick-list li span,
+table.quick-list td {
+    line-height: 28px;
+}
+
+ul.quick-list li,
+table.quick-list tr {
+    border-bottom: 1px solid #efefef;
+    padding: 0.5em 0;
+}
+
+ul.quick-list li:last-child,
+table.quick-list tr:last-child {
+    border-bottom: none;
+}
+
+ul.quick-list li i {
+    padding-right: 10px;
+    color: #757679;
+}
+
+.screenshot{
+    max-height: 100%;
+    max-width: 100%;
+}
+
+/* Features / Scenarios */
+ul.panel_toolbox li .step {
+    border-radius: 50%;
+    color: #ffffff;
+    display: block;
+    font-size: 14px;
+    height: 30px;
+    margin-right: 5px;
+    padding: 5px;
+    text-align: center;
+    width: 30px;
+}
+
+.scenario-step-container {
+    margin-bottom: 10px;
+}
+
+.scenario-step-container .label {
+    display: inline-block;
+    text-align: center;
+    width: 30px;
+}
+
+.scenario-step-container .text {
+    display: inline;
+}
+
+.scenario-step-container .duration {
+    position: relative;
+    float: right;
+}
+
+.scenario-step-container .text .keyword.highlight {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.scenario-scroll-bar {
+    overflow-x: scroll;
+}
+
+.scenario-step-collapse,
+.scenario-scroll-bar .arguments {
+    margin-left: 30px;
+    width: auto;
+}
+
+/* media */
+@media (max-width: 1200px) {
+    .x_title h2 {
+        width: 70%;
+    }
+}
+
+@media (max-width: 640px) {
+    .x_title h2 {
+        width: 100%;
+    }
+}
+
+/* override */
+table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before {
+    background: #1ABB9C;
+}
+
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th:first-child:before {
+    background: #E74C3C;
+}
+
+.created-by {
+    padding: 50px 0;
+    text-align: center;
+}
+
+body.darkmode,
+body.darkmode div.created-by,
+body.darkmode .dropdown-menu
+{
+    background: #212121 !important;
+    color: #b4bfca;
+    border-color: #2e2e2e;
+}
+
+body.darkmode .x_panel
+{
+    background: #1c1c21 !important;
+    color: #b4bfca;
+    border: 1px solid #2e2e2e;
+}
+
+body.darkmode div.container-fluid
+{
+    background: #2b2b2b !important;
+    color: #b4bfca;
+    border: 0 solid #2e2e2e;
+}
+
+body.darkmode nav.navbar {
+    background: #2b2b2b;
+    border-bottom: 1px solid #313a45;
+    margin-bottom: 0;
+}
+
+body.darkmode .x_title {
+    background: #1c1c21 !important;
+    border-bottom: 2px solid #2e2e2e;
+    padding: 1px 5px 6px;
+    margin-bottom: 10px;
+}
+
+body.darkmode table.quick-list  tr {
+    border-bottom: 1px solid #292929;
+    padding: 0.5em 0;
+}
+
+body.darkmode ul.quick-list li,
+body.darkmode table.quick-list tr {
+    border-bottom: 1px solid #2e2e2e;
+    padding: 0.5em 0;
+}
+
+.darkModeIcon {
+    font-size: x-large;
+    float: left;
+    padding-top: 12px;
+    padding-left: 4px;
+    cursor: pointer;
+    color: #b4bfca;
+    border-color: #2e2e2e;
+}
+
+.darkModeIcon:before {
+    content: '';
+}
+
+body.darkmode a.navbar-default,
+body.darkmode a.navbar-brand {
+    color: #b1bfcd;
+    background: transparent !important;
+    border-right: 1px solid #313a45;
+}
+
+body.darkmode a {
+    background: transparent !important;
+    color: #9cc2e3;
+    border-color: #2e2e2e;
+}
+
+body.darkmode a.collapse-link {
+    color: #c7c7c7;
+    border-color: #2e2e2e;
+}
+
+body.darkmode li:not([class])>a[id] {
+    color: white;
+}
+body.darkmode li:not([class])>a[id]:hover {
+    background: darkslateblue;
+}
+
+body.darkmode #features-table {
+    color: #b4bfca;
+    border-color: #2e2e2e;
+}
+
+body.darkmode #features-table th {
+    background: #212121 !important;
+    color: #a3c2db;
+    border-color: #2e2e2e;
+}
+
+body.darkmode #features-table td {
+    border-color: #2e2e2e;
+}
+
+body.darkmode #features-table tr:nth-of-type(odd) {
+    background: #212121 !important;
+    border-color: #2e2e2e;
+}
+
+body.darkmode table.dataTable>tbody>tr.child ul.dtr-details li {
+    border-bottom: 1px solid #2e2e2e;
+    padding: 0.5em 0;
+}
+
+body.darkmode .pagination,
+body.darkmode .pagination>.active>a,
+body.darkmode .pagination>.active>a:focus,
+body.darkmode .pagination>.active>a:hover,
+body.darkmode .pagination>.active>span,
+body.darkmode .pagination>.active>span:focus,
+body.darkmode .pagination>.active>span:hover {
+    background: #3a7ab7;
+    border-color: #3a7ab7;
+}
+
+body.darkmode .pagination>.disabled>a,
+body.darkmode .pagination>.disabled>a:focus,
+body.darkmode .pagination>.disabled>a:hover,
+body.darkmode .pagination>.disabled>span,
+body.darkmode .pagination>.disabled>span:focus,
+body.darkmode .pagination>.disabled>span:hover {
+    background: #3a7ab7;
+    border-color: #3b3b3b;
+    color: #bfbfbf;
+}
+
+body.darkmode table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child::before,
+table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child::before {
+    border: 1px solid #2e2e2e;
+}
+
+body.darkmode #features-table>thead>tr {
+    color: #b4bfca;
+    border-color: #2e2e2e;
+}
+
+body.darkmode .form-control {
+    background: #212121 !important;
+    color: #c3c3c3;
+    border-color: #2e2e2e;
+}
+body.darkmode li[id*=features]>a {
+    background: #212121 !important;
+}
+
+body.darkmode .btn-info {
+    color: #b4bfca;
+    background: #337ab7;
+    border-color: #337ab7;
+}
+
+body.darkmode .panel_toolbox > li > a:hover {
+    background: transparent;
+}
+
+body.darkmode .table-striped>tbody>tr:nth-of-type(even) {
+    background: #1c1c21;
+}
+
+body.darkmode div pre {
+    background: #212121 !important;
+    color: #b4bfca;
+}
+
+body.darkmode span.tag {
+    color: #b4bfca;
+}
+
+body.darkmode .keyword {
+    color: #b4bfca;
+}
+
+body.darkmode div.tags ~h1 {
+    color: #b4bfca;
+}
+
+body.darkmode div.tags ~h2 {
+    color: #b4bfca;
+}
+
+body.darkmode div.tags ~h1 small {
+    color: #bfbfbf;
+}
+
+body.darkmode div.tags ~h2 small {
+    color: #bfbfbf;
+}
+
+svg#moon, svg#sun {
+    width: 40px;
+    height: 30px;
+    fill: #ec6d04;
+}
+
+input#darkCheck:checked ~ label>svg#sun {
+    display: none;
+    border-color: #212121;
+}
+
+label>svg#moon {
+    display: none;
+}
+
+input#darkCheck:checked ~ label>svg#moon {
+    display: inline-block;
+    fill: #b4bfca;
+    border-color: #212121;
+}
+
+        
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+        window.onload = function() {
+            if(window.localStorage['darkmode'] === 'on') {
+                applyFontStyle();
+            }
+        }
+    </script>
+    <nav class="navbar">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" onclick="history.back(-1)">
+                    <i class="fa fa-arrow-left"><span>Back</span></i>
+                </a>
+            </div>
+            <p class="navbar-text" style="float: left">Features Overview
+            </p>
+            <p class="navbar-text">HWPC Navigation & Functional Test Results</p>
+        </div>
+
+    </nav>
+
+    <div class="main_container">
+
+        <div class="page-title">
+            <div class="tags">
+                
+                    
+                    
+                        <i class="fa fa-tags fa-lg"></i>
+                        
+                            <span class="tag">@navigation</span>
+                        
+                            <span class="tag">@hwpc</span>
+                        
+                            <span class="tag">@catdebug</span>
+                        
+                    
+                
+            </div>
+            <h1>Feature:
+                <small>Page Navigation Testing</small>
+            </h1>
+            
+                <p>
+                    <strong>Description: </strong>     As a QA engineer, I want to test page navigation functionality<br>    So that I can ensure users can access all main application areas reliably </p>
+                
+               <p><strong>File name:</strong>
+                    navigate-pages.feature
+                </p>
+                <p><strong>Relative path:</strong>
+                    hwpc-web/navigate-pages.feature</p>
+            
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-8 col-xs-12">
+                <div class="x_panel fixed_height_320">
+                    <div class="x_title">
+    <h2>Scenarios</h2>
+    <ul class="nav navbar-right panel_toolbox">
+        <li>
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+        </li>
+    </ul>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <table class="chart">
+        <tr>
+            <th>
+                <p>Chart</p>
+            </th>
+            <th>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                    <p class="">Status</p>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                    <p class="" style="float:right;">Progress</p>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <td class="chart">
+                <canvas id="scenario-chart"></canvas>
+                <div class="total">1</div>
+            </td>
+            <td>
+                <table class="tile_info">
+                    <tr>
+                        <td>
+                            <p data-toggle="tooltip" data-placement="left" title="Scenario passed">
+                                <i class="fa fa-check-circle passed-color"></i>
+                                Passed
+                            </p>
+                        </td>
+                        <td class="percentage">0.00 %</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p data-toggle="tooltip" data-placement="left" title="Scenario failed">
+                                <i class="fa fa-exclamation-circle failed-color"></i>
+                                Failed
+                            </p>
+                        </td>
+                        <td class="percentage">100.00 %</td>
+                    
+                    
+                    </tr>
+                    
+                    
+                </table>
+            </td>
+        </tr>
+        
+            <tr>
+                <th> Total duration:</th>
+                <tr><td>00:00:19.744</td></tr>
+            </tr>
+        
+    </table>
+</div>
+
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-xs-12">
+                <div class="x_panel fixed_height_320">
+                    <div class="x_title">
+    <h2>Metadata</h2>
+    <ul class="nav navbar-right panel_toolbox">
+        <li>
+            <a class="collapse-link">
+                <i class="fa fa-chevron-up"></i>
+            </a>
+        </li>
+    </ul>
+    <div class="clearfix"></div>
+</div>
+<div class="x_content">
+    <div class="dashboard-widget-content">
+        <ul class="quick-list">
+            
+            <li>
+                <span class="meta-data-title"></span>
+                <span class="meta-data-data"></span>
+            </li>
+            
+            <li>
+                <span class="meta-data-title">chrome</span>
+                <span class="meta-data-data"></span>
+            </li>
+            
+            <li>
+                <span class="meta-data-title"></span>
+                <span class="meta-data-data"></span>
+            </li>
+            
+            <li>
+                <span class="meta-data-title">Windows_NT</span>
+                <span class="meta-data-data"></span>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+        <div class="dropdown pull-right dropup" >
+            <button class="btn btn-info dropdown-toggle btn-sm" type="button" data-toggle="dropdown" style="margin-bottom: 15px;">
+                Filter By<span class="caret" style="margin-left: 5px"></span></button>
+            <ul class="dropdown-menu">
+                <li> <a id="passed" href="javascript:void(0)" onclick="hideResult(this.id)">Passed
+                    <i class="fa fa-check-circle passed-color filter-i"></i></a>
+                </li>
+                <li> <a id="failed" href="javascript:void(0)" onclick="hideResult(this.id)">Failed
+                    <i class="fa fa-exclamation-circle failed-color filter-i"></i></a>
+                </li>
+                <li> <a id="pending" href="javascript:void(0)" onclick="hideResult(this.id)">Pending
+                    <i class="fa fa-minus-circle pending-color filter-i"></i></a>
+                </li>
+                <li> <a id="skipped" href="javascript:void(0)" onclick="hideResult(this.id)">Skipped
+                    <i class="fa fa-arrow-circle-right fa skipped-color filter-i"></i></a>
+                </li>
+                <li> <a id="not-defined" href="javascript:void(0)" onclick="hideResult(this.id)">Not Defined
+                    <i class="fa fa-question-circle not-defined-color filter-i"></i></a>
+                </li>
+                <li> <a id="ambiguous" href="javascript:void(0)" onclick="hideResult(this.id)">Ambiguous
+                    <i class="fa fa-flash ambiguous-color filter-i"></i></a>
+                </li>
+                <li class="divider"></li>
+                <li> <a id="clear" href="javascript:void(0)"onclick="showAll()">Clear
+                    <i class="fa fa-times-circle"></i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel" style="height: auto;">
+            <div class="x_title">
+
+                <div class="tags">
+                    
+                        
+                        
+                            <i class="fa fa-tags fa-lg"></i>
+                            
+                                <span class="tag">@navigation</span>
+                            
+                                <span class="tag">@hwpc</span>
+                            
+                                <span class="tag">@catdebug</span>
+                            
+                                <span class="tag">@navigation</span>
+                            
+                                <span class="tag">@responsive</span>
+                            
+                                <span class="tag">@regression</span>
+                            
+                                <span class="tag">@sanity</span>
+                            
+                        
+                    
+                </div>
+
+                <h2>Scenario Outline: <small>Navigate to main pages with responsive validation</small></h2>
+
+                <ul class="nav navbar-right panel_toolbox">
+                    <li>
+                        <a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
+                    </li>
+
+                    
+
+                    
+
+                    
+                        <li>
+                            <span class="step skipped-background" data-toggle="tooltip" title="Scenario is skipped">2</span>
+                        </li>
+                    
+
+                    
+                        <li>
+                            <span class="step failed-background" data-toggle="tooltip" title="Scenario failed">1</span>
+                        </li>
+                    
+
+                    
+                        <li>
+                            <span class="step passed-background" data-toggle="tooltip" title="Scenario passed">1</span>
+                        </li>
+                    
+
+                    
+
+                    
+                        <li>
+                            <span style="font-size:1.2em"> Duration:</span>
+                            <span style=padding-right:5em>00:00:19.744</span>
+                        </li>
+                    
+                </ul>
+
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content" style="display: none;">
+                <div class="scenario-step-container"></div>
+                    
+                        
+                
+                        
+                            <div class="scenario-step-container">
+
+                                
+                                    
+                                        <div class="label" data-toggle="tooltip" data-placement="top" title="Step failed">
+                                            <i class="fa fa-exclamation-circle fa-2x failed-color"></i>
+                                        </div>
+                                    
+                                
+
+                                <div class="text">
+                                    <span class="keyword highlight">Given </span>
+
+                                    
+                                        user is on baseurl
+                                        
+                                    
+
+                                    
+                                        
+                                            <span class="duration">00:00:15.823</span>
+                                        
+                                    
+
+                                </div>
+
+                                
+                                    
+
+                                    
+                                        <a href="#error0-1-error" data-toggle="collapse">+ Show Error</a>
+                                    
+
+                                    
+                                    
+                                    
+
+                                    
+
+                                    
+
+                                    
+                                
+                            </div>
+
+                        
+                            
+                                <div id="error0-1-error" class="scenario-step-collapse collapse">
+                                    <pre class=info>Error: Base URL navigation failed: Navigation error on navigation: Navigation rendering timeout: page.waitForSelector: Timeout 5000ms exceeded.
+=========================== logs ===========================
+waiting for selector "[data-testid="main-navigation"]" to be visible
+============================================================
+    at World.(anonymous) (C:\Users\ghadmin\code\hwpc-bug\src\hwpc\steps\NavigationSteps.ts:36:15)</pre>
+                                </div>
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+                        
+
+                        
+                            
+                        
+
+                    
+                
+                        
+                            <div class="scenario-step-container">
+
+                                
+                                    
+                                        <div class="label" data-toggle="tooltip" data-placement="top" title="Step is skipped">
+                                            <i class="fa fa-arrow-circle-right fa-2x skipped-color"></i>
+                                        </div>
+                                    
+                                
+
+                                <div class="text">
+                                    <span class="keyword highlight">When </span>
+
+                                    
+                                        the user clicks "tickets"
+                                        
+                                    
+
+                                    
+                                        
+                                            <span class="duration">0s</span>
+                                        
+                                    
+
+                                </div>
+
+                                
+                                    
+
+                                    
+
+                                    
+                                    
+                                    
+
+                                    
+
+                                    
+
+                                    
+                                
+                            </div>
+
+                        
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+                        
+
+                        
+                            
+                        
+
+                    
+                
+                        
+                            <div class="scenario-step-container">
+
+                                
+                                    
+                                        <div class="label" data-toggle="tooltip" data-placement="top" title="Step is skipped">
+                                            <i class="fa fa-arrow-circle-right fa-2x skipped-color"></i>
+                                        </div>
+                                    
+                                
+
+                                <div class="text">
+                                    <span class="keyword highlight">Then </span>
+
+                                    
+                                        user should be on "tickets"
+                                        
+                                    
+
+                                    
+                                        
+                                            <span class="duration">0s</span>
+                                        
+                                    
+
+                                </div>
+
+                                
+                                    
+
+                                    
+
+                                    
+                                    
+                                    
+
+                                    
+
+                                    
+
+                                    
+                                
+                            </div>
+
+                        
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+                        
+
+                        
+                            
+                        
+
+                    
+                
+                        
+                            <div class="scenario-step-container">
+
+                                
+                                    
+                                        <div class="label" title="Success">
+                                            <i class="fa fa-check-circle fa-2x passed-color" data-toggle="tooltip" data-placement="top" title="Step passed"></i>
+                                        </div>
+                                    
+                                
+
+                                <div class="text">
+                                    <span class="keyword highlight">After</span>
+
+                                    
+
+                                    
+                                        
+                                            <span class="duration">00:00:03.920</span>
+                                        
+                                    
+
+                                </div>
+
+                                
+                                    
+
+                                    
+
+                                    
+                                    
+                                    
+
+                                    
+
+                                    
+                                        <a href="#info0-4-image" data-toggle="collapse">+ Screenshot</a>
+                                    
+
+                                    
+                                        <span>[</span>
+                                            
+                                                <a href="#info0-4-attachment0" data-toggle="collapse">Attachment</a>
+                                                
+                                            
+                                        <span>]</span>
+                                     
+                                
+                            </div>
+
+                        
+                            
+
+                            
+
+                            
+
+                            
+
+                            
+                                <div id="info0-4-image" class="scenario-step-collapse collapse">
+                                    
+                                        <img class="screenshot" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB4AAAAPJCAYAAADzujVxAAAAAXNSR0IArs4c6QAAIABJREFUeJzs2cENwCAQwLDS/Xc+lkBCRPYE+WfNzHwAAAAAAAAAPO+/HQAAAAAAAADAGQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAAAEQYwAAAAAAAAQIQBDAAAAAAAABBhAAMAAAAAAABEGMAAAAAAAAC7PTuQAQAAABjkb32PrzQCmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAABHryE/AAAE4UlEQVQAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwIQABgAAAAAAAJgQwAAAAAAAAAATAhgAAAAAAABgQgADAAAAAAAATAhgAAAAAAAAgAkBDAAAAAAAADAhgAEAAAAAAAAmBDAAAAAAAADAhAAGAAAAAAAAmBDAAAAAAAAAABMCGAAAAAAAAGBCAAMAAAAAAABMCGAAAAAAAACACQEMAAAAAAAAMCGAAQAAAAAAACYEMAAAAAAAAMCEAAYAAAAAAACYEMAAAAAAAAAAEwIYAAAAAAAAYEIAAwAAAAAAAEwIYAAAAAAAAIAJAQwAAAAAAAAwIYABAAAAAAAAJgQwAAAAAAAAwETz2guOa/30UQAAAABJRU5ErkJggg=="/>
+                                    
+                                </div>
+                            
+
+                            
+                                
+                                    <div id="info0-4-attachment0" class="scenario-step-collapse collapse">
+                                        <object class="attachment-object" type="video/webm" id="my_attachments_0" data="data:video/webm;base64,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qqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQJYAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQKAAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQKoAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQLQAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQL4AHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQMgAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQNIAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQNwAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQOYAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQPAAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgQPoAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvR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V/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRBAAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRBoAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRCQAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRC4AHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRDgAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgREIAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgREwAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRFYAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRGAAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRGoAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRHQAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRH4AHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRIgAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRJIAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRJwAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRKYAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRLAAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRLoAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRMQAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRM4AHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgRNgAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvRqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A4lqqqqqqpoD+/t14AKPPgROIAHEIAA8QJAAYABhvV/QAAGqqqqqqqqqqqqqq0IvR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3XgAo8+BAlgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BAoAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BAqgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BAtAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BAvgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BAyAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BA0gAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BA3AAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BA5gAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BA8AAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BA+gAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBBAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBDgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBGAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBIgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBLAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBNgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBQAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBSgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBVAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBXgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBaAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BBcgAcQgAGhAkABgA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lGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDNAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDPgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDSAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDUgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDXAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDZgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDcAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDegAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDhAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDjgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDmAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDogAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDrAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDtgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDwAAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BDygAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BD1AAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BD3gAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BD6AAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BD8gAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BD/AAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDiWqqqqqqmgP7+3XgAo8+BEBgAcQgAGhAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDi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DFIQYpCDFIQYpCDFIQYpCDFIQYpCDFKugUPu0FD7tBeSYX/MmF/zJv0cgPdHID3Sl7o5Ae6OQHyiH3aCh92googUPu0FD7tBeSYX/MmF/zJv0cgPdHID3Sl7o5Ae6OQHyiH3aCh92googUPu0FD7tBeSYX/MmF/yvACjz4EA8ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EBGABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EBQABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EBaABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EBkABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EBuABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EB4ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ECCABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ECMABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ECWABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ECgABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ECqABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EC0ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EC+ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EDIABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EDSABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EDcABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EDmABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EDwABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ED6ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EEEABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EEOABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EEYABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EEiABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EEsABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EE2ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EFAABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EFKABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EFUABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EFeABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EFoABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EFyABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EF8ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EGGABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EGQABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EGaABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EGkABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EGuABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EG4ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EHCABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EHMABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EHWABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EHgABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EHqABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EH0ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EH+ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EIIABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EISABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EIcABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EImABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EIwABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EI6ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EJEABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EJOABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EJYABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EJiABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EJsABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EJ2ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EKAABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EKKABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EKUABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EKeABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EKoABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EKyABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EK8ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ELGABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ELQABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ELaABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ELkABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ELuABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EL4ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EMCABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EMMABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EMWABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EMgABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EMqABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EM0ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EM+ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ENIABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ENSABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ENcABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ENmABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ENwABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EN6ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EOEABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EOOABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EOYABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EOiABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EOsABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EO2ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EPAABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EPKABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EPUABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EPeABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EPoABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EPyABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EP8ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EQGABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EQQABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EQaABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EQkABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EQuABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EQ4ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ERCABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ERMABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ERWABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ERgABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ERqABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ER0ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ER+ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ESIABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ESSABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4EScABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ESmABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ESwABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ES6ABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ETEABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ETOABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ETYABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deACjz4ETiABxCAAYECQAGAAYb1f0AABqqqqqqqqqqqqqqtCL0agco1A5RqByjUDlGoHKNQOUagco1A5RqByjUDlGoHKNQOJaqqqqqqaA/v7deAAfQ7Z1SvvngjsQo8+BAAAAcQgAGBAkABgAGG9X9AAAaqqqqqqqqqqqqqrQi9GoHKNQOUagco1A5RqB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"></object>
+                                    </div>
+                                
+                            
+                        
+
+                        
+
+                    
+                
+                        
+                
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+    </div>
+
+    
+        <div class="created-by">
+            <p>Created by wswebcreation. Find me on:</p>
+            <a href="http://www.wswebcreation.nl/" target="_blank"><i class="fa fa-rss-square fa-2x"></i></a>
+            <a href="https://github.com/wswebcreation/" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+            <a href="http://nl.linkedin.com/in/wimselles" target="_blank"><i class="fa fa-linkedin-square fa-2x"></i></a>
+            <a href="http://stackoverflow.com/users/5911978/wswebcreation" target="_blank"><i class="fa fa-stack-overflow fa-2x"></i></a>
+        </div>
+    
+
+    
+        <script src="../assets/js/jquery-3.2.1.min.js"></script>
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/Chart.min.js"></script>
+    
+
+    <!-- Custom -->
+    <script>
+        var hideResult;
+        var showAll;
+        $(document).ready(function () {
+
+            var scenarioOptions = {
+                legend: false,
+                responsive: false
+            };
+
+            var getColor = function(selector, defaultColor) {
+                if (document.querySelector(selector)) {
+                    return getComputedStyle(document.querySelector(selector)).color
+                }
+                return defaultColor
+            }
+
+            new Chart(document.getElementById("scenario-chart"), {
+                type: 'doughnut',
+                tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+                data: {
+                    labels: [
+                        "Passed",
+                        "Failed",
+                        "Pending",
+                        "Skipped",
+                        "Ambiguous",
+                        "Not defined"
+                    ],
+                    datasets: [{
+                        data: [
+                            0,
+                            1,
+                            0,
+                            0,
+                            0,
+                            0
+                        ],
+                        backgroundColor: [
+                            getColor(".passed-color", "#26B99A"),
+                            getColor(".failed-color", "#E74C3C"),
+                            getColor(".pending-color", "#FFD119"),
+                            getColor(".skipped-color", "#3498DB"),
+                            getColor(".ambiguous-color", "#b73122"),
+                            getColor(".not-defined-color", "#F39C12")
+                        ]
+                    }]
+                },
+                options: scenarioOptions
+            });
+
+            $('.x_title').on('click', function () {
+    var $BOX_PANEL = $(this).closest('.x_panel'),
+        $ICON = $(this).find('.collapse-link i'),
+        $BOX_CONTENT = $BOX_PANEL.find('.x_content');
+
+    // fix for some div with hardcoded fix class
+    if ($BOX_PANEL.attr('style')) {
+        $BOX_CONTENT.slideToggle(200, function () {
+            $BOX_PANEL.removeAttr('style');
+        });
+    } else {
+        $BOX_CONTENT.slideToggle(200);
+        $BOX_PANEL.css('height', 'auto');
+    }
+
+    $ICON.toggleClass('fa-chevron-up fa-chevron-down');
+});
+
+$('body').tooltip({
+    selector: '[data-toggle="tooltip"]'
+});
+
+hideResult = (resultId) => {
+    $('span[class*=step]').closest('div.x_panel[style]').hide();
+    $('span[class*=' + resultId + ']').closest('div.x_panel[style]').show();
+}
+
+showAll = () => {
+    $('span[class*=step]').closest('div.x_panel[style]').show();
+}
+
+$(document).ready(() => {
+    const status = ['passed', 'failed', 'pending', 'skipped', 'ambiguous', 'not-defined']
+    status.forEach(value => {
+        var menuItem = $('span[class*=' + value + '-background]');
+        if (menuItem.length === 0) {
+            $('#' + value).parent().addClass('disabled');
+        }
+    })
+});
+
+        });
+    </script>
+</body>
+</html>
