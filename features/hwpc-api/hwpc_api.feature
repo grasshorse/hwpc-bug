@@ -20,11 +20,11 @@ Feature: HWPC API Testing
     Then user should get a successful response with status code 200
     And user should get list of HWPC tickets
 
-  @tickets @get
+  @tickets @get @catdebug
   Scenario: User can retrieve a specific ticket by ID
-    When user makes a request to retrieve HWPC ticket with ID "47106086-7189-492b-9431-272992408b77"
+    When user makes a request to retrieve HWPC ticket with ID "1a21e788-0c9b-4b61-9d05-74233422b769"
     Then user should get a successful response with status code 200
-    And user should get HWPC ticket with ID "47106086-7189-492b-9431-272992408b77"
+    And user should get HWPC ticket with ID "1a21e788-0c9b-4b61-9d05-74233422b769"
 
   @tickets @create
   Scenario: User can create a new ticket via API
@@ -53,7 +53,7 @@ Feature: HWPC API Testing
 
   @tickets @customer
   Scenario: User can retrieve tickets by customer
-    When user retrieves HWPC tickets for customer "443364a5-ec9b-40da-94e5-63bda08de469"
+    When user retrieves HWPC tickets for customer "64fcec34-150a-476f-804a-3e9072a7e6bf"
     Then user should get a successful response with status code 200
     And user should get list of HWPC tickets
 
@@ -117,7 +117,7 @@ Feature: HWPC API Testing
   Scenario: User gets validation error when creating ticket with missing data
     When user creates a new HWPC ticket with title "", description "Missing title", and priority "invalid_priority"
     Then user should get an error response with status code 400
-    And user should get HWPC API error with code "VALIDATION_ERROR"
+    And user should get HWPC API error with code "VALIDATION_FAILED"
     And user should get validation error for field "title"
     And user should get validation error for field "priority"
 

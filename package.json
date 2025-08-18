@@ -9,6 +9,7 @@
     "build": "npx tsc",
     "test:compiled": "npm run build && npx cucumber-js -p compiled",
     "test:tags": "npx cucumber-js -p runner --tags",
+    "test:api": "npx cucumber-js -p runner --tags @api & npx ts-node ./src/support/reporter/HTMLReporter.ts & npx ts-node ./src/support/reporter/CucumberReporter.ts",
     "test:navigation": "npx cucumber-js -p runner --tags @navigation & npx ts-node ./src/support/reporter/HTMLReporter.ts & npx ts-node ./src/support/reporter/CucumberReporter.ts",
     "test:navigation:fast": "npx cucumber-js -p runner --tags @navigation",
     "test:navigation:mobile": "npx cucumber-js -p runner --tags \"@navigation and @mobile\" & npx ts-node ./src/support/reporter/HTMLReporter.ts & npx ts-node ./src/support/reporter/CucumberReporter.ts",

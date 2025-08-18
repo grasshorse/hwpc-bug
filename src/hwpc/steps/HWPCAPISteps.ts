@@ -60,7 +60,7 @@ When('user creates a new HWPC ticket with title {string}, description {string}, 
             priority: priority,
             status: HWPCAPIConstants.TICKET_STATUS_OPEN,
             category: "general",
-            customerId: "443364a5-ec9b-40da-94e5-63bda08de469" // Valid customer UUID from API response
+            customerId: "64fcec34-150a-476f-804a-3e9072a7e6bf" // Valid Daffy Duck customer UUID from API response
         };
         
         this.response = await this.hwpcAPI.createTicket(this.attach, ticketData);
