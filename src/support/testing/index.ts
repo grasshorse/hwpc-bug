@@ -20,6 +20,9 @@ export { DataContextFactory } from './DataContextFactory';
 export { LooneyTunesDataProvider } from './LooneyTunesDataProvider';
 export { IsolatedDataProvider } from './IsolatedDataProvider';
 
+// Error handling and recovery system
+export * from './errors';
+
 // Re-export commonly used types for convenience
 export type {
   ValidationResult,
