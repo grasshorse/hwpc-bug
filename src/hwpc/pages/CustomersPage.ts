@@ -1,10 +1,13 @@
 import UIActions from "../../support/playwright/actions/UIActions";
 import NavigationPage from "./NavigationPage";
 import NavigationConstants from "../constants/NavigationConstants";
+import { ContextAwareElementConfig } from "../../support/testing/interfaces/ContextAwarePageObject";
+import { TestMode } from "../../support/testing/types";
 
 /**
  * CustomersPage - Page object for customer page navigation and responsive layout verification
  * Extends NavigationPage with customer-specific functionality and mobile-optimized interactions
+ * Now supports context-aware operations for both isolated and production testing modes
  */
 export default class CustomersPage extends NavigationPage {
     
@@ -30,6 +33,219 @@ export default class CustomersPage extends NavigationPage {
     
     constructor(web: UIActions) {
         super(web);
+    }
+
+    // ===== CONTEXT-AWARE INITIALIZATION =====
+
+    /**
+     * Initialize mode-specific configurations for customer page elements
+     */
+    protected initializeModeSpecificConfigurations(): void {
+        // Call parent initialization first
+        super.initializeModeSpecificConfigurations();
+
+        const currentMode = this.getTestMode();
+        console.log(`Initializing customer page configurations for mode: ${currentMode}`);
+
+        // Register customer list container configuration
+        this.registerModeSpecificElement({
+            elementName: 'customerListContainer',
+            baseSelector: this.CUSTOMER_LIST_CONTAINER,
+            isolatedModeSelector: '[data-testid="customers-container"], .customers-container',
+            productionModeSelector: '.customers-container, .customer-list, .customers-list',
+            fallbackSelector: '.customer-list',
+            isRequired: true,
+            modeSpecific: {
+                [TestMode.ISOLATED]: {
+                    selector: '[data-testid="customers-container"], .customers-container',
+                    validation: async (element) => {
+                        // In isolated mode, verify test customers are displayed
+                        const testCustomers = this.getTestCustomers();
+                        const customerCount = await this.page.locator(this.CUSTOMER_ITEM).count();
+                        return customerCount >= Math.min(testCustomers.length, 1); // At least some customers should be visible
+                    }
+                },
+                [TestMode.PRODUCTION]: {
+                    selector: '.customers-container, .customer-list, .customers-list',
+                    validation: async (element) => {
+                        // In production mode, verify looneyTunes test customers are present
+                        const hasLooneyTunesCustomers = await this.page.evaluate(() => {
+                            const customerElements = document.querySelectorAll('.customer-item, .customer-row, .customer-card');
+                            return Array.from(customerElements).some(el => {
+                                const text = el.textContent?.toLowerCase() || '';
+                                return text.includes('bugs') || text.includes('daffy') || text.includes('looney');
+                            });
+                        });
+                        return hasLooneyTunesCustomers;
+                    }
+                }
+            }
+        });
+
+        // Register customer search interface configuration
+        this.registerModeSpecificElement({
+            elementName: 'customerSearchInterface',
+            baseSelector: NavigationConstants.getSearchInterfaceSelector('customers', this.isMobile),
+            isolatedModeSelector: '[data-testid="customer-search"], .customer-search',
+            productionModeSelector: '.customer-search, .search-interface',
+            fallbackSelector: '.search-interface',
+            isRequired: false,
+            modeSpecific: {
+                [TestMode.ISOLATED]: {
+                    selector: '[data-testid="customer-search"], .customer-search',
+                    validation: async (element) => {
+                        return await element.isVisible();
+                    }
+                },
+                [TestMode.PRODUCTION]: {
+                    selector: '.customer-search, .search-interface',
+                    validation: async (element) => {
+                        return await element.isVisible();
+                    }
+                }
+            }
+        });
+
+        // Register customer filters configuration
+        this.registerModeSpecificElement({
+            elementName: 'customerFilters',
+            baseSelector: this.CUSTOMER_SEARCH_FILTERS,
+            isolatedModeSelector: '[data-testid="customer-filters"], .customer-filters',
+            productionModeSelector: '.customer-filters, .search-filters, .filter-container',
+            fallbackSelector: '.filter-container',
+            isRequired: false,
+            modeSpecific: {
+                [TestMode.ISOLATED]: {
+                    selector: '[data-testid="customer-filters"], .customer-filters',
+                    validation: async (element) => {
+                        return await element.isVisible();
+                    }
+                },
+                [TestMode.PRODUCTION]: {
+                    selector: '.customer-filters, .search-filters, .filter-container',
+                    validation: async (element) => {
+                        return await element.isVisible();
+                    }
+                }
+            }
+        });
+
+        // Register mobile customer card configuration
+        if (this.isMobile) {
+            this.registerModeSpecificElement({
+                elementName: 'mobileCustomerCard',
+                baseSelector: this.MOBILE_CUSTOMER_CARD,
+                isolatedModeSelector: '[data-testid="mobile-customer-card"], .mobile-customer-card',
+                productionModeSelector: '.mobile-customer-card, .customer-mobile',
+                fallbackSelector: '.customer-mobile',
+                isRequired: true,
+                modeSpecific: {
+                    [TestMode.ISOLATED]: {
+                        selector: '[data-testid="mobile-customer-card"], .mobile-customer-card',
+                        validation: async (element) => {
+                            const boundingBox = await element.getLocator().boundingBox();
+                            return boundingBox ? NavigationConstants.isTouchTargetAdequate(boundingBox.width, boundingBox.height) : false;
+                        }
+                    },
+                    [TestMode.PRODUCTION]: {
+                        selector: '.mobile-customer-card, .customer-mobile',
+                        validation: async (element) => {
+                            const boundingBox = await element.getLocator().boundingBox();
+                            return boundingBox ? NavigationConstants.isTouchTargetAdequate(boundingBox.width, boundingBox.height) : false;
+                        }
+                    }
+                }
+            });
+        }
+
+        console.log(`Customer page configurations initialized for ${this.modeSpecificSelectors.size} elements`);
+    }
+
+    /**
+     * Validate mode-specific requirements for customer page
+     */
+    protected async validateModeSpecificRequirements(): Promise<boolean> {
+        // Call parent validation first
+        const parentValid = await super.validateModeSpecificRequirements();
+        if (!parentValid) {
+            return false;
+        }
+
+        const currentMode = this.getTestMode();
+        console.log(`Validating customer page requirements for mode: ${currentMode}`);
+
+        try {
+            switch (currentMode) {
+                case TestMode.ISOLATED:
+                    return await this.validateIsolatedCustomerRequirements();
+                case TestMode.PRODUCTION:
+                    return await this.validateProductionCustomerRequirements();
+                case TestMode.DUAL:
+                    const isolatedValid = await this.validateIsolatedCustomerRequirements();
+                    const productionValid = await this.validateProductionCustomerRequirements();
+                    return isolatedValid || productionValid;
+                default:
+                    return false;
+            }
+        } catch (error) {
+            console.log(`Customer page mode-specific validation failed: ${error.message}`);
+            return false;
+        }
+    }
+
+    /**
+     * Validate isolated mode requirements for customer page
+     */
+    private async validateIsolatedCustomerRequirements(): Promise<boolean> {
+        console.log('Validating isolated customer page requirements...');
+
+        const testCustomers = this.getTestCustomers();
+        if (testCustomers.length === 0) {
+            console.log('No test customers available in isolated mode');
+            return false;
+        }
+
+        // Verify test customers have required fields
+        const validCustomers = testCustomers.filter(customer => 
+            customer.id && customer.name && customer.email
+        );
+
+        if (validCustomers.length === 0) {
+            console.log('No valid test customers found in isolated mode');
+            return false;
+        }
+
+        console.log(`Isolated customer requirements validated: ${validCustomers.length} valid customers`);
+        return true;
+    }
+
+    /**
+     * Validate production mode requirements for customer page
+     */
+    private async validateProductionCustomerRequirements(): Promise<boolean> {
+        console.log('Validating production customer page requirements...');
+
+        const testCustomers = this.getTestCustomers();
+        if (testCustomers.length === 0) {
+            console.log('No test customers available in production mode');
+            return false;
+        }
+
+        // Verify looneyTunes test customers are present
+        const looneyTunesCustomers = testCustomers.filter(customer => 
+            customer.isTestData === true ||
+            customer.name.toLowerCase().includes('looney') ||
+            customer.name.toLowerCase().includes('bugs') ||
+            customer.name.toLowerCase().includes('daffy')
+        );
+
+        if (looneyTunesCustomers.length === 0) {
+            console.log('No looneyTunes test customers found in production mode');
+            return false;
+        }
+
+        console.log(`Production customer requirements validated: ${looneyTunesCustomers.length} looneyTunes customers`);
+        return true;
     }
 
     /**
@@ -128,61 +344,120 @@ export default class CustomersPage extends NavigationPage {
     }
 
     /**
-     * Perform customer search with mobile-optimized interface
+     * Perform customer search with mobile-optimized interface and context awareness
      * @param searchTerm - The term to search for
      */
     public async searchCustomers(searchTerm: string): Promise<void> {
+        const currentMode = this.getTestMode();
+        
         try {
-            console.log(`Searching for customers with term: "${searchTerm}"`);
+            console.log(`Context-aware customer search for "${searchTerm}" in ${currentMode} mode`);
             
-            const searchSelector = NavigationConstants.getSearchInterfaceSelector('customers', this.isMobile);
-            const searchInput = this.web.editBox(searchSelector, "Customer Search Input");
-            
-            // Ensure search input is visible
-            await searchInput.waitTillVisible();
+            // Use context-aware search interface
+            await this.contextAwareWaitForElement('customerSearchInterface');
             
             if (this.isMobile) {
                 // Mobile-specific search interaction
-                await this.touchFriendlyClick(searchSelector, "Customer Search Input");
+                await this.contextAwareClick('customerSearchInterface');
                 await this.page.waitForTimeout(500); // Wait for mobile keyboard
             }
             
-            // Clear and type search term
-            await searchInput.fill(searchTerm);
+            // Use context-aware text input
+            await this.contextAwareTypeText('customerSearchInterface', searchTerm);
             
             // Submit search
-            await searchInput.keyPress('Enter');
+            await this.page.keyboard.press('Enter');
             
-            // Wait for search results
-            await this.waitForCustomerSearchResults();
+            // Wait for search results with mode-specific considerations
+            await this.waitForContextAwareCustomerSearchResults(searchTerm);
             
-            console.log(`Customer search completed for: "${searchTerm}"`);
+            console.log(`Context-aware customer search completed for: "${searchTerm}"`);
             
         } catch (error) {
-            console.log(`Customer search failed: ${error.message}`);
+            console.log(`Context-aware customer search failed: ${error.message}`);
+            await this.logContextAwareDebugInfo();
             throw error;
         }
     }
 
     /**
-     * Wait for customer search results to load
+     * Wait for customer search results to load with context awareness
      */
-    private async waitForCustomerSearchResults(): Promise<void> {
+    private async waitForContextAwareCustomerSearchResults(searchTerm: string): Promise<void> {
+        const currentMode = this.getTestMode();
+        
         try {
+            console.log(`Waiting for customer search results in ${currentMode} mode`);
+            
             // Wait for loading to complete
             await this.waitForLoadingComplete();
             
-            // Wait for customer list to update
-            await this.page.waitForTimeout(1000);
+            // Mode-specific timeout
+            const timeout = currentMode === TestMode.PRODUCTION ? 2000 : 1000;
+            await this.page.waitForTimeout(timeout);
             
-            // Verify results are displayed
-            const isResultsVisible = await this.web.element(this.CUSTOMER_LIST_CONTAINER, "Customer Results").isVisible(3);
-            if (isResultsVisible) {
-                console.log("Customer search results loaded successfully");
+            // Use context-aware element waiting
+            await this.contextAwareWaitForElement('customerListContainer');
+            
+            // Verify results are appropriate for the mode
+            if (currentMode === TestMode.ISOLATED) {
+                await this.verifyIsolatedSearchResults(searchTerm);
+            } else if (currentMode === TestMode.PRODUCTION) {
+                await this.verifyProductionSearchResults(searchTerm);
             }
             
+            console.log("Context-aware customer search results loaded successfully");
+            
         } catch (error) {
-            console.log(`Waiting for customer search results failed: ${error.message}`);
+            console.log(`Waiting for context-aware customer search results failed: ${error.message}`);
+            await this.logContextAwareDebugInfo();
+        }
+    }
+
+    /**
+     * Verify search results in isolated mode
+     */
+    private async verifyIsolatedSearchResults(searchTerm: string): Promise<void> {
+        const testCustomers = this.getTestCustomers();
+        const expectedResults = testCustomers.filter(customer => 
+            customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            customer.email.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        console.log(`Expected ${expectedResults.length} results for "${searchTerm}" in isolated mode`);
+        
+        // Verify at least some results are displayed if expected
+        if (expectedResults.length > 0) {
+            const actualResults = await this.page.locator(this.CUSTOMER_ITEM).count();
+            if (actualResults === 0) {
+                console.log('Warning: No search results displayed despite having matching test data');
+            }
+        }
+    }
+
+    /**
+     * Verify search results in production mode
+     */
+    private async verifyProductionSearchResults(searchTerm: string): Promise<void> {
+        console.log(`Verifying production search results for "${searchTerm}"`);
+        
+        // In production mode, verify that only test customers are returned if searching for test data
+        const isTestDataSearch = searchTerm.toLowerCase().includes('looney') || 
+                                searchTerm.toLowerCase().includes('bugs') ||
+                                searchTerm.toLowerCase().includes('daffy');
+
+        if (isTestDataSearch) {
+            const hasTestResults = await this.page.evaluate((term) => {
+                const customerElements = document.querySelectorAll('.customer-item, .customer-row, .customer-card');
+                return Array.from(customerElements).some(el => {
+                    const text = el.textContent?.toLowerCase() || '';
+                    return text.includes(term.toLowerCase());
+                });
+            }, searchTerm);
+
+            if (!hasTestResults) {
+                console.log(`Warning: No test customer results found for "${searchTerm}" in production mode`);
+            }
         }
     }
 

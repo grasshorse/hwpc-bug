@@ -1,4 +1,7 @@
 import BasePage from './base/BasePage';
+import { ContextAwareBasePage } from '../../support/testing/base/ContextAwareBasePage';
+import { ContextAwareElementConfig } from '../../support/testing/interfaces/ContextAwarePageObject';
+import { TestMode } from '../../support/testing/types';
 import UIActions from "../../support/playwright/actions/UIActions";
 import NavigationConstants, { PageValidation } from "../constants/NavigationConstants";
 import Constants from "../constants/Constants";
@@ -107,12 +110,234 @@ export class ComponentLoadError extends Error {
 
 /**
  * NavigationPage - Base navigation functionality for HWPC application
- * Extends BasePage with core navigation methods and mobile-first responsive design validation
+ * Extends ContextAwareBasePage with core navigation methods and mobile-first responsive design validation
+ * Now supports both isolated and production testing modes with context-aware element selection
  */
-export default class NavigationPage extends BasePage {
+export default class NavigationPage extends ContextAwareBasePage {
     
     constructor(web: UIActions) {
         super(web);
+    }
+
+    // ===== CONTEXT-AWARE INITIALIZATION METHODS =====
+
+    /**
+     * Initialize mode-specific configurations for navigation elements
+     */
+    protected initializeModeSpecificConfigurations(): void {
+        const currentMode = this.getTestMode();
+        console.log(`Initializing navigation page configurations for mode: ${currentMode}`);
+
+        // Register navigation container configuration
+        this.registerModeSpecificElement({
+            elementName: 'navigationContainer',
+            baseSelector: NavigationConstants.NAVIGATION_CONTAINER,
+            isolatedModeSelector: '[data-testid="main-navigation"], .main-nav, .navbar-nav',
+            productionModeSelector: '.navigation, .nav-menu, [data-testid="main-navigation"]',
+            fallbackSelector: '.navigation, .main-nav',
+            isRequired: true,
+            modeSpecific: {
+                [TestMode.ISOLATED]: {
+                    selector: '[data-testid="main-navigation"], .main-nav',
+                    validation: async (element) => {
+                        const hasContent = await this.page.evaluate((el) => {
+                            return el && (el.children.length > 0 || el.textContent?.trim().length > 0);
+                        }, await element.getLocator().elementHandle());
+                        return hasContent;
+                    }
+                },
+                [TestMode.PRODUCTION]: {
+                    selector: '.navigation, .nav-menu, [data-testid="main-navigation"]',
+                    validation: async (element) => {
+                        // In production, verify navigation has real navigation links
+                        const linkCount = await this.page.evaluate((el) => {
+                            return el ? el.querySelectorAll('a[href]').length : 0;
+                        }, await element.getLocator().elementHandle());
+                        return linkCount > 0;
+                    }
+                }
+            }
+        });
+
+        // Register main navigation configuration
+        this.registerModeSpecificElement({
+            elementName: 'mainNavigation',
+            baseSelector: NavigationConstants.MAIN_NAVIGATION,
+            isolatedModeSelector: '.navigation, .main-nav, .navbar-nav',
+            productionModeSelector: '.navigation, .main-nav, [data-testid="main-navigation"]',
+            fallbackSelector: '.navigation, .main-nav',
+            isRequired: true,
+            modeSpecific: {
+                [TestMode.ISOLATED]: {
+                    selector: '.navigation, .main-nav, .navbar-nav',
+                    validation: async (element) => {
+                        return await element.isVisible();
+                    }
+                },
+                [TestMode.PRODUCTION]: {
+                    selector: '.navigation, .main-nav, [data-testid="main-navigation"]',
+                    validation: async (element) => {
+                        return await element.isVisible();
+                    }
+                }
+            }
+        });
+
+        // Register mobile menu toggle configuration
+        this.registerModeSpecificElement({
+            elementName: 'mobileMenuToggle',
+            baseSelector: NavigationConstants.MOBILE_MENU_TOGGLE,
+            isolatedModeSelector: '[data-testid="mobile-menu-toggle"], .mobile-menu-toggle',
+            productionModeSelector: '.mobile-menu-toggle, [data-testid="mobile-menu-toggle"]',
+            fallbackSelector: '.mobile-menu-toggle',
+            isRequired: false, // Only required on mobile
+            modeSpecific: {
+                [TestMode.ISOLATED]: {
+                    selector: '[data-testid="mobile-menu-toggle"], .mobile-menu-toggle',
+                    validation: async (element) => {
+                        if (!this.isMobile) return true; // Not required on desktop
+                        return await element.isVisible();
+                    }
+                },
+                [TestMode.PRODUCTION]: {
+                    selector: '.mobile-menu-toggle, [data-testid="mobile-menu-toggle"]',
+                    validation: async (element) => {
+                        if (!this.isMobile) return true; // Not required on desktop
+                        return await element.isVisible();
+                    }
+                }
+            }
+        });
+
+        // Register search interface configuration
+        this.registerModeSpecificElement({
+            elementName: 'searchInterface',
+            baseSelector: '.search-interface, [data-testid="search-interface"]',
+            isolatedModeSelector: '[data-testid="search-interface"], .search-interface',
+            productionModeSelector: '.search-interface, [data-testid="search-interface"]',
+            fallbackSelector: '.search-interface',
+            isRequired: false,
+            modeSpecific: {
+                [TestMode.ISOLATED]: {
+                    selector: '[data-testid="search-interface"], .search-interface',
+                    validation: async (element) => {
+                        return await element.isVisible();
+                    }
+                },
+                [TestMode.PRODUCTION]: {
+                    selector: '.search-interface, [data-testid="search-interface"]',
+                    validation: async (element) => {
+                        return await element.isVisible();
+                    }
+                }
+            }
+        });
+
+        console.log(`Navigation page configurations initialized for ${this.modeSpecificSelectors.size} elements`);
+    }
+
+    /**
+     * Validate mode-specific requirements for navigation
+     */
+    protected async validateModeSpecificRequirements(): Promise<boolean> {
+        const currentMode = this.getTestMode();
+        if (!currentMode) {
+            console.log('No test mode available for validation');
+            return false;
+        }
+
+        console.log(`Validating navigation requirements for mode: ${currentMode}`);
+
+        try {
+            switch (currentMode) {
+                case TestMode.ISOLATED:
+                    return await this.validateIsolatedModeRequirements();
+                case TestMode.PRODUCTION:
+                    return await this.validateProductionModeRequirements();
+                case TestMode.DUAL:
+                    // For dual mode, validate both isolated and production requirements
+                    const isolatedValid = await this.validateIsolatedModeRequirements();
+                    const productionValid = await this.validateProductionModeRequirements();
+                    return isolatedValid || productionValid; // At least one should work
+                default:
+                    console.log(`Unknown test mode: ${currentMode}`);
+                    return false;
+            }
+        } catch (error) {
+            console.log(`Mode-specific validation failed: ${error.message}`);
+            return false;
+        }
+    }
+
+    /**
+     * Validate requirements specific to isolated testing mode
+     */
+    private async validateIsolatedModeRequirements(): Promise<boolean> {
+        console.log('Validating isolated mode requirements...');
+
+        // In isolated mode, we expect test data to be available
+        const testData = this.dataContext?.testData;
+        if (!testData) {
+            console.log('No test data available in isolated mode');
+            return false;
+        }
+
+        // Verify that navigation elements use test-friendly selectors
+        const navigationSelector = this.getModeSpecificSelector(
+            NavigationConstants.NAVIGATION_CONTAINER, 
+            'navigationContainer'
+        );
+
+        const hasTestIdSelectors = navigationSelector.includes('[data-testid');
+        if (!hasTestIdSelectors) {
+            console.log('Warning: Navigation selectors may not be optimized for isolated testing');
+        }
+
+        console.log('Isolated mode requirements validated successfully');
+        return true;
+    }
+
+    /**
+     * Validate requirements specific to production testing mode
+     */
+    private async validateProductionModeRequirements(): Promise<boolean> {
+        console.log('Validating production mode requirements...');
+
+        // In production mode, verify we have looneyTunes test data
+        const testData = this.dataContext?.testData;
+        if (!testData) {
+            console.log('No test data available in production mode');
+            return false;
+        }
+
+        // Verify test customers follow looneyTunes naming convention
+        const testCustomers = testData.customers;
+        const hasLooneyTunesCustomers = testCustomers.some(customer => 
+            customer.name.toLowerCase().includes('looney') || 
+            customer.name.toLowerCase().includes('bugs') ||
+            customer.name.toLowerCase().includes('daffy') ||
+            customer.isTestData === true
+        );
+
+        if (!hasLooneyTunesCustomers) {
+            console.log('Warning: No looneyTunes test customers found in production mode');
+        }
+
+        // Verify test routes are for expected locations
+        const testRoutes = testData.routes;
+        const expectedLocations = ['Cedar Falls', 'Winfield', "O'Fallon"];
+        const hasExpectedRoutes = testRoutes.some(route => 
+            expectedLocations.some(location => 
+                route.location.includes(location) || route.isTestData === true
+            )
+        );
+
+        if (!hasExpectedRoutes) {
+            console.log('Warning: No expected test routes found in production mode');
+        }
+
+        console.log('Production mode requirements validated successfully');
+        return true;
     }
 
     // ===== SPA STATE CAPTURE AND DEBUGGING METHODS =====
@@ -682,6 +907,316 @@ export default class NavigationPage extends BasePage {
             
             return false;
         }
+    }
+
+    // ===== CONTEXT-AWARE NAVIGATION METHODS =====
+
+    /**
+     * Context-aware navigation that adapts to the current testing mode
+     */
+    public async contextAwareNavigateToPage(pageName: string): Promise<void> {
+        const currentMode = this.getTestMode();
+        console.log(`Context-aware navigation to ${pageName} in ${currentMode} mode`);
+
+        try {
+            // Get page configuration
+            const pageConfig = NavigationConstants.getPageConfig(pageName);
+            if (!pageConfig) {
+                throw new Error(`Page configuration not found for: ${pageName}`);
+            }
+
+            // Use context-aware navigation link clicking
+            await this.contextAwareClickNavigationLink(pageName);
+
+            // Wait for SPA route change with mode-specific considerations
+            await this.waitForContextAwareSPARouteChange(pageName);
+
+            // Validate page loaded correctly for the current mode
+            await this.validateContextAwarePageLoad(pageName);
+
+            console.log(`Context-aware navigation to ${pageName} completed successfully`);
+
+        } catch (error) {
+            console.log(`Context-aware navigation to ${pageName} failed: ${error.message}`);
+            
+            // Capture mode-specific debugging information
+            await this.logContextAwareDebugInfo();
+            
+            throw error;
+        }
+    }
+
+    /**
+     * Context-aware navigation link clicking
+     */
+    private async contextAwareClickNavigationLink(pageName: string): Promise<void> {
+        const currentMode = this.getTestMode();
+        
+        // Get mode-specific navigation selector
+        const navigationSelector = this.getModeSpecificSelector(
+            NavigationConstants.MAIN_NAVIGATION,
+            'mainNavigation'
+        );
+
+        // Find the navigation link for the page
+        const linkSelector = `${navigationSelector} a[href*="${pageName.toLowerCase()}"], ${navigationSelector} [data-testid*="${pageName.toLowerCase()}"]`;
+        
+        try {
+            await this.contextAwareClick('navigationLink', linkSelector);
+        } catch (error) {
+            // Fallback to generic navigation link finding
+            console.log(`Specific navigation link not found, trying generic approach`);
+            
+            const genericLinkSelector = `a[href*="${pageName.toLowerCase()}"], [data-testid*="${pageName.toLowerCase()}"]`;
+            await this.clickElement(genericLinkSelector, `${pageName} Navigation Link`);
+        }
+    }
+
+    /**
+     * Context-aware SPA route change waiting
+     */
+    private async waitForContextAwareSPARouteChange(pageName: string): Promise<void> {
+        const currentMode = this.getTestMode();
+        
+        // Adjust timeout based on mode
+        const timeout = currentMode === TestMode.PRODUCTION 
+            ? NavigationConstants.SPA_TIMEOUTS.routeChange * 1.5  // Longer timeout for production
+            : NavigationConstants.SPA_TIMEOUTS.routeChange;
+
+        try {
+            const pageConfig = NavigationConstants.getPageConfig(pageName);
+            if (!pageConfig) {
+                throw new Error(`Page configuration not found for: ${pageName}`);
+            }
+
+            // Wait for URL to match expected patterns
+            await this.page.waitForFunction(
+                (expectedPatterns) => {
+                    const currentUrl = window.location.href;
+                    return expectedPatterns.some((pattern: string) => 
+                        currentUrl.includes(pattern) || 
+                        currentUrl.endsWith(pattern) ||
+                        new RegExp(pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).test(currentUrl)
+                    );
+                },
+                [pageConfig.url, ...pageConfig.urlPatterns],
+                { timeout }
+            );
+
+            // Additional stabilization wait
+            await this.page.waitForTimeout(500);
+            
+        } catch (error) {
+            console.log(`Context-aware SPA route change failed for ${pageName}: ${error.message}`);
+            throw error;
+        }
+    }
+
+    /**
+     * Context-aware page load validation
+     */
+    private async validateContextAwarePageLoad(pageName: string): Promise<void> {
+        const currentMode = this.getTestMode();
+        
+        try {
+            // Wait for page-specific elements based on mode
+            if (currentMode === TestMode.ISOLATED) {
+                await this.validateIsolatedModePageLoad(pageName);
+            } else if (currentMode === TestMode.PRODUCTION) {
+                await this.validateProductionModePageLoad(pageName);
+            }
+
+            // Validate mode-specific elements are present
+            const elementsValid = await this.validateModeSpecificElements();
+            if (!elementsValid) {
+                console.log(`Mode-specific elements validation failed for ${pageName}`);
+            }
+
+        } catch (error) {
+            console.log(`Context-aware page load validation failed for ${pageName}: ${error.message}`);
+            throw error;
+        }
+    }
+
+    /**
+     * Validate page load in isolated mode
+     */
+    private async validateIsolatedModePageLoad(pageName: string): Promise<void> {
+        console.log(`Validating isolated mode page load for ${pageName}`);
+        
+        // In isolated mode, we expect test-friendly elements to be present
+        const testIdElements = await this.page.locator('[data-testid]').count();
+        if (testIdElements === 0) {
+            console.log('Warning: No test-id elements found in isolated mode');
+        }
+
+        // Wait for any loading indicators to disappear
+        await this.waitForLoadingComplete();
+    }
+
+    /**
+     * Validate page load in production mode
+     */
+    private async validateProductionModePageLoad(pageName: string): Promise<void> {
+        console.log(`Validating production mode page load for ${pageName}`);
+        
+        // In production mode, verify real data is present
+        const hasRealContent = await this.page.evaluate(() => {
+            const textContent = document.body.textContent || '';
+            // Look for indicators of real content vs placeholder content
+            return textContent.length > 100 && !textContent.includes('Lorem ipsum');
+        });
+
+        if (!hasRealContent) {
+            console.log('Warning: Page may not have loaded real content in production mode');
+        }
+
+        // Wait for network activity to settle (production may have more API calls)
+        await this.page.waitForLoadState('networkidle', { timeout: 10000 });
+    }
+
+    /**
+     * Context-aware search functionality
+     */
+    public async contextAwareSearch(searchTerm: string, pageType?: string): Promise<void> {
+        const currentMode = this.getTestMode();
+        console.log(`Performing context-aware search for "${searchTerm}" in ${currentMode} mode`);
+
+        try {
+            // Get mode-specific search selector
+            const searchSelector = pageType 
+                ? NavigationConstants.getSearchInterfaceSelector(pageType, this.isMobile)
+                : this.getModeSpecificSelector('.search-interface, [data-testid="search-interface"]', 'searchInterface');
+
+            // Perform context-aware search input
+            await this.contextAwareTypeText('searchInterface', searchTerm, searchSelector);
+
+            // Submit search
+            await this.page.keyboard.press('Enter');
+
+            // Wait for search results with mode-specific timeout
+            const timeout = currentMode === TestMode.PRODUCTION ? 5000 : 3000;
+            await this.page.waitForTimeout(timeout);
+
+            console.log(`Context-aware search completed for "${searchTerm}"`);
+
+        } catch (error) {
+            console.log(`Context-aware search failed: ${error.message}`);
+            await this.logContextAwareDebugInfo();
+            throw error;
+        }
+    }
+
+    /**
+     * Context-aware responsive design verification
+     */
+    public async verifyContextAwareResponsiveDesign(): Promise<boolean> {
+        const currentMode = this.getTestMode();
+        console.log(`Verifying responsive design in ${currentMode} mode`);
+
+        try {
+            // Perform base responsive design verification
+            await this.verifyResponsiveDesign();
+
+            // Add mode-specific responsive checks
+            const modeSpecificValid = await this.validateModeSpecificElements();
+            
+            if (!modeSpecificValid) {
+                console.log(`Mode-specific responsive elements validation failed in ${currentMode} mode`);
+                return false;
+            }
+
+            // Verify navigation adapts properly to viewport in current mode
+            const navigationValid = await this.verifyContextAwareNavigationResponsiveness();
+            
+            return navigationValid;
+
+        } catch (error) {
+            console.log(`Context-aware responsive design verification failed: ${error.message}`);
+            return false;
+        }
+    }
+
+    /**
+     * Verify navigation responsiveness in current context
+     */
+    private async verifyContextAwareNavigationResponsiveness(): Promise<boolean> {
+        const currentMode = this.getTestMode();
+        const viewportCategory = await this.getCurrentViewportCategory();
+
+        try {
+            // Get mode-specific navigation selector
+            const navigationSelector = this.getModeSpecificSelector(
+                NavigationConstants.NAVIGATION_CONTAINER,
+                'navigationContainer'
+            );
+
+            const isNavigationVisible = await this.web.element(navigationSelector, 'Navigation').isVisible(3);
+            
+            if (!isNavigationVisible) {
+                console.log(`Navigation not visible in ${currentMode} mode on ${viewportCategory}`);
+                return false;
+            }
+
+            // Check mobile menu toggle for mobile viewports
+            if (this.isMobile) {
+                const mobileToggleSelector = this.getModeSpecificSelector(
+                    NavigationConstants.MOBILE_MENU_TOGGLE,
+                    'mobileMenuToggle'
+                );
+                
+                const isMobileToggleVisible = await this.web.element(mobileToggleSelector, 'Mobile Menu Toggle').isVisible(2);
+                
+                if (!isMobileToggleVisible) {
+                    console.log(`Mobile menu toggle not visible in ${currentMode} mode`);
+                    return false;
+                }
+            }
+
+            console.log(`Navigation responsiveness verified in ${currentMode} mode on ${viewportCategory}`);
+            return true;
+
+        } catch (error) {
+            console.log(`Navigation responsiveness verification failed: ${error.message}`);
+            return false;
+        }
+    }
+
+    // ===== MISSING METHODS FROM BASE PAGE =====
+
+    /**
+     * Get current viewport category (inherited from BasePage but needs to be accessible)
+     */
+    public async getCurrentViewportCategory(): Promise<'mobile' | 'tablet' | 'desktop'> {
+        return super.getCurrentViewportCategory();
+    }
+
+    /**
+     * Wait for loading complete (inherited from BasePage but needs to be accessible)
+     */
+    public async waitForLoadingComplete(): Promise<void> {
+        return super.waitForLoadingComplete();
+    }
+
+    /**
+     * Set mobile viewport (inherited from BasePage but needs to be accessible)
+     */
+    public async setMobileViewport(): Promise<void> {
+        return super.setMobileViewport();
+    }
+
+    /**
+     * Set tablet viewport (inherited from BasePage but needs to be accessible)
+     */
+    public async setTabletViewport(): Promise<void> {
+        return super.setTabletViewport();
+    }
+
+    /**
+     * Set desktop viewport (inherited from BasePage but needs to be accessible)
+     */
+    public async setDesktopViewport(): Promise<void> {
+        return super.setDesktopViewport();
     }
 
     // ===== SPA PAGE VERIFICATION HELPER METHODS =====
