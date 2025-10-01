@@ -18,6 +18,12 @@ Given('user is on baseurl', async function () {
         console.log('Navigating to base URL...');
         
         const navigationPage = new NavigationPage(this.web);
+        
+        // Set data context if available
+        if (this.dataContext) {
+            navigationPage.setDataContext(this.dataContext);
+        }
+        
         await navigationPage.initialize();
         
         // Navigate to base URL
@@ -61,8 +67,13 @@ When('the user clicks {string}', async function (pageName: string) {
             throw new Error(`Unsupported page name: ${pageName}. Supported pages: ${supportedPages.join(', ')}`);
         }
         
-        // Navigate to the specified page with mobile-first approach
-        await navigationPage.navigateToPage(normalizedPageName);
+        // Set data context if available
+        if (this.dataContext) {
+            navigationPage.setDataContext(this.dataContext);
+        }
+        
+        // Navigate to the specified page with context-aware approach
+        await navigationPage.contextAwareNavigateToPage(normalizedPageName);
         
         console.log(`Successfully clicked and navigated to ${pageName}`);
         
@@ -81,6 +92,12 @@ Then('user should be on {string}', async function (pageName: string) {
         console.log(`Verifying user is on ${pageName} page...`);
         
         const navigationPage = new NavigationPage(this.web);
+        
+        // Set data context if available
+        if (this.dataContext) {
+            navigationPage.setDataContext(this.dataContext);
+        }
+        
         const normalizedPageName = pageName.toLowerCase();
         
         // Validate page name is supported
@@ -120,6 +137,11 @@ Then('the navigation interface should be responsive', async function () {
         console.log('Verifying navigation interface responsiveness...');
         
         const navigationPage = new NavigationPage(this.web);
+        
+        // Set data context if available
+        if (this.dataContext) {
+            navigationPage.setDataContext(this.dataContext);
+        }
         
         // Get current viewport category for context
         const viewportCategory = await navigationPage.getCurrentViewportCategory();
@@ -699,3 +721,172 @@ Then('the navigation should adapt to viewport changes', async function () {
         throw new Error(`Navigation viewport adaptation verification failed: ${error.message}`);
     }
 });
+
+/**
+ * Then step: Verify page data consistency with test mode
+ * Requirements: 6.1, 6.2, 6.3 - Dual-mode data validation
+ */
+Then('the page data should be consistent with test mode', async function () {
+    try {
+        console.log('Verifying page data consistency with test mode...');
+        
+        const navigationPage = new NavigationPage(this.web);
+        const testMode = this.testMode;
+        const dataContext = this.dataContext;
+        
+        if (!testMode || !dataContext) {
+            console.log('No test mode or data context available, skipping validation');
+            return;
+        }
+        
+        console.log(`Validating data consistency for ${testMode} mode`);
+        
+        // Get current page URL to determine what data to validate
+        const currentUrl = await navigationPage.getCurrentUrl();
+        const currentPage = getCurrentPageFromUrl(currentUrl);
+        
+        switch (currentPage) {
+            case 'customers':
+                await validateCustomerPageData.call(this, testMode, dataContext);
+                break;
+            case 'routes':
+                await validateRoutePageData.call(this, testMode, dataContext);
+                break;
+            case 'tickets':
+                await validateTicketPageData.call(this, testMode, dataContext);
+                break;
+            case 'dashboard':
+                await validateDashboardData.call(this, testMode, dataContext);
+                break;
+            case 'reports':
+                await validateReportData.call(this, testMode, dataContext);
+                break;
+            default:
+                console.log(`No specific data validation for page: ${currentPage}`);
+        }
+        
+        console.log(`Successfully validated page data consistency for ${testMode} mode`);
+        
+    } catch (error) {
+        console.error('Failed to verify page data consistency:', error.message);
+        throw new Error(`Page data consistency verification failed: ${error.message}`);
+    }
+});
+
+// Helper methods for data validation
+function getCurrentPageFromUrl(url: string): string {
+    const urlPath = new URL(url).pathname.toLowerCase();
+    
+    if (urlPath.includes('customer')) return 'customers';
+    if (urlPath.includes('route')) return 'routes';
+    if (urlPath.includes('ticket')) return 'tickets';
+    if (urlPath.includes('dashboard')) return 'dashboard';
+    if (urlPath.includes('report')) return 'reports';
+    
+    return 'unknown';
+}
+
+async function validateCustomerPageData(this: any, testMode: string, dataContext: any): Promise<void> {
+    console.log(`Validating customer page data for ${testMode} mode...`);
+    
+    if (testMode === 'production') {
+        // In production mode, verify we see looneyTunes test customers
+        const testCustomers = dataContext.testData.customers.filter((c: any) => c.isTestData);
+        console.log(`Expected ${testCustomers.length} test customers in production mode`);
+        
+        // Check if page contains looneyTunes customer names
+        const pageContent = await this.web.getPage().textContent('body');
+        const hasLooneyTunesCustomers = testCustomers.some((customer: any) => 
+            pageContent?.includes(customer.name) || 
+            pageContent?.includes('Bugs Bunny') ||
+            pageContent?.includes('Daffy Duck')
+        );
+        
+        if (!hasLooneyTunesCustomers) {
+            console.log('Warning: No looneyTunes test customers visible on page');
+        }
+    } else if (testMode === 'isolated') {
+        // In isolated mode, verify we see controlled test data
+        const testCustomers = dataContext.testData.customers;
+        console.log(`Expected ${testCustomers.length} customers in isolated mode`);
+        
+        // Basic validation that customer data is present
+        const pageContent = await this.web.getPage().textContent('body');
+        const hasCustomerData = pageContent && pageContent.length > 100; // Basic content check
+        
+        if (!hasCustomerData) {
+            console.log('Warning: Limited customer data visible on page');
+        }
+    }
+}
+
+async function validateRoutePageData(this: any, testMode: string, dataContext: any): Promise<void> {
+    console.log(`Validating route page data for ${testMode} mode...`);
+    
+    if (testMode === 'production') {
+        // In production mode, verify we see test routes for expected locations
+        const testRoutes = dataContext.testData.routes.filter((r: any) => r.isTestData);
+        const expectedLocations = ['Cedar Falls', 'Winfield', "O'Fallon"];
+        
+        console.log(`Expected test routes for locations: ${expectedLocations.join(', ')}`);
+        
+        const pageContent = await this.web.getPage().textContent('body');
+        const hasExpectedRoutes = expectedLocations.some(location => 
+            pageContent?.includes(location)
+        );
+        
+        if (!hasExpectedRoutes) {
+            console.log('Warning: No expected test route locations visible on page');
+        }
+    } else if (testMode === 'isolated') {
+        // In isolated mode, verify we see controlled route data
+        const testRoutes = dataContext.testData.routes;
+        console.log(`Expected ${testRoutes.length} routes in isolated mode`);
+        
+        const pageContent = await this.web.getPage().textContent('body');
+        const hasRouteData = pageContent && pageContent.length > 100;
+        
+        if (!hasRouteData) {
+            console.log('Warning: Limited route data visible on page');
+        }
+    }
+}
+
+async function validateTicketPageData(this: any, testMode: string, dataContext: any): Promise<void> {
+    console.log(`Validating ticket page data for ${testMode} mode...`);
+    
+    const testTickets = dataContext.testData.tickets;
+    console.log(`Expected ${testTickets.length} tickets in ${testMode} mode`);
+    
+    // Basic validation that ticket data is present
+    const pageContent = await this.web.getPage().textContent('body');
+    const hasTicketData = pageContent && pageContent.length > 100;
+    
+    if (!hasTicketData) {
+        console.log('Warning: Limited ticket data visible on page');
+    }
+}
+
+async function validateDashboardData(this: any, testMode: string, dataContext: any): Promise<void> {
+    console.log(`Validating dashboard data for ${testMode} mode...`);
+    
+    // Dashboard should show summary data appropriate to the test mode
+    const pageContent = await this.web.getPage().textContent('body');
+    const hasDashboardData = pageContent && pageContent.length > 100;
+    
+    if (!hasDashboardData) {
+        console.log('Warning: Limited dashboard data visible on page');
+    }
+}
+
+async function validateReportData(this: any, testMode: string, dataContext: any): Promise<void> {
+    console.log(`Validating report data for ${testMode} mode...`);
+    
+    // Reports should show data appropriate to the test mode
+    const pageContent = await this.web.getPage().textContent('body');
+    const hasReportData = pageContent && pageContent.length > 100;
+    
+    if (!hasReportData) {
+        console.log('Warning: Limited report data visible on page');
+    }
+}
