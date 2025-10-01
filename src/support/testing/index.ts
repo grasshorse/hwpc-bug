@@ -8,6 +8,7 @@ export * from './types';
 // Core classes
 export { TestModeDetector } from './TestModeDetector';
 export { ModeValidator } from './ModeValidator';
+export { TestConfigManager, ConfigValidationError } from './TestConfigManager';
 
 // Data context management
 export { DataContextManager, BaseDataContextManager } from './DataContextManager';
