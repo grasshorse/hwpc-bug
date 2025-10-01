@@ -6,25 +6,150 @@ import UIActions from "../playwright/actions/UIActions";
 import Log from "../logger/Log";
 import RESTRequest from "../playwright/API/RESTRequest";
 import SOAPRequest from "../playwright/API/SOAPRequest";
+import { TestModeDetector } from "../testing/TestModeDetector";
+import { DatabaseContextManager } from "../testing/DatabaseContextManager";
+import { ProductionTestDataManager } from "../testing/ProductionTestDataManager";
+import { TestMode, TestConfig, DataContext, TestContext, ModeDetectionResult } from "../testing/types";
 
 const timeInMin: number = 60 * 1000;
 setDefaultTimeout(Number.parseInt(process.env.TEST_TIMEOUT, 10) * timeInMin);
 let browser: Browser;
+
+// Dual-mode testing infrastructure
+const modeDetector = new TestModeDetector();
+const databaseContextManager = new DatabaseContextManager();
+const productionTestDataManager = new ProductionTestDataManager();
+const activeContexts = new Map<string, DataContext>();
 
 // launch the browser
 BeforeAll(async function () {
     browser = await WebBrowser.launch();
 });
 
-// close the browser
+// close the browser and cleanup any remaining contexts
 AfterAll(async function () {
+    // Cleanup any remaining active contexts
+    if (activeContexts.size > 0) {
+        Log.info(`Cleaning up ${activeContexts.size} remaining data contexts...`);
+        
+        for (const [testId, context] of activeContexts.entries()) {
+            try {
+                if (context.mode === TestMode.PRODUCTION || context.mode === TestMode.DUAL) {
+                    await productionTestDataManager.cleanupContext(context);
+                } else if (context.mode === TestMode.ISOLATED) {
+                    await databaseContextManager.cleanupContext(context);
+                }
+                Log.info(`Cleaned up context for test: ${testId}`);
+            } catch (error) {
+                Log.error(`Failed to cleanup context for test ${testId}: ${error.message}`);
+            }
+        }
+        
+        activeContexts.clear();
+        Log.info('All data contexts cleaned up');
+    }
+    
     await browser.close();
 });
 
-// Create a new browser context and page per scenario
+// Create a new browser context and page per scenario with dual-mode support
 Before(async function ({ pickle, gherkinDocument }: ITestCaseHookParameter) {
     const { line } = formatterHelpers.PickleParser.getPickleLocation({ gherkinDocument, pickle })
+    const testId = `${pickle.name}-${line}`;
+    
     Log.testBegin(`${pickle.name}: ${line}`);
+    
+    // Detect test mode based on environment and tags
+    const testContext: TestContext = {
+        testName: pickle.name,
+        tags: pickle.tags?.map(tag => tag.name) || [],
+        testId: testId
+    };
+    
+    const modeResult: ModeDetectionResult = modeDetector.detectMode(testContext);
+    const detectedMode = modeResult.mode;
+    
+    // Log mode detection information
+    Log.info(`Test mode detected: ${detectedMode} (confidence: ${modeResult.confidence}, source: ${modeResult.source})`);
+    if (modeResult.fallbackReason) {
+        Log.info(`Mode detection fallback: ${modeResult.fallbackReason}`);
+    }
+    
+    // Create test configuration
+    const testConfig: TestConfig = {
+        mode: detectedMode,
+        tags: testContext.tags,
+        retries: parseInt(process.env.RETRIES || '0', 10),
+        timeout: parseInt(process.env.TEST_TIMEOUT || '5', 10) * timeInMin,
+        databaseConfig: detectedMode === TestMode.ISOLATED || detectedMode === TestMode.DUAL ? {
+            backupPath: 'test-backup.sql',
+            connectionString: process.env.TEST_DB_CONNECTION || 'test-connection',
+            restoreTimeout: 30000,
+            verificationQueries: ['SELECT COUNT(*) FROM customers', 'SELECT COUNT(*) FROM routes']
+        } : undefined,
+        productionConfig: detectedMode === TestMode.PRODUCTION || detectedMode === TestMode.DUAL ? {
+            testDataPrefix: 'looneyTunesTest',
+            locations: ['Cedar Falls', 'Winfield', "O'Fallon"],
+            customerNames: ['Bugs Bunny', 'Daffy Duck', 'Porky Pig', 'Tweety Bird'],
+            cleanupPolicy: 'preserve'
+        } : undefined
+    };
+    
+    // Set up data context based on detected mode
+    let dataContext: DataContext | null = null;
+    try {
+        if (detectedMode === TestMode.ISOLATED || detectedMode === TestMode.DUAL) {
+            dataContext = await databaseContextManager.setupContext(detectedMode, testConfig);
+            Log.info(`Database context setup completed for ${detectedMode} mode`);
+        } else if (detectedMode === TestMode.PRODUCTION) {
+            dataContext = await productionTestDataManager.setupContext(detectedMode, testConfig);
+            Log.info(`Production test data context setup completed`);
+        }
+        
+        if (dataContext) {
+            // Validate the context
+            const isValid = await (detectedMode === TestMode.PRODUCTION ? 
+                productionTestDataManager.validateContext(dataContext) : 
+                databaseContextManager.validateContext(dataContext));
+            
+            if (!isValid) {
+                throw new Error(`Data context validation failed for mode: ${detectedMode}`);
+            }
+            
+            // Store context for cleanup
+            activeContexts.set(testId, dataContext);
+            
+            // Attach context to test world
+            this.testMode = detectedMode;
+            this.dataContext = dataContext;
+            this.testConfig = testConfig;
+            
+            Log.info(`Data context validated and attached to test world`);
+        }
+    } catch (error) {
+        Log.error(`Failed to setup data context for mode ${detectedMode}: ${error.message}`);
+        
+        // Attempt graceful degradation to isolated mode if production fails
+        if (detectedMode === TestMode.PRODUCTION) {
+            Log.info('Attempting graceful degradation to isolated mode...');
+            try {
+                const fallbackConfig = { ...testConfig, mode: TestMode.ISOLATED };
+                dataContext = await databaseContextManager.setupContext(TestMode.ISOLATED, fallbackConfig);
+                activeContexts.set(testId, dataContext);
+                this.testMode = TestMode.ISOLATED;
+                this.dataContext = dataContext;
+                this.testConfig = fallbackConfig;
+                Log.info('Successfully degraded to isolated mode');
+            } catch (fallbackError) {
+                Log.error(`Fallback to isolated mode also failed: ${fallbackError.message}`);
+                throw new Error(`Both primary mode (${detectedMode}) and fallback mode failed`);
+            }
+        } else {
+            throw error;
+        }
+    }
+    
+    // Create browser context and page
     this.context = await browser.newContext({
         viewport: null,
         ignoreHTTPSErrors: true,
@@ -35,29 +160,75 @@ Before(async function ({ pickle, gherkinDocument }: ITestCaseHookParameter) {
     this.web = new UIActions(this.page);
     this.rest = new RESTRequest(this.page);
     this.soap = new SOAPRequest();
+    
+    // Add mode-specific debugging information to page context
+    if (this.dataContext) {
+        await this.page.addInitScript((contextInfo) => {
+            (window as any).__TEST_CONTEXT__ = contextInfo;
+        }, {
+            mode: this.testMode,
+            testId: testId,
+            testRunId: this.dataContext.testData.metadata.testRunId,
+            hasTestData: !!this.dataContext.testData
+        });
+    }
 });
 
-// Cleanup after each scenario
+// Cleanup after each scenario with dual-mode support
 After(async function ({ result, pickle, gherkinDocument }: ITestCaseHookParameter) {
     const { line } = formatterHelpers.PickleParser.getPickleLocation({ gherkinDocument, pickle })
     const status = result.status;
     const scenario = pickle.name;
+    const testId = `${scenario}-${line}`;
     const videoPath = await this.page?.video()?.path();
     
     // Check if this is a navigation test for enhanced artifact collection
     const isNavigationTest = pickle.tags?.some(tag => tag.name === '@navigation');
     
+    // Enhanced error reporting with mode-specific information
     if (status === Status.FAILED) {
-        // Enhanced screenshot naming for navigation tests
+        // Enhanced screenshot naming with mode information
+        const modePrefix = this.testMode ? `${this.testMode}-` : '';
         const screenshotName = isNavigationTest 
-            ? `navigation-error-${scenario.toLowerCase().replace(/\s+/g, '-')}-${line}`
-            : `${scenario} (${line})`;
+            ? `navigation-error-${modePrefix}${scenario.toLowerCase().replace(/\s+/g, '-')}-${line}`
+            : `${modePrefix}${scenario} (${line})`;
             
-        const image = await this.page?.screenshot({ 
-            path: `./test-results/screenshots/${screenshotName}.png`, 
-            fullPage: true 
-        });
-        await this.attach(image, 'image/png');
+        if (this.page) {
+            const image = await this.page.screenshot({ 
+                path: `./test-results/screenshots/${screenshotName}.png`, 
+                fullPage: true 
+            });
+            await this.attach(image, 'image/png');
+        }
+        
+        // Collect mode-specific debugging information
+        if (this.testMode && this.dataContext) {
+            try {
+                Log.info(`Test failed in ${this.testMode} mode`);
+                Log.info(`Test run ID: ${this.dataContext.testData.metadata.testRunId}`);
+                Log.info(`Data context connection: ${this.dataContext.connectionInfo.host}`);
+                
+                // Capture test context information from page
+                const testContextInfo = await this.page?.evaluate(() => {
+                    return (window as any).__TEST_CONTEXT__ || null;
+                });
+                
+                if (testContextInfo) {
+                    Log.info(`Test context info: ${JSON.stringify(testContextInfo)}`);
+                }
+                
+                // Mode-specific debugging
+                if (this.testMode === TestMode.PRODUCTION) {
+                    Log.info(`Production test data customers: ${this.dataContext.testData.customers?.length || 0}`);
+                    Log.info(`Production test data routes: ${this.dataContext.testData.routes?.length || 0}`);
+                } else if (this.testMode === TestMode.ISOLATED) {
+                    Log.info(`Isolated database state loaded: ${this.dataContext.testData.metadata.version}`);
+                }
+                
+            } catch (debugError) {
+                Log.error(`Failed to collect mode-specific debugging info: ${debugError.message}`);
+            }
+        }
         
         // Collect additional navigation-specific debugging info
         if (isNavigationTest) {
@@ -85,17 +256,41 @@ After(async function ({ result, pickle, gherkinDocument }: ITestCaseHookParamete
             }
         }
         
-        Log.error(`${scenario}: ${line} - ${status}\n${result.message}`);
+        Log.error(`${scenario}: ${line} - ${status} (Mode: ${this.testMode || 'unknown'})\n${result.message}`);
+    } else {
+        // Log successful test completion with mode information
+        Log.info(`${scenario}: ${line} - ${status} (Mode: ${this.testMode || 'unknown'})`);
     }
     
+    // Guaranteed cleanup of data context
+    const dataContext = activeContexts.get(testId);
+    if (dataContext) {
+        try {
+            if (this.testMode === TestMode.PRODUCTION || this.testMode === TestMode.DUAL) {
+                await productionTestDataManager.cleanupContext(dataContext);
+            } else if (this.testMode === TestMode.ISOLATED) {
+                await databaseContextManager.cleanupContext(dataContext);
+            }
+            Log.info(`Data context cleanup completed for ${this.testMode} mode`);
+        } catch (cleanupError) {
+            Log.error(`Failed to cleanup data context: ${cleanupError.message}`);
+            // Don't throw here to avoid masking the original test failure
+        } finally {
+            activeContexts.delete(testId);
+        }
+    }
+    
+    // Browser cleanup
     await this.page?.close();
     await this.context?.close();
     
+    // Video handling with mode information
     if (process.env.RECORD_VIDEO === "true") {
         if (status === Status.FAILED) {
+            const modePrefix = this.testMode ? `${this.testMode}-` : '';
             const videoName = isNavigationTest 
-                ? `navigation-error-${scenario.toLowerCase().replace(/\s+/g, '-')}-${line}.webm`
-                : `${scenario}(${line}).webm`;
+                ? `navigation-error-${modePrefix}${scenario.toLowerCase().replace(/\s+/g, '-')}-${line}.webm`
+                : `${modePrefix}${scenario}(${line}).webm`;
                 
             fse.renameSync(videoPath, `./test-results/videos/${videoName}`);            
             await this.attach(fse.readFileSync(`./test-results/videos/${videoName}`), 'video/webm');

@@ -11,8 +11,9 @@ export enum TestMode {
 export interface TestContext {
   testName: string;
   tags: string[];
-  scenario: any;
-  feature: any;
+  testId: string;
+  scenario?: any;
+  feature?: any;
 }
 
 export interface TestDefinition {
@@ -92,8 +93,9 @@ export interface TestMetadata {
 
 export interface ConnectionInfo {
   host: string;
+  port?: number;
   database: string;
-  isTestConnection: boolean;
+  isTestConnection?: boolean;
 }
 
 export interface ModeDetectionResult {
