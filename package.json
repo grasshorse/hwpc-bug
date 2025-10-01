@@ -24,7 +24,10 @@
     "validate:navigation": "node scripts/validate-navigation-integration.js",
     "check-imports": "node scripts/check-imports.js",
     "type-check": "npx tsc --noEmit",
-    "pre-commit": "node scripts/pre-commit-check.js"
+    "pre-commit": "node scripts/pre-commit-check.js",
+    "test:unit": "vitest run",
+    "test:unit:watch": "vitest",
+    "test:unit:coverage": "vitest run --coverage"
   },
   "keywords": [],
   "author": "Chris Trees",
@@ -47,6 +50,8 @@
     "@types/xmldom": "^0.1.31",
     "@typescript-eslint/eslint-plugin": "^5.16.0",
     "@typescript-eslint/parser": "^5.16.0",
+    "@vitest/ui": "^3.2.4",
+    "cross-env": "7.0.3",
     "dotenv": "16.0.0",
     "easy-soap-request": "^4.6.0",
     "eslint": "^8.12.0",
@@ -58,19 +63,19 @@
     "jsonpath": "1.1.1",
     "moment": "2.29.4",
     "mssql": "^7.2.1",
+    "multiple-cucumber-html-reporter": "3.0.1",
     "oracledb": "5.3.0",
+    "os": "0.1.2",
     "pdf-parse": "1.1.1",
     "playwright": "1.27.1",
     "randomstring": "1.2.2",
     "string-format": "2.0.0",
     "ts-node": "10.9.1",
     "typescript": "4.8.4",
+    "vitest": "^3.2.4",
     "winston": "3.8.2",
     "xml-formatter": "2.6.1",
     "xmldom": "0.6.0",
-    "xpath": "0.0.32",
-    "multiple-cucumber-html-reporter": "3.0.1",
-    "os": "0.1.2",
-    "cross-env": "7.0.3"
+    "xpath": "0.0.32"
   }
 }

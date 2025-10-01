@@ -1,0 +1,73 @@
+{
+  "customers": [
+    {
+      "id": "cust-isolated-001",
+      "name": "Test Customer 1",
+      "email": "test1@isolated.test",
+      "phone": "555-0001",
+      "is_test_data": true
+    },
+    {
+      "id": "cust-isolated-002", 
+      "name": "Test Customer 2",
+      "email": "test2@isolated.test",
+      "phone": "555-0002",
+      "is_test_data": true
+    },
+    {
+      "id": "cust-isolated-003",
+      "name": "Test Customer 3", 
+      "email": "test3@isolated.test",
+      "phone": "555-0003",
+      "is_test_data": true
+    }
+  ],
+  "routes": [
+    {
+      "id": "route-isolated-001",
+      "name": "Test Route 1",
+      "location": "Test Location 1",
+      "is_test_data": true
+    },
+    {
+      "id": "route-isolated-002",
+      "name": "Test Route 2", 
+      "location": "Test Location 2",
+      "is_test_data": true
+    },
+    {
+      "id": "route-isolated-003",
+      "name": "Test Route 3",
+      "location": "Test Location 3",
+      "is_test_data": true
+    }
+  ],
+  "tickets": [
+    {
+      "id": "ticket-isolated-001",
+      "customer_id": "cust-isolated-001",
+      "route_id": "route-isolated-001", 
+      "status": "active",
+      "is_test_data": true
+    },
+    {
+      "id": "ticket-isolated-002",
+      "customer_id": "cust-isolated-002",
+      "route_id": "route-isolated-002",
+      "status": "pending", 
+      "is_test_data": true
+    },
+    {
+      "id": "ticket-isolated-003",
+      "customer_id": "cust-isolated-003",
+      "route_id": "route-isolated-003",
+      "status": "completed",
+      "is_test_data": true
+    }
+  ],
+  "metadata": {
+    "created_at": "2023-01-01T00:00:00Z",
+    "version": "1.0.0",
+    "description": "Sample JSON backup for isolated testing mode"
+  }
+}
