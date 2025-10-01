@@ -1,0 +1,18 @@
+[
+  {
+    "id": "snap-1759347713621-6577",
+    "name": "demo-snapshot",
+    "version": "1.0.0",
+    "mode": "isolated",
+    "createdAt": "2025-10-01T19:41:53.621Z",
+    "size": 1113,
+    "checksum": "204fb84d",
+    "filePath": ".kiro\\test-data\\demo\\isolated\\demo-snapshot-snap-1759347713621-6577.json",
+    "metadata": {
+      "createdAt": "2025-10-01T19:41:53.621Z",
+      "mode": "isolated",
+      "version": "1.0.0",
+      "testRunId": "snap-1759347713621-6577"
+    }
+  }
+]

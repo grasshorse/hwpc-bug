@@ -1,0 +1,49 @@
+{
+  "customers": [
+    {
+      "id": "cust-001",
+      "name": "Bugs Bunny - looneyTunesTest",
+      "email": "bugs.bunny@looneytunestest.com",
+      "phone": "555-0001",
+      "isTestData": true
+    },
+    {
+      "id": "cust-002",
+      "name": "Daffy Duck - looneyTunesTest",
+      "email": "daffy.duck@looneytunestest.com",
+      "phone": "555-0002",
+      "isTestData": true
+    }
+  ],
+  "routes": [
+    {
+      "id": "route-001",
+      "name": "Cedar Falls Test Route - looneyTunesTest",
+      "location": "Cedar Falls",
+      "isTestData": true
+    },
+    {
+      "id": "route-002",
+      "name": "Winfield Test Route - looneyTunesTest",
+      "location": "Winfield",
+      "isTestData": true
+    }
+  ],
+  "tickets": [
+    {
+      "id": "ticket-001",
+      "customerId": "cust-001",
+      "routeId": "route-001",
+      "status": "active",
+      "isTestData": true
+    }
+  ],
+  "metadata": {
+    "createdAt": "2025-10-01T19:41:53.621Z",
+    "mode": "isolated",
+    "version": "1.0.0",
+    "testRunId": "snap-1759347713621-6577",
+    "description": "Demo snapshot for testing utilities",
+    "tags": []
+  }
+}

@@ -20,6 +20,13 @@ export { DataContextFactory } from './DataContextFactory';
 export { LooneyTunesDataProvider } from './LooneyTunesDataProvider';
 export { IsolatedDataProvider } from './IsolatedDataProvider';
 
+// Test data management utilities
+export { TestDataManager } from './TestDataManager';
+export { SnapshotManager } from './SnapshotManager';
+export { ProductionDataMaintenance } from './ProductionDataMaintenance';
+export { DataIntegrityValidator } from './DataIntegrityValidator';
+export { DataVersionManager } from './DataVersionManager';
+
 // Error handling and recovery system
 export * from './errors';
 

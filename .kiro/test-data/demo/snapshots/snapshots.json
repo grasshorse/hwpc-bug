@@ -1,0 +1,21 @@
+[
+  {
+    "id": "snap-1759347713641-7909",
+    "name": "demo-db-snapshot",
+    "version": "1.0.0",
+    "createdAt": "2025-10-01T19:41:53.641Z",
+    "size": 1087,
+    "format": "sql",
+    "filePath": ".kiro\\test-data\\demo\\snapshots\\demo-db-snapshot-snap-1759347713641-7909.sql",
+    "checksum": "1cf5fe20",
+    "metadata": {
+      "tables": [
+        "customers",
+        "routes",
+        "tickets"
+      ],
+      "recordCount": 150,
+      "description": "Demo database snapshot"
+    }
+  }
+]
