@@ -1,4 +1,4 @@
-@hwpc @api
+@hwpc @api @dual
 Feature: HWPC API Testing
   As a QA engineer
   I want to test HWPC API endpoints
@@ -7,63 +7,68 @@ Feature: HWPC API Testing
   Background:
     Given user has access to HWPC API
 
-  @smoke @health
+  @smoke @health @dual
   Scenario: User can check HWPC API health
     When user checks HWPC API health
     Then user should get a successful response with status code 200
     And user should get HWPC API success response
     And user should get HWPC API response with data
 
-  @tickets @get
+  @tickets @get @dual
   Scenario: User can retrieve all tickets via API
     When user makes a request to retrieve all HWPC tickets
     Then user should get a successful response with status code 200
     And user should get list of HWPC tickets
 
-  @tickets @get @catdebug
-  Scenario: User can retrieve a specific ticket by ID
-    When user makes a request to retrieve HWPC ticket with ID "1a21e788-0c9b-4b61-9d05-74233422b769"
+  @tickets @get @isolated
+  Scenario: User can retrieve a specific ticket by ID (isolated mode)
+    When user makes a request to retrieve HWPC ticket with context-specific ID
     Then user should get a successful response with status code 200
-    And user should get HWPC ticket with ID "1a21e788-0c9b-4b61-9d05-74233422b769"
+    And user should get HWPC ticket with context-specific data
 
-  @tickets @create
+  @tickets @get @production
+  Scenario: User can retrieve a specific ticket by ID (production mode)
+    When user makes a request to retrieve HWPC ticket with context-specific ID
+    Then user should get a successful response with status code 200
+    And user should get HWPC ticket with context-specific data
+
+  @tickets @create @dual
   Scenario: User can create a new ticket via API
-    When user creates a new HWPC ticket with title "Test API Ticket", description "This is a test ticket created via API", and priority "medium"
+    When user creates a new HWPC ticket with context-aware test data
     Then user should get a successful response with status code 201
-    And user should get created HWPC ticket with title "Test API Ticket", priority "medium", and status "open"
+    And user should get created HWPC ticket with context-specific data
     And user stores HWPC ticket ID from response
     Then user cleans up the created HWPC ticket
 
-  @tickets @update
+  @tickets @update @dual
   Scenario: User can update an existing ticket via API
-    Given user creates a new HWPC ticket with title "Original Title", description "Original description", and priority "low"
+    Given user creates a new HWPC ticket with context-aware test data
     And user stores HWPC ticket ID from response
-    When user updates HWPC ticket with stored ID with title "Updated Title" and status "in_progress"
+    When user updates HWPC ticket with stored ID using context-aware data
     Then user should get a successful response with status code 200
-    And user should get HWPC ticket with title "Updated Title"
-    And user should get HWPC ticket with status "in_progress"
+    And user should get HWPC ticket with updated context-specific data
     Then user cleans up the created HWPC ticket
 
-  @tickets @delete
+  @tickets @delete @dual
   Scenario: User can delete a ticket via API
-    Given user creates a new HWPC ticket with title "Ticket to Delete", description "This ticket will be deleted", and priority "low"
+    Given user creates a new HWPC ticket with context-aware test data
     And user stores HWPC ticket ID from response
     When user deletes HWPC ticket with stored ID
     Then user should get a successful response with status code 200
 
-  @tickets @customer
+  @tickets @customer @dual
   Scenario: User can retrieve tickets by customer
-    When user retrieves HWPC tickets for customer "64fcec34-150a-476f-804a-3e9072a7e6bf"
+    When user retrieves HWPC tickets for context-specific customer
     Then user should get a successful response with status code 200
     And user should get list of HWPC tickets
 
-  @tickets @status
+  @tickets @status @dual
   Scenario: User can retrieve tickets by status
     When user retrieves HWPC tickets with status "open"
     Then user should get a successful response with status code 200
     And user should get list of HWPC tickets
 
-  @tickets @stats
+  @tickets @stats @dual
   Scenario: User can retrieve ticket statistics
     When user retrieves HWPC ticket statistics
     Then user should get a successful response with status code 200
@@ -83,24 +88,24 @@ Feature: HWPC API Testing
     And user should get HWPC API error with code "INTERNAL_ERROR"
     And user should get HWPC API error message containing "error occurred"
 
-  @customers @crud
+  @customers @crud @dual
   Scenario: User can manage customers via API
     When user makes a request to retrieve all HWPC customers
     Then user should get a successful response with status code 200
     And user should get list of HWPC customers
     
-    When user creates a new HWPC customer with name "Test Customer", email "test@example.com", and phone "555-0123"
+    When user creates a new HWPC customer with context-aware test data
     Then user should get a successful response with status code 201
     And user should get HWPC API success response
     Then user cleans up the created HWPC customer
 
-  @routes @get
+  @routes @get @dual
   Scenario: User can retrieve routes via API
     When user makes a request to retrieve all HWPC routes
     Then user should get a successful response with status code 200
     And user should get list of HWPC routes
 
-  @dashboard @reports
+  @dashboard @reports @dual
   Scenario: User can retrieve dashboard data
     When user retrieves HWPC dashboard data
     Then user should get a successful response with status code 200

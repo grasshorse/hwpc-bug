@@ -1,9 +1,12 @@
 import { Given, Then, When } from "@cucumber/cucumber";
 import HWPCAPIClient from "../api/HWPCAPIClient";
+import ContextAwareHWPCAPIClient from "../api/ContextAwareHWPCAPIClient";
 import HWPCAPIConstants from "../api/HWPCAPIConstants";
 import RESTResponse from "../../support/playwright/API/RESTResponse";
 import Assert from "../../support/playwright/asserts/Assert";
 import StringUtil from "../../support/utils/StringUtil";
+import { TestMode } from "../../support/testing/types";
+import Log from "../../support/logger/Log";
 
 /**
  * HWPC API Step Definitions - Following existing REST step patterns
@@ -13,9 +16,19 @@ import StringUtil from "../../support/utils/StringUtil";
 // ===== AUTHENTICATION & SESSION STEPS =====
 
 Given('user has access to HWPC API', async function () {
-    if (!this.hwpcAPI) {
+    // Create context-aware API client if dual-mode context is available
+    if (this.testMode && this.dataContext) {
+        this.hwpcAPI = new ContextAwareHWPCAPIClient(this.page, this.testMode, this.dataContext);
+        Log.info(`Created context-aware HWPC API client for ${this.testMode} mode`);
+        
+        // Log context information for debugging
+        (this.hwpcAPI as ContextAwareHWPCAPIClient).logContextInfo();
+    } else {
+        // Fallback to standard API client
         this.hwpcAPI = new HWPCAPIClient(this.page);
+        Log.info('Created standard HWPC API client (no dual-mode context available)');
     }
+    
     // No authentication required currently based on API documentation
 });
 
@@ -195,6 +208,121 @@ When('user retrieves HWPC tickets for customer {string}', async function (custom
     this.response = await this.hwpcAPI.getTicketsByCustomer(this.attach, customerId);
 });
 
+// ===== CONTEXT-AWARE STEP DEFINITIONS =====
+
+When('user makes a request to retrieve HWPC ticket with context-specific ID', async function () {
+    if (!(this.hwpcAPI instanceof ContextAwareHWPCAPIClient)) {
+        throw new Error('Context-aware API client required for context-specific operations');
+    }
+    
+    const ticketId = this.hwpcAPI.getContextSpecificTicketId();
+    this.response = await this.hwpcAPI.getTicketById(this.attach, ticketId);
+    this.currentTicketId = ticketId;
+});
+
+When('user retrieves HWPC tickets for context-specific customer', async function () {
+    if (!(this.hwpcAPI instanceof ContextAwareHWPCAPIClient)) {
+        throw new Error('Context-aware API client required for context-specific operations');
+    }
+    
+    const customerId = this.hwpcAPI.getContextSpecificCustomerId();
+    this.response = await this.hwpcAPI.getTicketsByCustomer(this.attach, customerId);
+    this.currentCustomerId = customerId;
+});
+
+When('user creates a new HWPC ticket with context-aware test data', async function () {
+    if (!(this.hwpcAPI instanceof ContextAwareHWPCAPIClient)) {
+        throw new Error('Context-aware API client required for context-aware ticket creation');
+    }
+    
+    const ticketData = this.hwpcAPI.createContextAwareTicketData();
+    this.response = await this.hwpcAPI.createTicket(this.attach, ticketData);
+    
+    // Store ticket ID for cleanup if creation was successful
+    if (await this.response.getStatusCode() === HWPCAPIConstants.STATUS_CREATED) {
+        try {
+            const responseBody = JSON.parse(await this.response.getBody());
+            this.currentTicketId = responseBody.data?.id || responseBody.id;
+        } catch (error) {
+            console.log('Failed to extract ticket ID from response');
+        }
+    }
+});
+
+When('user creates a new HWPC customer with context-aware test data', async function () {
+    if (!(this.hwpcAPI instanceof ContextAwareHWPCAPIClient)) {
+        throw new Error('Context-aware API client required for context-aware customer creation');
+    }
+    
+    const customerData = this.hwpcAPI.createContextAwareCustomerData();
+    this.response = await this.hwpcAPI.createCustomer(this.attach, customerData);
+    
+    // Store customer ID for cleanup if creation was successful
+    if (await this.response.getStatusCode() === HWPCAPIConstants.STATUS_CREATED) {
+        try {
+            const responseBody = JSON.parse(await this.response.getBody());
+            this.currentCustomerId = responseBody.data?.id || responseBody.id;
+        } catch (error) {
+            console.log('Failed to extract customer ID from response');
+        }
+    }
+});
+
+When('user updates HWPC ticket with stored ID using context-aware data', async function () {
+    if (!this.currentTicketId) {
+        throw new Error('No ticket ID stored. Please create a ticket first.');
+    }
+    
+    if (!(this.hwpcAPI instanceof ContextAwareHWPCAPIClient)) {
+        throw new Error('Context-aware API client required for context-aware ticket updates');
+    }
+    
+    // First get the current ticket data
+    const currentTicketResponse = await this.hwpcAPI.getTicketById(this.attach, this.currentTicketId);
+    
+    if (await currentTicketResponse.getStatusCode() === HWPCAPIConstants.STATUS_OK) {
+        const currentTicketBody = JSON.parse(await currentTicketResponse.getBody());
+        const ticketData = currentTicketBody.data || currentTicketBody;
+        
+        // Apply context-aware updates
+        const updateData = this.hwpcAPI.createContextAwareTicketUpdateData();
+        Object.assign(ticketData, updateData);
+        
+        // Remove null values that cause validation errors
+        if (ticketData.assignedTo === null) {
+            delete ticketData.assignedTo;
+        }
+        if (ticketData.address === null) {
+            delete ticketData.address;
+        }
+        if (ticketData.lat === null) {
+            delete ticketData.lat;
+        }
+        if (ticketData.lng === null) {
+            delete ticketData.lng;
+        }
+        if (ticketData.scheduledDate === null) {
+            delete ticketData.scheduledDate;
+        }
+        if (ticketData.completedDate === null) {
+            delete ticketData.completedDate;
+        }
+        
+        // Remove read-only fields
+        delete ticketData.customerName;
+        delete ticketData.customerEmail;
+        delete ticketData.customerPhone;
+        delete ticketData.customerStreet;
+        delete ticketData.customerCity;
+        delete ticketData.customerState;
+        delete ticketData.customerZipCode;
+        
+        this.response = await this.hwpcAPI.updateTicket(this.attach, this.currentTicketId, ticketData);
+    } else {
+        this.response = currentTicketResponse;
+    }
+});
+
 When('user retrieves HWPC tickets with status {string}', async function (status: string) {
     this.response = await this.hwpcAPI.getTicketsByStatus(this.attach, status);
 });
@@ -348,6 +476,63 @@ Then('user should get HWPC ticket with ID {string}', async function (expectedTic
     const responseBody = JSON.parse(await response.getBody());
     const ticketData = responseBody.data || responseBody;
     await Assert.assertEquals(ticketData.id, expectedTicketId, HWPCAPIConstants.SINGLE_TICKET);
+});
+
+// ===== CONTEXT-AWARE VALIDATION STEPS =====
+
+Then('user should get HWPC ticket with context-specific data', async function () {
+    const response: RESTResponse = this.response;
+    await Assert.assertNotNull(await response.getBody(), HWPCAPIConstants.SINGLE_TICKET);
+    
+    // Validate context-specific response if context-aware client is available
+    if (this.hwpcAPI instanceof ContextAwareHWPCAPIClient) {
+        const responseBody = await response.getBody();
+        const isValid = await this.hwpcAPI.validateContextSpecificResponse(responseBody, 'ticket');
+        await Assert.assertTrue(isValid, "Context-specific ticket validation");
+        
+        Log.info(`Validated context-specific ticket response for ${this.hwpcAPI.getTestMode()} mode`);
+    }
+});
+
+Then('user should get created HWPC ticket with context-specific data', async function () {
+    const response: RESTResponse = this.response;
+    await Assert.assertNotNull(await response.getBody(), HWPCAPIConstants.CREATE_TICKET);
+    
+    // Verify ticket ID is present
+    await Assert.assertNotNull(
+        await response.getTagContentByJsonPath(HWPCAPIConstants.TICKET_ID_JSON_PATH, HWPCAPIConstants.CREATE_TICKET),
+        "Created Ticket ID"
+    );
+    
+    // Validate context-specific response if context-aware client is available
+    if (this.hwpcAPI instanceof ContextAwareHWPCAPIClient) {
+        const responseBody = await response.getBody();
+        const isValid = await this.hwpcAPI.validateContextSpecificResponse(responseBody, 'ticket');
+        await Assert.assertTrue(isValid, "Context-specific created ticket validation");
+        
+        Log.info(`Validated context-specific created ticket response for ${this.hwpcAPI.getTestMode()} mode`);
+    }
+});
+
+Then('user should get HWPC ticket with updated context-specific data', async function () {
+    const response: RESTResponse = this.response;
+    await Assert.assertNotNull(await response.getBody(), HWPCAPIConstants.UPDATE_TICKET);
+    
+    // Verify the ticket was updated with context-aware data
+    const actualStatus = await response.getTagContentByJsonPath(
+        HWPCAPIConstants.TICKET_STATUS_JSON_PATH, 
+        HWPCAPIConstants.UPDATE_TICKET
+    );
+    await Assert.assertEquals(actualStatus, "in_progress", "Updated Ticket Status");
+    
+    // Validate context-specific response if context-aware client is available
+    if (this.hwpcAPI instanceof ContextAwareHWPCAPIClient) {
+        const responseBody = await response.getBody();
+        const isValid = await this.hwpcAPI.validateContextSpecificResponse(responseBody, 'ticket');
+        await Assert.assertTrue(isValid, "Context-specific updated ticket validation");
+        
+        Log.info(`Validated context-specific updated ticket response for ${this.hwpcAPI.getTestMode()} mode`);
+    }
 });
 
 Then('user should get HWPC customer with ID {string}', async function (expectedCustomerId: string) {
