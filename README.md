@@ -40,6 +40,8 @@ npm ci
 - For web UI based tests maintain all the selectors inside pages folder.
 
 ##### 3. Execution
+
+#### Standard Test Execution
 To run test scenarios use below command.
 ```sh
 npm run test
@@ -48,25 +50,74 @@ To run specific scenario, use tags command. Below are few examples.
 ```sh
 npm run test:tags '@hwpc'
 ```
+
+#### Dual-Mode Testing (New Feature)
+The framework now supports dual-mode testing with three execution modes:
+
+**Isolated Mode** - Tests with controlled database states:
+```sh
+npm run test:isolated              # Full isolated testing with reports
+npm run test:isolated:fast         # Fast isolated testing (no reports)
+npm run test:isolated:navigation   # Isolated navigation tests only
+npm run test:isolated:api          # Isolated API tests only
+```
+
+**Production Mode** - Tests with looneyTunesTest data in production:
+```sh
+npm run test:production            # Full production testing with reports
+npm run test:production:fast       # Fast production testing (no reports)
+npm run test:production:navigation # Production navigation tests only
+npm run test:production:api        # Production API tests only
+```
+
+**Dual Mode** - Tests that work in both environments:
+```sh
+npm run test:dual                  # Full dual-mode testing with reports
+npm run test:dual:fast             # Fast dual-mode testing (no reports)
+```
+
+#### Test Validation and Debugging
 To dry run test scenarios use below command.
 ```sh
 npm run dry:test
+npm run dry:test:isolated          # Validate isolated mode configuration
+npm run dry:test:production        # Validate production mode configuration
 ```
+
 To rerun the failed test scenarios use below command.
 ```sh
 npm run failed:test
 ```
+
+#### Environment Configuration
 To change any environment configuration in .env file at run time use set command.
 Eg: To change browser to Firefox use below command
 ```sh
 set BROWSER=firefox
 ```
-Similar command can be used to update other environment configuration
 
+For dual-mode testing, set the test mode (Windows PowerShell):
+```powershell
+$env:TEST_MODE="isolated"    # For isolated mode
+$env:TEST_MODE="production"  # For production mode
+$env:TEST_MODE="dual"        # For dual mode
+```
+
+#### Test Tags for Dual-Mode
+Tests should be tagged appropriately:
+- `@isolated` - Runs only in isolated mode
+- `@production` - Runs only in production mode
+- `@dual` - Runs in both isolated and production modes
+
+#### Reports
 To generate HTML and Cucumber report use below command
 ```sh
 npm run report
 ```
+
+For detailed dual-mode testing documentation, see:
+- `docs/dual-mode-testing-configuration.md` - Complete configuration guide
+- `docs/npm-scripts-reference.md` - Quick command reference
 ##### 4. Report & Logs
 Cucumber HTML report will be present inside
 ```sh
