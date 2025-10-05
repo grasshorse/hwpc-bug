@@ -21,7 +21,7 @@ export const DEFAULT_CONFIG: Partial<TestConfig> = {
 };
 
 export const DEFAULT_DATABASE_CONFIG: DatabaseConfig = {
-  backupPath: '.kiro/test-data/isolated/',
+  backupPath: 'test-backup.sql',
   connectionString: process.env.TEST_DATABASE_URL || 'sqlite://test.db',
   restoreTimeout: 60000, // 60 seconds
   verificationQueries: [

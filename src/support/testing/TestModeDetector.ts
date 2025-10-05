@@ -24,17 +24,17 @@ export class TestModeDetector {
     const tagMode = this.detectModeFromTags(testContext.tags);
 
     // Choose the result with higher confidence
-    if (envMode.confidence > tagMode.confidence) {
-      return envMode;
-    } else if (tagMode.confidence > envMode.confidence) {
+    if (tagMode.confidence > envMode.confidence) {
       return tagMode;
+    } else if (envMode.confidence > tagMode.confidence) {
+      return envMode;
     }
 
-    // If confidence is equal, prioritize environment over tags
-    if (envMode.confidence >= 0.5) {
-      return envMode;
-    } else if (tagMode.confidence >= 0.5) {
+    // If confidence is equal, prioritize tags over environment
+    if (tagMode.confidence >= 0.5) {
       return tagMode;
+    } else if (envMode.confidence >= 0.5) {
+      return envMode;
     }
 
     // Return default mode with fallback reason
@@ -146,7 +146,7 @@ export class TestModeDetector {
     if (normalizedTags.includes(TestModeDetector.TAG_ISOLATED.toLowerCase())) {
       return {
         mode: TestMode.ISOLATED,
-        confidence: 0.9,
+        confidence: 1.1,
         source: 'tags'
       };
     }
@@ -154,7 +154,7 @@ export class TestModeDetector {
     if (normalizedTags.includes(TestModeDetector.TAG_PRODUCTION.toLowerCase())) {
       return {
         mode: TestMode.PRODUCTION,
-        confidence: 0.9,
+        confidence: 1.1,
         source: 'tags'
       };
     }
@@ -162,7 +162,7 @@ export class TestModeDetector {
     if (normalizedTags.includes(TestModeDetector.TAG_DUAL.toLowerCase())) {
       return {
         mode: TestMode.DUAL,
-        confidence: 0.9,
+        confidence: 1.1,
         source: 'tags'
       };
     }

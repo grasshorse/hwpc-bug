@@ -326,7 +326,10 @@ export class LooneyTunesDataProvider {
   }
 
   private generateTestPhone(): string {
-    return `555-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
+    const areaCode = '555';
+    const exchange = Math.floor(Math.random() * 900 + 100).toString(); // 100-999
+    const number = Math.floor(Math.random() * 10000).toString().padStart(4, '0'); // 0000-9999
+    return `${areaCode}-${exchange}-${number}`;
   }
 
   private async persistCustomer(customer: TestCustomer): Promise<void> {
