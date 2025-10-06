@@ -1,0 +1,81 @@
+@dual
+Feature: Ticket Location Assignment - Dual Mode Navigation and Basic Functionality
+
+  As a dispatcher
+  I want to navigate to the assignment interface and perform basic operations
+  So that I can efficiently assign tickets to routes
+
+  Background:
+    Given I am logged in as a dispatcher
+    And the system is in dual testing mode
+
+  @dual @navigation
+  Scenario: Navigate to ticket assignment interface
+    When I navigate to the ticket assignment page
+    Then I should see the assignment interface
+    And I should see unassigned tickets grouped by geographic proximity
+    And I should see available routes displayed on the interface
+
+  @dual @basic-workflow
+  Scenario: Basic ticket assignment workflow
+    Given I am on the ticket assignment page
+    And there are unassigned tickets available
+    When I select a ticket from the list
+    Then I should see all available scheduled routes within the configured radius
+    And the system should highlight the suggested optimal route
+    And I should be able to assign the ticket to the suggested route
+
+  @dual @ui-responsiveness
+  Scenario: User interface responsiveness during assignment
+    Given I am on the ticket assignment page
+    When I select multiple tickets quickly
+    Then the interface should remain responsive
+    And each selection should be visually indicated
+    And the route suggestions should update accordingly
+
+  @dual @crud-operations
+  Scenario: Basic CRUD operations for ticket assignments
+    Given I am on the ticket assignment page
+    And I have assigned a ticket to a route
+    When I view the assignment details
+    Then I should see the ticket information
+    And I should see the assigned route information
+    And I should be able to modify the assignment
+    And I should be able to remove the assignment
+
+  @dual @assignment-validation
+  Scenario: Assignment workflow validation
+    Given I am on the ticket assignment page
+    And I select a ticket for assignment
+    When I assign the ticket to a route
+    Then the route schedule should be updated
+    And the ticket status should change to assigned
+    And I should see a confirmation message
+    And the assignment should appear in the route's ticket list
+
+  @dual @interface-elements
+  Scenario: Assignment interface displays required elements
+    Given I am on the ticket assignment page
+    Then I should see a list of unassigned tickets
+    And I should see route capacity indicators
+    And I should see a map view of service areas
+    And I should see assignment controls
+    And I should see search and filter options
+
+  @dual @error-handling
+  Scenario: Basic error handling in assignment interface
+    Given I am on the ticket assignment page
+    When a network error occurs during assignment
+    Then I should see an appropriate error message
+    And the interface should remain functional
+    And I should be able to retry the assignment
+
+  @dual @assignment-feedback
+  Scenario: Visual feedback during assignment process
+    Given I am on the ticket assignment page
+    When I initiate a ticket assignment
+    Then I should see loading indicators
+    And I should see progress feedback
+    When the assignment completes
+    Then I should see success confirmation
+    And the interface should update to reflect the new assignment

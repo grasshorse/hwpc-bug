@@ -1,0 +1,152 @@
+@isolated
+Feature: Ticket Location Assignment - Isolated Mode Edge Cases and Algorithm Testing
+
+  As a system tester
+  I want to validate assignment algorithms with controlled data
+  So that I can ensure optimal assignment logic works correctly
+
+  Background:
+    Given the system is in isolated testing mode
+    And controlled test data is loaded
+    And I am logged in as a dispatcher
+
+  @isolated @edge-cases
+  Scenario: Assignment with empty routes
+    Given there are unassigned tickets in the system
+    And all routes have zero capacity
+    When I attempt to assign a ticket to any route
+    Then I should see a "no available routes" warning
+    And the ticket should remain unassigned
+    And I should see suggestions to increase route capacity
+
+  @isolated @edge-cases
+  Scenario: Assignment with full capacity routes
+    Given there are unassigned tickets in the system
+    And all routes are at full capacity
+    When I select a ticket for assignment
+    Then I should see capacity warnings for all routes
+    And I should not be able to assign without override
+    When I provide an override reason "emergency service"
+    Then the assignment should be allowed with warning
+
+  @isolated @algorithm-testing
+  Scenario: Optimal route selection algorithm validation
+    Given there are test tickets at known coordinates
+      | ticket_id | latitude | longitude | priority |
+      | T001      | 42.5000  | -92.5000  | high     |
+      | T002      | 42.5100  | -92.5100  | medium   |
+    And there are test routes with known service areas
+      | route_id | center_lat | center_lng | radius | capacity |
+      | R001     | 42.5050    | -92.5050   | 5km    | 10       |
+      | R002     | 42.5200    | -92.5200   | 5km    | 10       |
+    When I select ticket "T001" for assignment
+    Then the system should suggest route "R001" as optimal
+    And the calculated distance should be approximately 0.79 km
+    When I select ticket "T002" for assignment
+    Then the system should suggest route "R002" as optimal
+    And the calculated distance should be approximately 1.11 km
+
+  @isolated @algorithm-testing
+  Scenario: Distance calculation accuracy with controlled coordinates
+    Given there are test locations with precise coordinates
+      | location_id | latitude | longitude |
+      | L001        | 42.0000  | -92.0000  |
+      | L002        | 42.0100  | -92.0000  |
+      | L003        | 42.0000  | -92.0100  |
+    When I calculate distances between locations
+    Then the distance from L001 to L002 should be approximately 1.11 km
+    And the distance from L001 to L003 should be approximately 0.89 km
+    And the distance calculations should be consistent across multiple runs
+
+  @isolated @bulk-assignment
+  Scenario: Bulk assignment processing with known data sets
+    Given there are 50 test tickets distributed across a grid pattern
+    And there are 5 test routes with equal capacity of 12 tickets each
+    When I select all tickets for bulk assignment
+    Then the system should distribute tickets optimally across routes
+    And each route should receive approximately 10 tickets
+    And no route should exceed its capacity of 12
+    And the total travel distance should be minimized
+
+  @isolated @bulk-assignment
+  Scenario: Bulk assignment with capacity constraints
+    Given there are 30 test tickets in a concentrated area
+    And there are 2 test routes with capacity of 10 tickets each
+    When I select all tickets for bulk assignment
+    Then the system should assign 20 tickets to the 2 routes
+    And 10 tickets should remain unassigned
+    And I should see a capacity constraint warning
+    And the system should suggest adding more routes or increasing capacity
+
+  @isolated @assignment-validation
+  Scenario: Assignment algorithm with priority handling
+    Given there are test tickets with different priorities
+      | ticket_id | priority | latitude | longitude |
+      | T001      | high     | 42.5000  | -92.5000  |
+      | T002      | medium   | 42.5001  | -92.5001  |
+      | T003      | low      | 42.5002  | -92.5002  |
+    And there is one route with capacity for 2 tickets
+    When I perform bulk assignment
+    Then high priority ticket "T001" should be assigned first
+    Then medium priority ticket "T002" should be assigned second
+    And low priority ticket "T003" should remain unassigned
+
+  @isolated @conflict-resolution
+  Scenario: Assignment conflict detection and resolution
+    Given there are overlapping service areas
+      | route_id | center_lat | center_lng | radius | capacity |
+      | R001     | 42.5000    | -92.5000   | 3km    | 5        |
+      | R002     | 42.5020    | -92.5020   | 3km    | 5        |
+    And there is a ticket at coordinates (42.5010, -92.5010)
+    When I assign the ticket
+    Then both routes should be suggested as options
+    And the system should highlight the closer route as optimal
+    And I should be able to override with the alternative route
+
+  @isolated @capacity-management
+  Scenario: Route capacity validation and warnings
+    Given there is a route with capacity of 5 tickets
+    And the route currently has 4 assigned tickets
+    When I assign one more ticket to the route
+    Then the route should show as "at capacity"
+    When I attempt to assign another ticket
+    Then I should see a capacity exceeded warning
+    And the assignment should require override authorization
+
+  @isolated @geographic-boundaries
+  Scenario: Service area boundary validation
+    Given there is a route with a defined service area boundary
+    And there are tickets inside and outside the boundary
+    When I select a ticket outside the service area
+    Then the route should not appear in suggestions
+    When I select a ticket inside the service area
+    Then the route should appear as an available option
+
+  @isolated @assignment-optimization
+  Scenario: Multi-ticket route optimization
+    Given there is a route with existing assignments
+      | ticket_id | latitude | longitude | sequence |
+      | T001      | 42.5000  | -92.5000  | 1        |
+      | T002      | 42.5100  | -92.5100  | 2        |
+    When I assign a new ticket at coordinates (42.5050, -92.5050)
+    Then the system should suggest inserting it at sequence position 2
+    And the total route distance should be optimized
+    And existing tickets should be resequenced accordingly
+
+  @isolated @data-consistency
+  Scenario: Assignment data consistency validation
+    Given there are test assignments in the system
+    When I perform assignment operations
+    Then all ticket statuses should remain consistent
+    And route capacities should be accurately maintained
+    And no tickets should be double-assigned
+    And assignment timestamps should be properly recorded
+
+  @isolated @rollback-scenarios
+  Scenario: Assignment rollback and error recovery
+    Given there are successful assignments in the system
+    When a system error occurs during assignment
+    Then the assignment should be rolled back
+    And the ticket should return to unassigned status
+    And the route capacity should be restored
+    And no partial assignments should remain in the system

@@ -1,0 +1,179 @@
+@production
+Feature: Ticket Location Assignment - Production Mode Integration Tests
+
+  As a system integrator
+  I want to validate assignment functionality with real system data
+  So that I can ensure the feature works correctly in production environment
+
+  Background:
+    Given the system is in production testing mode
+    And looneyTunesTest data is available
+    And I am logged in as a dispatcher
+    And production safety guards are active
+
+  @production @integration
+  Scenario: Real system integration with looneyTunesTest customers
+    Given there are looneyTunesTest customers in the system
+      | customer_name                    | address                           | latitude | longitude |
+      | Bugs Bunny - looneyTunesTest    | 123 Carrot Lane - looneyTunesTest | 42.4619  | -92.3426  |
+      | Daffy Duck - looneyTunesTest    | 456 Pond Ave - looneyTunesTest    | 42.4720  | -92.3527  |
+      | Porky Pig - looneyTunesTest     | 789 Farm Rd - looneyTunesTest     | 42.4521  | -92.3325  |
+    When I create tickets for these customers
+    Then the tickets should be created successfully
+    And they should appear in the unassigned tickets list
+    And the customer locations should be validated against real geographic data
+
+  @production @integration
+  Scenario: Live route schedule integration with test routes
+    Given there are looneyTunesTest routes in the system
+      | route_name                      | service_area                    | capacity | schedule_type |
+      | Route Alpha - looneyTunesTest   | Downtown Test Area              | 15       | daily         |
+      | Route Beta - looneyTunesTest    | Suburban Test Zone              | 12       | weekly        |
+    And the routes have active schedules
+    When I assign looneyTunesTest tickets to these routes
+    Then the assignments should integrate with live scheduling system
+    And route capacities should be updated in real-time
+    And schedule conflicts should be detected and reported
+
+  @production @real-data-validation
+  Scenario: Assignment with real geographic coordinates and routing
+    Given there is a looneyTunesTest ticket at real coordinates (42.4619, -92.3426)
+    And there are looneyTunesTest routes serving the Cedar Falls area
+    When I request route suggestions for the ticket
+    Then the system should use real routing services for distance calculation
+    And the suggested routes should be based on actual travel times
+    And the service area boundaries should reflect real geographic constraints
+
+  @production @live-system-validation
+  Scenario: Real-time assignment validation with production database
+    Given the production database contains looneyTunesTest data
+    And there are active looneyTunesTest routes with current assignments
+    When I assign a new looneyTunesTest ticket
+    Then the assignment should be persisted to the production database
+    And database triggers should fire correctly
+    And audit logs should be created with proper timestamps
+    And the assignment should be visible to other system users immediately
+
+  @production @external-service-integration
+  Scenario: Integration with external mapping and routing services
+    Given external mapping services are available
+    And looneyTunesTest locations are configured
+    When I calculate distances between looneyTunesTest locations
+    Then the system should use real mapping APIs
+    And distance calculations should account for actual road networks
+    And service area polygons should be generated from real geographic data
+    And routing should consider traffic patterns and road restrictions
+
+  @production @notification-system-integration
+  Scenario: Real-time notification system integration
+    Given the notification system is active
+    And looneyTunesTest technicians are configured to receive notifications
+    When I assign a ticket to a looneyTunesTest route
+    Then real notifications should be sent to the assigned technician
+    And the notification should contain accurate assignment details
+    And delivery confirmation should be received from the notification service
+    And failed notifications should be logged and retried
+
+  @production @capacity-management-live
+  Scenario: Live route capacity management with real constraints
+    Given there is a looneyTunesTest route with current real assignments
+    And the route is approaching its capacity limit
+    When I attempt to assign additional looneyTunesTest tickets
+    Then the system should check real-time capacity
+    And capacity warnings should reflect actual current load
+    And override permissions should be validated against real user roles
+    And capacity exceeded scenarios should trigger real alerts
+
+  @production @cross-system-consistency
+  Scenario: Cross-system data consistency validation
+    Given assignments exist across multiple system components
+    And looneyTunesTest data is distributed across services
+    When I perform assignment operations
+    Then data should remain consistent across all systems
+    And eventual consistency should be achieved within acceptable timeframes
+    And conflict resolution should work with real data patterns
+    And rollback scenarios should preserve data integrity
+
+  @production @performance-validation
+  Scenario: Performance validation with production-scale data
+    Given there are multiple looneyTunesTest tickets in the system
+    And the system is under normal production load
+    When I perform bulk assignment operations
+    Then response times should meet production SLA requirements
+    And the system should handle concurrent assignment requests
+    And database performance should remain within acceptable limits
+    And memory usage should not exceed production thresholds
+
+  @production @security-validation
+  Scenario: Production security and access control validation
+    Given I am logged in with dispatcher privileges
+    And looneyTunesTest data has proper security classifications
+    When I access assignment functionality
+    Then security controls should be enforced correctly
+    And audit trails should capture all assignment actions
+    And data access should be logged with proper user attribution
+    And unauthorized access attempts should be blocked and logged
+
+  @production @error-handling-live
+  Scenario: Error handling with real system failures
+    Given the system is connected to production services
+    When external services become temporarily unavailable
+    Then the assignment system should handle service outages gracefully
+    And fallback mechanisms should activate automatically
+    And user-friendly error messages should be displayed
+    And system recovery should be automatic when services return
+
+  @production @data-migration-validation
+  Scenario: Data migration and synchronization validation
+    Given there are existing looneyTunesTest assignments
+    When system updates or migrations occur
+    Then existing assignments should remain intact
+    And data format changes should be handled transparently
+    And assignment history should be preserved
+    And no looneyTunesTest data should be lost or corrupted
+
+  @production @monitoring-integration
+  Scenario: Integration with production monitoring systems
+    Given production monitoring systems are active
+    When assignment operations are performed
+    Then metrics should be collected and reported correctly
+    And performance indicators should be updated in real-time
+    And alert thresholds should be monitored continuously
+    And system health dashboards should reflect assignment system status
+
+  @production @backup-recovery-validation
+  Scenario: Backup and recovery system validation
+    Given backup systems are configured for assignment data
+    When assignment operations create or modify data
+    Then changes should be included in backup processes
+    And recovery procedures should restore assignment data correctly
+    And point-in-time recovery should preserve assignment consistency
+    And disaster recovery scenarios should maintain data integrity
+
+  @production @compliance-validation
+  Scenario: Regulatory compliance and audit trail validation
+    Given compliance requirements are configured
+    When assignment operations are performed with looneyTunesTest data
+    Then all actions should be logged for compliance purposes
+    And audit trails should meet regulatory requirements
+    And data retention policies should be enforced correctly
+    And compliance reports should include assignment activities
+
+  @production @integration-endpoints
+  Scenario: API and integration endpoint validation
+    Given external systems integrate with assignment APIs
+    When API calls are made for looneyTunesTest assignments
+    Then API responses should be consistent with UI operations
+    And authentication should be properly validated
+    And rate limiting should be enforced correctly
+    And API versioning should maintain backward compatibility
+
+  @production @real-time-updates
+  Scenario: Real-time update propagation across systems
+    Given multiple users are viewing assignment interfaces
+    And real-time updates are enabled
+    When assignments are made by one user
+    Then other users should see updates immediately
+    And WebSocket connections should remain stable
+    And update conflicts should be resolved correctly
+    And system performance should not degrade with multiple concurrent users

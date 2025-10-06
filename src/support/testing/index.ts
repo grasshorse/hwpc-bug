@@ -10,6 +10,13 @@ export { TestModeDetector } from './TestModeDetector';
 export { ModeValidator } from './ModeValidator';
 export { TestConfigManager, ConfigValidationError } from './TestConfigManager';
 
+// Core test data independence infrastructure
+export { TestDataFactory, BaseTestDataFactory } from './TestDataFactory';
+export { TestContextManager } from './TestContextManager';
+export { IsolationManager } from './IsolationManager';
+export { CleanupService } from './CleanupService';
+export { ProductionSafetyValidator } from './ProductionSafetyValidator';
+
 // Data context management
 export { DataContextManager, BaseDataContextManager } from './DataContextManager';
 export { DatabaseContextManager } from './DatabaseContextManager';
@@ -36,3 +43,30 @@ export type {
   FallbackResult,
   EnvironmentValidation
 } from './ModeValidator';
+
+// Test data independence types
+export type {
+  CustomerOptions,
+  TicketOptions,
+  RouteOptions,
+  Assignment,
+  CleanupTask,
+  CleanupResult,
+  CleanupError,
+  TestOperation,
+  SafetyValidationResult
+} from './TestDataFactory';
+
+export type {
+  ExtendedTestContext,
+  DataRegistry,
+  TestContextManagerOptions
+} from './TestContextManager';
+
+export type {
+  IsolationConfig
+} from './IsolationManager';
+
+export type {
+  CleanupServiceOptions
+} from './CleanupService';
