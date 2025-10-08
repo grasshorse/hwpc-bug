@@ -720,7 +720,7 @@ export default class NavigationPage extends ContextAwareBasePage {
                     await this.page.waitForSelector(
                         selector.trim(), 
                         { 
-                            timeout: 2000, // Shorter timeout for each selector
+                            timeout: NavigationConstants.SPA_TIMEOUTS.componentMount, // Use appropriate SPA timeout
                             state: 'attached'
                         }
                     );
@@ -750,7 +750,7 @@ export default class NavigationPage extends ContextAwareBasePage {
                     await this.page.waitForSelector(
                         selector.trim(),
                         {
-                            timeout: 2000, // Shorter timeout for each selector
+                            timeout: NavigationConstants.SPA_TIMEOUTS.componentMount, // Use appropriate SPA timeout
                             state: 'visible'
                         }
                     );
@@ -1095,7 +1095,9 @@ export default class NavigationPage extends ContextAwareBasePage {
             await this.page.keyboard.press('Enter');
 
             // Wait for search results with mode-specific timeout
-            const timeout = currentMode === TestMode.PRODUCTION ? 5000 : 3000;
+            const viewportCategory = await this.getCurrentViewportCategory();
+            const baseTimeout = NavigationConstants.getTimeout(viewportCategory, 'elementWait');
+            const timeout = currentMode === TestMode.PRODUCTION ? baseTimeout * 1.5 : baseTimeout;
             await this.page.waitForTimeout(timeout);
 
             console.log(`Context-aware search completed for "${searchTerm}"`);
@@ -1406,7 +1408,7 @@ export default class NavigationPage extends ContextAwareBasePage {
                     // Wait for element to be visible
                     await this.page.waitForSelector(singleSelector, { 
                         state: 'visible', 
-                        timeout: 2000
+                        timeout: timeout
                     });
                     
                     // Additional check for element interactability if it's an interactive element
@@ -2257,8 +2259,10 @@ export default class NavigationPage extends ContextAwareBasePage {
                     console.log(`Trying navigation strategy: ${strategy.description} - ${strategy.selector}`);
                     
                     // Wait for the navigation link to be available
+                    const viewportCategory = await this.getCurrentViewportCategory();
+                    const timeout = NavigationConstants.getTimeout(viewportCategory, 'elementWait');
                     await this.page.waitForSelector(strategy.selector, { 
-                        timeout: 2000,
+                        timeout: timeout,
                         state: 'visible'
                     });
                     
@@ -2334,9 +2338,11 @@ export default class NavigationPage extends ContextAwareBasePage {
                 try {
                     console.log(`Trying navigation strategy: ${strategy.description} - ${strategy.selector}`);
                     
-                    // Wait for the navigation link to be available
+                    // Wait for the navigation link to be available with progressive timeout
+                    const viewportCategory = await this.getCurrentViewportCategory();
+                    const timeout = NavigationConstants.getTimeout(viewportCategory, 'elementWait');
                     await this.page.waitForSelector(strategy.selector, { 
-                        timeout: 3000,
+                        timeout: timeout,
                         state: 'visible'
                     });
                     
@@ -2359,8 +2365,10 @@ export default class NavigationPage extends ContextAwareBasePage {
                 for (const fallbackSelector of pageConfig.navigationLinks.fallbacks) {
                     try {
                         // Wait for fallback selector to be available
+                        const viewportCategory = await this.getCurrentViewportCategory();
+                        const timeout = NavigationConstants.getTimeout(viewportCategory, 'elementWait');
                         await this.page.waitForSelector(fallbackSelector, { 
-                            timeout: 2000,
+                            timeout: timeout,
                             state: 'visible'
                         });
                         

@@ -1,0 +1,1112 @@
+{
+  "config": {
+    "pages": [
+      "home",
+      "customers"
+    ],
+    "viewports": [
+      "mobile",
+      "desktop"
+    ],
+    "iterations": 2,
+    "includeFailureScenarios": true,
+    "outputPath": "baseline-results"
+  },
+  "environment": "local",
+  "timestamp": 1759944452907,
+  "totalDuration": 132845,
+  "results": {
+    "mobile": {
+      "home": {
+        "measurements": [
+          {
+            "operation": "page_load",
+            "startTime": 1404.9309,
+            "endTime": 1630.4454,
+            "actualDuration": 225.5145,
+            "configuredTimeout": 25000,
+            "timeoutUsed": 225.5145,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "spa_initialization",
+            "startTime": 1630.6249,
+            "endTime": 1654.4213,
+            "actualDuration": 23.79639999999995,
+            "configuredTimeout": 15000,
+            "timeoutUsed": 23.79639999999995,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "navigation_rendering",
+            "startTime": 1654.5712,
+            "endTime": 1663.1258,
+            "actualDuration": 8.554599999999937,
+            "configuredTimeout": 8000,
+            "timeoutUsed": 8000,
+            "success": false,
+            "errorMessage": "page.waitForFunction: ReferenceError: _NavigationConstants is not defined\n    at eval (eval at predicate (eval at evaluate (:191:30)), <anonymous>:2:53)\n    at predicate (eval at evaluate (:191:30), <anonymous>:11:20)\n    at eval (eval at evaluate (:191:30), <anonymous>:22:82)\n    at next (<anonymous>:4411:27)\n    at <anonymous>:4421:7\n    at Object.run (<anonymous>:4465:22)\n    at eval (eval at evaluate (:191:30), <anonymous>:1:14)\n    at UtilityScript.evaluate (<anonymous>:193:17)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n=========================== logs ===========================\n  _NavigationConstants is not defined\n============================================================",
+            "metadata": {
+              "pageName": "home",
+              "selector": "[data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .navigation, .nav-menu",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "network_idle",
+            "startTime": 1663.2495,
+            "endTime": 2519.5689,
+            "actualDuration": 856.3194000000003,
+            "configuredTimeout": 10000,
+            "timeoutUsed": 856.3194000000003,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 2519.9943,
+            "endTime": 2576.7837,
+            "actualDuration": 56.789400000000114,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 56.789400000000114,
+            "success": true,
+            "metadata": {
+              "selector": "[data-testid=\"home-page\"], [data-testid=\"dashboard-page\"], .home-page, .dashboard-page, .main-content, body",
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 2576.8375,
+            "endTime": 2592.5381,
+            "actualDuration": 15.700600000000122,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 15.700600000000122,
+            "success": true,
+            "metadata": {
+              "selector": ".navigation, [data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .nav-menu",
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 2592.5614,
+            "endTime": 20609.349,
+            "actualDuration": 18016.7876,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 18000,
+            "success": false,
+            "errorMessage": "page.waitForSelector: Timeout 18000ms exceeded.\n=========================== logs ===========================\nwaiting for selector \".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"search-interface\"], .search-interface\" to be visible\n============================================================",
+            "metadata": {
+              "selector": ".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"search-interface\"], .search-interface",
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "page_load",
+            "startTime": 21614.8055,
+            "endTime": 21711.4572,
+            "actualDuration": 96.65170000000217,
+            "configuredTimeout": 25000,
+            "timeoutUsed": 96.65170000000217,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "spa_initialization",
+            "startTime": 21711.6062,
+            "endTime": 21736.3537,
+            "actualDuration": 24.74750000000131,
+            "configuredTimeout": 15000,
+            "timeoutUsed": 24.74750000000131,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "navigation_rendering",
+            "startTime": 21736.3898,
+            "endTime": 21748.8367,
+            "actualDuration": 12.446899999999005,
+            "configuredTimeout": 8000,
+            "timeoutUsed": 8000,
+            "success": false,
+            "errorMessage": "page.waitForFunction: ReferenceError: _NavigationConstants is not defined\n    at eval (eval at predicate (eval at evaluate (:191:30)), <anonymous>:2:53)\n    at predicate (eval at evaluate (:191:30), <anonymous>:11:20)\n    at eval (eval at evaluate (:191:30), <anonymous>:22:82)\n    at next (<anonymous>:4411:27)\n    at <anonymous>:4421:7\n    at Object.run (<anonymous>:4465:22)\n    at eval (eval at evaluate (:191:30), <anonymous>:1:14)\n    at UtilityScript.evaluate (<anonymous>:193:17)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n=========================== logs ===========================\n  _NavigationConstants is not defined\n============================================================",
+            "metadata": {
+              "pageName": "home",
+              "selector": "[data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .navigation, .nav-menu",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "network_idle",
+            "startTime": 21748.8808,
+            "endTime": 21748.9017,
+            "actualDuration": 0.020899999999528518,
+            "configuredTimeout": 10000,
+            "timeoutUsed": 0.020899999999528518,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 21748.9379,
+            "endTime": 21770.3253,
+            "actualDuration": 21.387399999999616,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 21.387399999999616,
+            "success": true,
+            "metadata": {
+              "selector": "[data-testid=\"home-page\"], [data-testid=\"dashboard-page\"], .home-page, .dashboard-page, .main-content, body",
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 21770.3837,
+            "endTime": 22448.4831,
+            "actualDuration": 678.0994000000028,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 678.0994000000028,
+            "success": true,
+            "metadata": {
+              "selector": ".navigation, [data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .nav-menu",
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 22448.5305,
+            "endTime": 40456.1085,
+            "actualDuration": 18007.578,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 18000,
+            "success": false,
+            "errorMessage": "page.waitForSelector: Timeout 18000ms exceeded.\n=========================== logs ===========================\nwaiting for selector \".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"search-interface\"], .search-interface\" to be visible\n============================================================",
+            "metadata": {
+              "selector": ".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"search-interface\"], .search-interface",
+              "pageName": "home",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          }
+        ],
+        "metrics": {
+          "totalMeasurements": 14,
+          "successfulOperations": 10,
+          "failedOperations": 4,
+          "averageDuration": 199.90272000000058,
+          "medianDuration": 56.789400000000114,
+          "p95Duration": 856.3194000000003,
+          "p99Duration": 856.3194000000003,
+          "timeoutUtilization": 24.106708571428577,
+          "wastedTime": 170000.9728,
+          "operationBreakdown": {
+            "page_load": {
+              "count": 2,
+              "averageDuration": 161.08310000000108,
+              "averageTimeout": 25000,
+              "wastedTime": 49677.83379999999
+            },
+            "spa_initialization": {
+              "count": 2,
+              "averageDuration": 24.27195000000063,
+              "averageTimeout": 15000,
+              "wastedTime": 29951.4561
+            },
+            "navigation_rendering": {
+              "count": 2,
+              "averageDuration": 10.50074999999947,
+              "averageTimeout": 8000,
+              "wastedTime": 0
+            },
+            "network_idle": {
+              "count": 2,
+              "averageDuration": 428.1701499999999,
+              "averageTimeout": 10000,
+              "wastedTime": 19143.6597
+            },
+            "element_waiting": {
+              "count": 6,
+              "averageDuration": 6132.723733333335,
+              "averageTimeout": 18000,
+              "wastedTime": 71228.0232
+            }
+          }
+        }
+      },
+      "customers": {
+        "measurements": [
+          {
+            "operation": "page_load",
+            "startTime": 40648.9826,
+            "endTime": 40930.8477,
+            "actualDuration": 281.86509999999544,
+            "configuredTimeout": 25000,
+            "timeoutUsed": 281.86509999999544,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "spa_initialization",
+            "startTime": 40930.8905,
+            "endTime": 40969.7463,
+            "actualDuration": 38.855799999997544,
+            "configuredTimeout": 15000,
+            "timeoutUsed": 38.855799999997544,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "navigation_rendering",
+            "startTime": 40969.7914,
+            "endTime": 40986.3268,
+            "actualDuration": 16.535400000000664,
+            "configuredTimeout": 8000,
+            "timeoutUsed": 8000,
+            "success": false,
+            "errorMessage": "page.waitForFunction: ReferenceError: _NavigationConstants is not defined\n    at eval (eval at predicate (eval at evaluate (:191:30)), <anonymous>:2:53)\n    at predicate (eval at evaluate (:191:30), <anonymous>:11:20)\n    at eval (eval at evaluate (:191:30), <anonymous>:22:82)\n    at next (<anonymous>:4411:27)\n    at <anonymous>:4421:7\n    at Object.run (<anonymous>:4465:22)\n    at eval (eval at evaluate (:191:30), <anonymous>:1:14)\n    at UtilityScript.evaluate (<anonymous>:193:17)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n=========================== logs ===========================\n  _NavigationConstants is not defined\n============================================================",
+            "metadata": {
+              "pageName": "customers",
+              "selector": "[data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .navigation, .nav-menu",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "network_idle",
+            "startTime": 40986.4003,
+            "endTime": 41757.6243,
+            "actualDuration": 771.224000000002,
+            "configuredTimeout": 10000,
+            "timeoutUsed": 771.224000000002,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 41757.6747,
+            "endTime": 41805.2713,
+            "actualDuration": 47.596599999997125,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 47.596599999997125,
+            "success": true,
+            "metadata": {
+              "selector": "[data-testid=\"customers-page\"], .customers-page, .main-content, body",
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 41805.3176,
+            "endTime": 41827.1081,
+            "actualDuration": 21.790499999995518,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 21.790499999995518,
+            "success": true,
+            "metadata": {
+              "selector": ".navigation, [data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .nav-menu",
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 41827.1538,
+            "endTime": 59839.6737,
+            "actualDuration": 18012.5199,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 18000,
+            "success": false,
+            "errorMessage": "page.waitForSelector: Timeout 18000ms exceeded.\n=========================== logs ===========================\nwaiting for selector \".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"customer-search\"], .customer-search\" to be visible\n============================================================",
+            "metadata": {
+              "selector": ".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"customer-search\"], .customer-search",
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "page_load",
+            "startTime": 60854.5084,
+            "endTime": 60956.5894,
+            "actualDuration": 102.08099999999831,
+            "configuredTimeout": 25000,
+            "timeoutUsed": 102.08099999999831,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "spa_initialization",
+            "startTime": 60956.6236,
+            "endTime": 60973.689,
+            "actualDuration": 17.0653999999995,
+            "configuredTimeout": 15000,
+            "timeoutUsed": 17.0653999999995,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "navigation_rendering",
+            "startTime": 60973.7527,
+            "endTime": 60983.3772,
+            "actualDuration": 9.624500000005355,
+            "configuredTimeout": 8000,
+            "timeoutUsed": 8000,
+            "success": false,
+            "errorMessage": "page.waitForFunction: ReferenceError: _NavigationConstants is not defined\n    at eval (eval at predicate (eval at evaluate (:191:30)), <anonymous>:2:53)\n    at predicate (eval at evaluate (:191:30), <anonymous>:11:20)\n    at eval (eval at evaluate (:191:30), <anonymous>:22:82)\n    at next (<anonymous>:4411:27)\n    at <anonymous>:4421:7\n    at Object.run (<anonymous>:4465:22)\n    at eval (eval at evaluate (:191:30), <anonymous>:1:14)\n    at UtilityScript.evaluate (<anonymous>:193:17)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n=========================== logs ===========================\n  _NavigationConstants is not defined\n============================================================",
+            "metadata": {
+              "pageName": "customers",
+              "selector": "[data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .navigation, .nav-menu",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "network_idle",
+            "startTime": 60983.4165,
+            "endTime": 60983.436,
+            "actualDuration": 0.019500000002153683,
+            "configuredTimeout": 10000,
+            "timeoutUsed": 0.019500000002153683,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 60983.4635,
+            "endTime": 60995.5839,
+            "actualDuration": 12.12039999999979,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 12.12039999999979,
+            "success": true,
+            "metadata": {
+              "selector": "[data-testid=\"customers-page\"], .customers-page, .main-content, body",
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 60995.6117,
+            "endTime": 61728.8581,
+            "actualDuration": 733.2463999999964,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 733.2463999999964,
+            "success": true,
+            "metadata": {
+              "selector": ".navigation, [data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .nav-menu",
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 61728.8808,
+            "endTime": 79738.1463,
+            "actualDuration": 18009.265499999994,
+            "configuredTimeout": 18000,
+            "timeoutUsed": 18000,
+            "success": false,
+            "errorMessage": "page.waitForSelector: Timeout 18000ms exceeded.\n=========================== logs ===========================\nwaiting for selector \".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"customer-search\"], .customer-search\" to be visible\n============================================================",
+            "metadata": {
+              "selector": ".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"customer-search\"], .customer-search",
+              "pageName": "customers",
+              "viewport": "mobile",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          }
+        ],
+        "metrics": {
+          "totalMeasurements": 14,
+          "successfulOperations": 10,
+          "failedOperations": 4,
+          "averageDuration": 202.58646999999837,
+          "medianDuration": 47.596599999997125,
+          "p95Duration": 771.224000000002,
+          "p99Duration": 771.224000000002,
+          "timeoutUtilization": 24.118689598214278,
+          "wastedTime": 169974.13530000002,
+          "operationBreakdown": {
+            "page_load": {
+              "count": 2,
+              "averageDuration": 191.97304999999687,
+              "averageTimeout": 25000,
+              "wastedTime": 49616.053900000006
+            },
+            "spa_initialization": {
+              "count": 2,
+              "averageDuration": 27.96059999999852,
+              "averageTimeout": 15000,
+              "wastedTime": 29944.078800000003
+            },
+            "navigation_rendering": {
+              "count": 2,
+              "averageDuration": 13.07995000000301,
+              "averageTimeout": 8000,
+              "wastedTime": 0
+            },
+            "network_idle": {
+              "count": 2,
+              "averageDuration": 385.62175000000207,
+              "averageTimeout": 10000,
+              "wastedTime": 19228.756499999996
+            },
+            "element_waiting": {
+              "count": 6,
+              "averageDuration": 6139.423216666663,
+              "averageTimeout": 18000,
+              "wastedTime": 71185.24610000002
+            }
+          }
+        }
+      }
+    },
+    "desktop": {
+      "home": {
+        "measurements": [
+          {
+            "operation": "page_load",
+            "startTime": 79914.3312,
+            "endTime": 80135.3216,
+            "actualDuration": 220.99039999999513,
+            "configuredTimeout": 20000,
+            "timeoutUsed": 220.99039999999513,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "spa_initialization",
+            "startTime": 80135.3423,
+            "endTime": 80155.5303,
+            "actualDuration": 20.187999999994645,
+            "configuredTimeout": 15000,
+            "timeoutUsed": 20.187999999994645,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "navigation_rendering",
+            "startTime": 80155.5517,
+            "endTime": 80162.3243,
+            "actualDuration": 6.772599999996601,
+            "configuredTimeout": 8000,
+            "timeoutUsed": 8000,
+            "success": false,
+            "errorMessage": "page.waitForFunction: ReferenceError: _NavigationConstants is not defined\n    at eval (eval at predicate (eval at evaluate (:191:30)), <anonymous>:2:53)\n    at predicate (eval at evaluate (:191:30), <anonymous>:11:20)\n    at eval (eval at evaluate (:191:30), <anonymous>:22:82)\n    at next (<anonymous>:4411:27)\n    at <anonymous>:4421:7\n    at Object.run (<anonymous>:4465:22)\n    at eval (eval at evaluate (:191:30), <anonymous>:1:14)\n    at UtilityScript.evaluate (<anonymous>:193:17)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n=========================== logs ===========================\n  _NavigationConstants is not defined\n============================================================",
+            "metadata": {
+              "pageName": "home",
+              "selector": "[data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .navigation, .nav-menu",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "network_idle",
+            "startTime": 80162.3473,
+            "endTime": 81022.4141,
+            "actualDuration": 860.0668000000005,
+            "configuredTimeout": 7000,
+            "timeoutUsed": 860.0668000000005,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 81022.5012,
+            "endTime": 81070.1585,
+            "actualDuration": 47.65730000000622,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 47.65730000000622,
+            "success": true,
+            "metadata": {
+              "selector": "[data-testid=\"home-page\"], [data-testid=\"dashboard-page\"], .home-page, .dashboard-page, .main-content, body",
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 81070.2247,
+            "endTime": 81091.0562,
+            "actualDuration": 20.831500000000233,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 20.831500000000233,
+            "success": true,
+            "metadata": {
+              "selector": ".navigation, [data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .nav-menu",
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 81091.096,
+            "endTime": 93101.1963,
+            "actualDuration": 12010.100299999991,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 12000,
+            "success": false,
+            "errorMessage": "page.waitForSelector: Timeout 12000ms exceeded.\n=========================== logs ===========================\nwaiting for selector \".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"search-interface\"], .search-interface\" to be visible\n============================================================",
+            "metadata": {
+              "selector": ".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"search-interface\"], .search-interface",
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "page_load",
+            "startTime": 94111.1294,
+            "endTime": 94180.0081,
+            "actualDuration": 68.87870000000112,
+            "configuredTimeout": 20000,
+            "timeoutUsed": 68.87870000000112,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "spa_initialization",
+            "startTime": 94180.0465,
+            "endTime": 94191.7424,
+            "actualDuration": 11.695900000006077,
+            "configuredTimeout": 15000,
+            "timeoutUsed": 11.695900000006077,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "navigation_rendering",
+            "startTime": 94191.7675,
+            "endTime": 94195.8351,
+            "actualDuration": 4.067599999994854,
+            "configuredTimeout": 8000,
+            "timeoutUsed": 8000,
+            "success": false,
+            "errorMessage": "page.waitForFunction: ReferenceError: _NavigationConstants is not defined\n    at eval (eval at predicate (eval at evaluate (:191:30)), <anonymous>:2:53)\n    at predicate (eval at evaluate (:191:30), <anonymous>:11:20)\n    at eval (eval at evaluate (:191:30), <anonymous>:22:82)\n    at next (<anonymous>:4411:27)\n    at <anonymous>:4421:7\n    at Object.run (<anonymous>:4465:22)\n    at eval (eval at evaluate (:191:30), <anonymous>:1:14)\n    at UtilityScript.evaluate (<anonymous>:193:17)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n=========================== logs ===========================\n  _NavigationConstants is not defined\n============================================================",
+            "metadata": {
+              "pageName": "home",
+              "selector": "[data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .navigation, .nav-menu",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "network_idle",
+            "startTime": 94195.8585,
+            "endTime": 94195.8719,
+            "actualDuration": 0.013399999996181577,
+            "configuredTimeout": 7000,
+            "timeoutUsed": 0.013399999996181577,
+            "success": true,
+            "metadata": {
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 94195.8904,
+            "endTime": 94203.9009,
+            "actualDuration": 8.010499999989406,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 8.010499999989406,
+            "success": true,
+            "metadata": {
+              "selector": "[data-testid=\"home-page\"], [data-testid=\"dashboard-page\"], .home-page, .dashboard-page, .main-content, body",
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 94203.9115,
+            "endTime": 94954.3377,
+            "actualDuration": 750.4262000000017,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 750.4262000000017,
+            "success": true,
+            "metadata": {
+              "selector": ".navigation, [data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .nav-menu",
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 94954.3576,
+            "endTime": 106962.3372,
+            "actualDuration": 12007.979599999991,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 12000,
+            "success": false,
+            "errorMessage": "page.waitForSelector: Timeout 12000ms exceeded.\n=========================== logs ===========================\nwaiting for selector \".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"search-interface\"], .search-interface\" to be visible\n============================================================",
+            "metadata": {
+              "selector": ".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"search-interface\"], .search-interface",
+              "pageName": "home",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          }
+        ],
+        "metrics": {
+          "totalMeasurements": 14,
+          "successfulOperations": 10,
+          "failedOperations": 4,
+          "averageDuration": 200.8758699999991,
+          "medianDuration": 47.65730000000622,
+          "p95Duration": 860.0668000000005,
+          "p99Duration": 860.0668000000005,
+          "timeoutUtilization": 24.423696918604644,
+          "wastedTime": 129991.24130000001,
+          "operationBreakdown": {
+            "page_load": {
+              "count": 2,
+              "averageDuration": 144.93454999999813,
+              "averageTimeout": 20000,
+              "wastedTime": 39710.130900000004
+            },
+            "spa_initialization": {
+              "count": 2,
+              "averageDuration": 15.94195000000036,
+              "averageTimeout": 15000,
+              "wastedTime": 29968.1161
+            },
+            "navigation_rendering": {
+              "count": 2,
+              "averageDuration": 5.420099999995728,
+              "averageTimeout": 8000,
+              "wastedTime": 0
+            },
+            "network_idle": {
+              "count": 2,
+              "averageDuration": 430.04009999999835,
+              "averageTimeout": 7000,
+              "wastedTime": 13139.919800000003
+            },
+            "element_waiting": {
+              "count": 6,
+              "averageDuration": 4140.83423333333,
+              "averageTimeout": 12000,
+              "wastedTime": 47173.0745
+            }
+          }
+        }
+      },
+      "customers": {
+        "measurements": [
+          {
+            "operation": "page_load",
+            "startTime": 107076.7806,
+            "endTime": 107269.0155,
+            "actualDuration": 192.23489999999583,
+            "configuredTimeout": 20000,
+            "timeoutUsed": 192.23489999999583,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "spa_initialization",
+            "startTime": 107269.0428,
+            "endTime": 107288.4476,
+            "actualDuration": 19.40480000000389,
+            "configuredTimeout": 15000,
+            "timeoutUsed": 19.40480000000389,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "navigation_rendering",
+            "startTime": 107288.4699,
+            "endTime": 107295.8364,
+            "actualDuration": 7.366500000003725,
+            "configuredTimeout": 8000,
+            "timeoutUsed": 8000,
+            "success": false,
+            "errorMessage": "page.waitForFunction: ReferenceError: _NavigationConstants is not defined\n    at eval (eval at predicate (eval at evaluate (:191:30)), <anonymous>:2:53)\n    at predicate (eval at evaluate (:191:30), <anonymous>:11:20)\n    at eval (eval at evaluate (:191:30), <anonymous>:22:82)\n    at next (<anonymous>:4411:27)\n    at <anonymous>:4421:7\n    at Object.run (<anonymous>:4465:22)\n    at eval (eval at evaluate (:191:30), <anonymous>:1:14)\n    at UtilityScript.evaluate (<anonymous>:193:17)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n=========================== logs ===========================\n  _NavigationConstants is not defined\n============================================================",
+            "metadata": {
+              "pageName": "customers",
+              "selector": "[data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .navigation, .nav-menu",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "network_idle",
+            "startTime": 107295.8629,
+            "endTime": 108172.9727,
+            "actualDuration": 877.1098000000056,
+            "configuredTimeout": 7000,
+            "timeoutUsed": 877.1098000000056,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 108173.0002,
+            "endTime": 108207.9235,
+            "actualDuration": 34.923300000009476,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 34.923300000009476,
+            "success": true,
+            "metadata": {
+              "selector": "[data-testid=\"customers-page\"], .customers-page, .main-content, body",
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 108207.9416,
+            "endTime": 108218.2248,
+            "actualDuration": 10.283199999990757,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 10.283199999990757,
+            "success": true,
+            "metadata": {
+              "selector": ".navigation, [data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .nav-menu",
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 108218.2362,
+            "endTime": 120222.9199,
+            "actualDuration": 12004.683699999994,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 12000,
+            "success": false,
+            "errorMessage": "page.waitForSelector: Timeout 12000ms exceeded.\n=========================== logs ===========================\nwaiting for selector \".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"customer-search\"], .customer-search\" to be visible\n============================================================",
+            "metadata": {
+              "selector": ".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"customer-search\"], .customer-search",
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "page_load",
+            "startTime": 121240.1031,
+            "endTime": 121297.8138,
+            "actualDuration": 57.71070000001055,
+            "configuredTimeout": 20000,
+            "timeoutUsed": 57.71070000001055,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "spa_initialization",
+            "startTime": 121297.8335,
+            "endTime": 121310.3608,
+            "actualDuration": 12.52730000000156,
+            "configuredTimeout": 15000,
+            "timeoutUsed": 12.52730000000156,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "navigation_rendering",
+            "startTime": 121310.3842,
+            "endTime": 121314.593,
+            "actualDuration": 4.208799999993062,
+            "configuredTimeout": 8000,
+            "timeoutUsed": 8000,
+            "success": false,
+            "errorMessage": "page.waitForFunction: ReferenceError: _NavigationConstants is not defined\n    at eval (eval at predicate (eval at evaluate (:191:30)), <anonymous>:2:53)\n    at predicate (eval at evaluate (:191:30), <anonymous>:11:20)\n    at eval (eval at evaluate (:191:30), <anonymous>:22:82)\n    at next (<anonymous>:4411:27)\n    at <anonymous>:4421:7\n    at Object.run (<anonymous>:4465:22)\n    at eval (eval at evaluate (:191:30), <anonymous>:1:14)\n    at UtilityScript.evaluate (<anonymous>:193:17)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n=========================== logs ===========================\n  _NavigationConstants is not defined\n============================================================",
+            "metadata": {
+              "pageName": "customers",
+              "selector": "[data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .navigation, .nav-menu",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "network_idle",
+            "startTime": 121314.6145,
+            "endTime": 121314.626,
+            "actualDuration": 0.011500000007799827,
+            "configuredTimeout": 7000,
+            "timeoutUsed": 0.011500000007799827,
+            "success": true,
+            "metadata": {
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 121314.6385,
+            "endTime": 121322.934,
+            "actualDuration": 8.295499999992899,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 8.295499999992899,
+            "success": true,
+            "metadata": {
+              "selector": "[data-testid=\"customers-page\"], .customers-page, .main-content, body",
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/customers"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 121322.9455,
+            "endTime": 122070.4647,
+            "actualDuration": 747.5191999999952,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 747.5191999999952,
+            "success": true,
+            "metadata": {
+              "selector": ".navigation, [data-testid=\"main-navigation\"], .main-nav, .navbar-nav, .nav-menu",
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          },
+          {
+            "operation": "element_waiting",
+            "startTime": 122070.484,
+            "endTime": 134081.3996,
+            "actualDuration": 12010.915600000008,
+            "configuredTimeout": 12000,
+            "timeoutUsed": 12000,
+            "success": false,
+            "errorMessage": "page.waitForSelector: Timeout 12000ms exceeded.\n=========================== logs ===========================\nwaiting for selector \".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"customer-search\"], .customer-search\" to be visible\n============================================================",
+            "metadata": {
+              "selector": ".search-container, .search-wrapper, [data-search], [data-testid=\"search-container\"], [data-testid=\"customer-search\"], .customer-search",
+              "pageName": "customers",
+              "viewport": "desktop",
+              "environment": "local",
+              "url": "http://localhost:3000/"
+            }
+          }
+        ],
+        "metrics": {
+          "totalMeasurements": 14,
+          "successfulOperations": 10,
+          "failedOperations": 4,
+          "averageDuration": 196.00202000000135,
+          "medianDuration": 34.923300000009476,
+          "p95Duration": 877.1098000000056,
+          "p99Duration": 877.1098000000056,
+          "timeoutUtilization": 24.395360581395355,
+          "wastedTime": 130039.97979999999,
+          "operationBreakdown": {
+            "page_load": {
+              "count": 2,
+              "averageDuration": 124.97280000000319,
+              "averageTimeout": 20000,
+              "wastedTime": 39750.05439999999
+            },
+            "spa_initialization": {
+              "count": 2,
+              "averageDuration": 15.966050000002724,
+              "averageTimeout": 15000,
+              "wastedTime": 29968.067899999995
+            },
+            "navigation_rendering": {
+              "count": 2,
+              "averageDuration": 5.7876499999983935,
+              "averageTimeout": 8000,
+              "wastedTime": 0
+            },
+            "network_idle": {
+              "count": 2,
+              "averageDuration": 438.5606500000067,
+              "averageTimeout": 7000,
+              "wastedTime": 13122.878699999987
+            },
+            "element_waiting": {
+              "count": 6,
+              "averageDuration": 4136.103416666665,
+              "averageTimeout": 12000,
+              "wastedTime": 47198.97880000001
+            }
+          }
+        }
+      }
+    }
+  },
+  "summary": {
+    "totalMeasurements": 56,
+    "totalWastedTime": 600006.3292,
+    "averageTimeoutUtilization": 24.261113917410714,
+    "potentialTimeSavings": 600006.3292,
+    "recommendations": [
+      "Low timeout utilization (24.3%) indicates timeouts are too conservative. Consider implementing smart timeout strategies with progressive timeouts.",
+      "High average wasted time per operation (10714ms). Implement application-specific readiness detection to reduce unnecessary waiting.",
+      "Significant time savings potential: 10.0 minutes could be saved across all measured operations. Prioritize timeout optimization implementation.",
+      "Local environment detected. Implement fast timeout profiles for local development to improve developer experience and test feedback speed."
+    ]
+  }
+}

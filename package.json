@@ -39,7 +39,9 @@
     "test:isolated:api": "cross-env TEST_MODE=isolated npx cucumber-js -p isolated --tags \"@api and @isolated\" & cross-env TEST_MODE=isolated npx ts-node ./src/support/reporter/HTMLReporter.ts & cross-env TEST_MODE=isolated npx ts-node ./src/support/reporter/CucumberReporter.ts",
     "test:production:api": "cross-env TEST_MODE=production npx cucumber-js -p production --tags \"@api and @production\" & cross-env TEST_MODE=production npx ts-node ./src/support/reporter/HTMLReporter.ts & cross-env TEST_MODE=production npx ts-node ./src/support/reporter/CucumberReporter.ts",
     "dry:test:isolated": "cross-env TEST_MODE=isolated npx cucumber-js -p isolated --dry-run",
-    "dry:test:production": "cross-env TEST_MODE=production npx cucumber-js -p production --dry-run"
+    "dry:test:production": "cross-env TEST_MODE=production npx cucumber-js -p production --dry-run",
+    "baseline:timeout": "npx ts-node scripts/run-baseline-measurements.ts",
+    "test:baseline": "npx playwright test src/tests/baseline/timeout-performance-baseline.test.ts --reporter=line"
   },
   "keywords": [],
   "author": "Chris Trees",

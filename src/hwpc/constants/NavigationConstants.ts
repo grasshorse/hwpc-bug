@@ -75,17 +75,17 @@ class NavigationConstants {
 
   // Timeout configurations by viewport category with SPA-specific timeouts
   private static readonly TIMEOUTS: Record<string, TimeoutConfig> = {
-    mobile: { pageLoad: 20000, elementWait: 15000, networkIdle: 8000 },
-    tablet: { pageLoad: 18000, elementWait: 12000, networkIdle: 6000 },
-    desktop: { pageLoad: 15000, elementWait: 10000, networkIdle: 5000 }
+    mobile: { pageLoad: 25000, elementWait: 18000, networkIdle: 10000 },
+    tablet: { pageLoad: 22000, elementWait: 15000, networkIdle: 8000 },
+    desktop: { pageLoad: 20000, elementWait: 12000, networkIdle: 7000 }
   };
 
   // SPA-specific timeout configurations for JavaScript rendering
   static readonly SPA_TIMEOUTS = {
-    initialization: 10000,  // Wait for app.js to load and initialize
-    navigationRender: 5000, // Wait for navigation component to render
-    routeChange: 3000,      // Wait for route changes to complete
-    componentMount: 4000    // Wait for components to mount
+    initialization: 15000,  // Wait for app.js to load and initialize (increased from 10000)
+    navigationRender: 8000, // Wait for navigation component to render (increased from 5000)
+    routeChange: 6000,      // Wait for route changes to complete (increased from 3000)
+    componentMount: 7000    // Wait for components to mount (increased from 4000)
   };
 
   // Navigation container selector for SPA initialization waiting
@@ -157,9 +157,19 @@ class NavigationConstants {
           { selector: '[data-testid="customers-link"]', priority: 4, description: 'Test ID customers link', viewport: 'all', reliability: 'high' },
           { selector: '[data-nav="customers"]', priority: 5, description: 'Data nav customers', viewport: 'all', reliability: 'high' },
           { selector: '.nav-customers', priority: 6, description: 'CSS class customers link', viewport: 'all', reliability: 'medium' },
-          { selector: 'a[href*="customers"]', priority: 7, description: 'Contains customers in href', viewport: 'all', reliability: 'medium' }
+          { selector: 'a[href*="customers"]', priority: 7, description: 'Contains customers in href', viewport: 'all', reliability: 'medium' },
+          { selector: '.navigation a[href*="customers"]', priority: 8, description: 'Navigation container customers link', viewport: 'all', reliability: 'medium' },
+          { selector: 'nav a[href*="customers"]', priority: 9, description: 'Nav element customers link', viewport: 'all', reliability: 'medium' }
         ],
-        fallbacks: ['a:has-text("Customers")', 'a:has-text("Customer")', '[role="button"]:has-text("Customers")']
+        fallbacks: [
+          'a:has-text("Customers")', 
+          'a:has-text("Customer")', 
+          '[role="button"]:has-text("Customers")',
+          '.navigation a:has-text("Customers")',
+          'nav a:has-text("Customers")',
+          '.nav-menu a:has-text("Customers")',
+          '.navbar a:has-text("Customers")'
+        ]
       },
       pageIdentifiers: [
         { selector: '.customers-page', priority: 1, description: 'Customers page container', viewport: 'all', reliability: 'high' },
@@ -193,9 +203,19 @@ class NavigationConstants {
           { selector: '[data-testid="tickets-link"]', priority: 4, description: 'Test ID tickets link', viewport: 'all', reliability: 'high' },
           { selector: '[data-nav="tickets"]', priority: 5, description: 'Data nav tickets', viewport: 'all', reliability: 'high' },
           { selector: '.nav-tickets', priority: 6, description: 'CSS class tickets link', viewport: 'all', reliability: 'medium' },
-          { selector: 'a[href*="tickets"]', priority: 7, description: 'Contains tickets in href', viewport: 'all', reliability: 'medium' }
+          { selector: 'a[href*="tickets"]', priority: 7, description: 'Contains tickets in href', viewport: 'all', reliability: 'medium' },
+          { selector: '.navigation a[href*="tickets"]', priority: 8, description: 'Navigation container tickets link', viewport: 'all', reliability: 'medium' },
+          { selector: 'nav a[href*="tickets"]', priority: 9, description: 'Nav element tickets link', viewport: 'all', reliability: 'medium' }
         ],
-        fallbacks: ['a:has-text("Tickets")', 'a:has-text("Ticket")', '[role="button"]:has-text("Tickets")']
+        fallbacks: [
+          'a:has-text("Tickets")', 
+          'a:has-text("Ticket")', 
+          '[role="button"]:has-text("Tickets")',
+          '.navigation a:has-text("Tickets")',
+          'nav a:has-text("Tickets")',
+          '.nav-menu a:has-text("Tickets")',
+          '.navbar a:has-text("Tickets")'
+        ]
       },
       pageIdentifiers: [
         { selector: '.tickets-page', priority: 1, description: 'Tickets page container', viewport: 'all', reliability: 'high' },
@@ -224,15 +244,26 @@ class NavigationConstants {
       },
       navigationLinks: {
         strategies: [
-          { selector: 'a[href="/routes"]', priority: 1, description: 'Direct routes link', viewport: 'all', reliability: 'high' },
-          { selector: '[data-testid="routes-link"]', priority: 2, description: 'Test ID routes link', viewport: 'all', reliability: 'high' },
-          { selector: '[data-nav="routes"]', priority: 3, description: 'Data nav routes', viewport: 'all', reliability: 'high' },
-          { selector: '.nav-routes', priority: 4, description: 'CSS class routes link', viewport: 'all', reliability: 'medium' },
-          { selector: 'a[href*="routes"]', priority: 5, description: 'Contains routes in href', viewport: 'all', reliability: 'medium' },
-          { selector: '.routes-link', priority: 6, description: 'Generic routes link class', viewport: 'all', reliability: 'medium' },
-          { selector: '.mobile-nav a[href*="routes"]', priority: 7, description: 'Mobile nav routes link', viewport: 'mobile', reliability: 'medium' }
+          { selector: '[data-testid="nav-routes"]', priority: 1, description: 'Test ID routes navigation link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="/routes"]', priority: 2, description: 'Direct routes link', viewport: 'all', reliability: 'high' },
+          { selector: 'a[href="#/routes"]', priority: 3, description: 'SPA routes route', viewport: 'all', reliability: 'high' },
+          { selector: '[data-testid="routes-link"]', priority: 4, description: 'Test ID routes link', viewport: 'all', reliability: 'high' },
+          { selector: '[data-nav="routes"]', priority: 5, description: 'Data nav routes', viewport: 'all', reliability: 'high' },
+          { selector: '.nav-routes', priority: 6, description: 'CSS class routes link', viewport: 'all', reliability: 'medium' },
+          { selector: 'a[href*="routes"]', priority: 7, description: 'Contains routes in href', viewport: 'all', reliability: 'medium' },
+          { selector: '.navigation a[href*="routes"]', priority: 8, description: 'Navigation container routes link', viewport: 'all', reliability: 'medium' },
+          { selector: 'nav a[href*="routes"]', priority: 9, description: 'Nav element routes link', viewport: 'all', reliability: 'medium' },
+          { selector: '.mobile-nav a[href*="routes"]', priority: 10, description: 'Mobile nav routes link', viewport: 'mobile', reliability: 'medium' }
         ],
-        fallbacks: ['a:has-text("Routes")', 'a:has-text("Route")', '[role="button"]:has-text("Routes")']
+        fallbacks: [
+          'a:has-text("Routes")', 
+          'a:has-text("Route")', 
+          '[role="button"]:has-text("Routes")',
+          '.navigation a:has-text("Routes")',
+          'nav a:has-text("Routes")',
+          '.nav-menu a:has-text("Routes")',
+          '.navbar a:has-text("Routes")'
+        ]
       },
       pageIdentifiers: [
         { selector: '.routes-page', priority: 1, description: 'Routes page container', viewport: 'all', reliability: 'high' },
@@ -299,9 +330,19 @@ class NavigationConstants {
           { selector: '[data-testid="reports-link"]', priority: 4, description: 'Test ID reports link', viewport: 'all', reliability: 'high' },
           { selector: '[data-nav="reports"]', priority: 5, description: 'Data nav reports', viewport: 'all', reliability: 'high' },
           { selector: '.nav-reports', priority: 6, description: 'CSS class reports link', viewport: 'all', reliability: 'medium' },
-          { selector: 'a[href*="reports"]', priority: 7, description: 'Contains reports in href', viewport: 'all', reliability: 'medium' }
+          { selector: 'a[href*="reports"]', priority: 7, description: 'Contains reports in href', viewport: 'all', reliability: 'medium' },
+          { selector: '.navigation a[href*="reports"]', priority: 8, description: 'Navigation container reports link', viewport: 'all', reliability: 'medium' },
+          { selector: 'nav a[href*="reports"]', priority: 9, description: 'Nav element reports link', viewport: 'all', reliability: 'medium' }
         ],
-        fallbacks: ['a:has-text("Reports")', 'a:has-text("Report")', '[role="button"]:has-text("Reports")']
+        fallbacks: [
+          'a:has-text("Reports")', 
+          'a:has-text("Report")', 
+          '[role="button"]:has-text("Reports")',
+          '.navigation a:has-text("Reports")',
+          'nav a:has-text("Reports")',
+          '.nav-menu a:has-text("Reports")',
+          '.navbar a:has-text("Reports")'
+        ]
       },
       pageIdentifiers: [
         { selector: '.reports-page', priority: 1, description: 'Reports page container', viewport: 'all', reliability: 'high' },

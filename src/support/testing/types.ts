@@ -101,6 +101,6 @@ export interface ConnectionInfo {
 export interface ModeDetectionResult {
   mode: TestMode;
   confidence: number;
-  source: 'environment' | 'tags' | 'default';
+  source: 'environment' | 'tags' | 'default' | 'fallback' | 'error-fallback';
   fallbackReason?: string;
 }

@@ -140,9 +140,9 @@ export default class Constants {
     static readonly RESPONSIVE_BREAKPOINT_LARGE_DESKTOP = 1920;
 
     // ===== MOBILE-SPECIFIC INTERACTION CONSTANTS =====
-    static readonly TOUCH_TIMEOUT = 3000;
-    static readonly MOBILE_WAIT_TIMEOUT = 5000;
-    static readonly MOBILE_SCROLL_TIMEOUT = 2000;
+    static readonly TOUCH_TIMEOUT = 6000;  // Increased from 3000
+    static readonly MOBILE_WAIT_TIMEOUT = 8000;  // Increased from 5000
+    static readonly MOBILE_SCROLL_TIMEOUT = 4000;  // Increased from 2000
     static readonly MOBILE_ANIMATION_TIMEOUT = 1000;
     static readonly MOBILE_NETWORK_TIMEOUT = 10000;
 

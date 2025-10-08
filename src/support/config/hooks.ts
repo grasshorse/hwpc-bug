@@ -9,6 +9,7 @@ import SOAPRequest from "../playwright/API/SOAPRequest";
 import { TestModeDetector } from "../testing/TestModeDetector";
 import { DatabaseContextManager } from "../testing/DatabaseContextManager";
 import { ProductionTestDataManager } from "../testing/ProductionTestDataManager";
+import { ModeFailureReporter, ModeFailureReport } from "../testing/ModeFailureReporter";
 import { TestMode, TestConfig, DataContext, TestContext, ModeDetectionResult } from "../testing/types";
 
 const timeInMin: number = 60 * 1000;
@@ -59,7 +60,7 @@ Before(async function ({ pickle, gherkinDocument }: ITestCaseHookParameter) {
     
     Log.testBegin(`${pickle.name}: ${line}`);
     
-    // Detect test mode based on environment and tags
+    // Enhanced test mode detection with validation
     const testContext: TestContext = {
         testName: pickle.name,
         tags: pickle.tags?.map(tag => tag.name) || [],
@@ -67,12 +68,29 @@ Before(async function ({ pickle, gherkinDocument }: ITestCaseHookParameter) {
     };
     
     const modeResult: ModeDetectionResult = modeDetector.detectMode(testContext);
-    const detectedMode = modeResult.mode;
+    let detectedMode = modeResult.mode;
     
     // Log mode detection information
     Log.info(`Test mode detected: ${detectedMode} (confidence: ${modeResult.confidence}, source: ${modeResult.source})`);
     if (modeResult.fallbackReason) {
         Log.info(`Mode detection fallback: ${modeResult.fallbackReason}`);
+    }
+
+    // Validate database connectivity for production/dual modes
+    if (detectedMode === TestMode.PRODUCTION || detectedMode === TestMode.DUAL) {
+        const connectivityResult = await modeDetector.validateDatabaseConnectivity(detectedMode);
+        if (!connectivityResult.isValid) {
+            Log.info(`WARNING: Database connectivity validation failed for ${detectedMode} mode: ${connectivityResult.issues?.join(', ')}`);
+            
+            // Attempt fallback to a supported mode
+            const fallbackMode = modeDetector.getFallbackMode(detectedMode);
+            if (fallbackMode) {
+                Log.info(`Attempting fallback from ${detectedMode} to ${fallbackMode} mode`);
+                detectedMode = fallbackMode;
+            } else {
+                Log.error(`No fallback mode available for ${detectedMode}`);
+            }
+        }
     }
     
     // Create test configuration
@@ -95,58 +113,123 @@ Before(async function ({ pickle, gherkinDocument }: ITestCaseHookParameter) {
         } : undefined
     };
     
-    // Set up data context based on detected mode
+    // Enhanced data context setup with robust error handling and fallback
     let dataContext: DataContext | null = null;
-    try {
-        if (detectedMode === TestMode.ISOLATED || detectedMode === TestMode.DUAL) {
-            dataContext = await databaseContextManager.setupContext(detectedMode, testConfig);
-            Log.info(`Database context setup completed for ${detectedMode} mode`);
-        } else if (detectedMode === TestMode.PRODUCTION) {
-            dataContext = await productionTestDataManager.setupContext(detectedMode, testConfig);
-            Log.info(`Production test data context setup completed`);
-        }
+    let finalMode = detectedMode;
+    let setupAttempts = 0;
+    const maxSetupAttempts = 3;
+
+    while (setupAttempts < maxSetupAttempts && !dataContext) {
+        setupAttempts++;
         
-        if (dataContext) {
-            // Validate the context
-            const isValid = await (detectedMode === TestMode.PRODUCTION ? 
-                productionTestDataManager.validateContext(dataContext) : 
-                databaseContextManager.validateContext(dataContext));
+        try {
+            Log.info(`Data context setup attempt ${setupAttempts}/${maxSetupAttempts} for mode: ${finalMode}`);
             
-            if (!isValid) {
-                throw new Error(`Data context validation failed for mode: ${detectedMode}`);
+            if (finalMode === TestMode.ISOLATED || finalMode === TestMode.DUAL) {
+                // Validate database context manager is available
+                if (!databaseContextManager) {
+                    throw new Error('DatabaseContextManager is not available for isolated/dual mode');
+                }
+                
+                dataContext = await databaseContextManager.setupContext(finalMode, testConfig);
+                Log.info(`Database context setup completed for ${finalMode} mode`);
+                
+            } else if (finalMode === TestMode.PRODUCTION) {
+                // Validate production test data manager is available
+                if (!productionTestDataManager) {
+                    throw new Error('ProductionTestDataManager is not available for production mode');
+                }
+                
+                dataContext = await productionTestDataManager.setupContext(finalMode, testConfig);
+                Log.info(`Production test data context setup completed`);
             }
             
-            // Store context for cleanup
-            activeContexts.set(testId, dataContext);
-            
-            // Attach context to test world
-            this.testMode = detectedMode;
-            this.dataContext = dataContext;
-            this.testConfig = testConfig;
-            
-            Log.info(`Data context validated and attached to test world`);
-        }
-    } catch (error) {
-        Log.error(`Failed to setup data context for mode ${detectedMode}: ${error.message}`);
-        
-        // Attempt graceful degradation to isolated mode if production fails
-        if (detectedMode === TestMode.PRODUCTION) {
-            Log.info('Attempting graceful degradation to isolated mode...');
-            try {
-                const fallbackConfig = { ...testConfig, mode: TestMode.ISOLATED };
-                dataContext = await databaseContextManager.setupContext(TestMode.ISOLATED, fallbackConfig);
+            if (dataContext) {
+                // Enhanced context validation with detailed error reporting
+                Log.info(`Validating data context for mode: ${finalMode}`);
+                const isValid = await (finalMode === TestMode.PRODUCTION ? 
+                    productionTestDataManager.validateContext(dataContext) : 
+                    databaseContextManager.validateContext(dataContext));
+                
+                if (!isValid) {
+                    const validationError = `Data context validation failed for mode: ${finalMode}`;
+                    Log.error(validationError);
+                    
+                    // Clean up invalid context
+                    try {
+                        await dataContext.cleanup();
+                    } catch (cleanupError) {
+                        Log.error(`Failed to cleanup invalid context: ${cleanupError.message}`);
+                    }
+                    
+                    dataContext = null;
+                    throw new Error(validationError);
+                }
+                
+                // Store context for cleanup
                 activeContexts.set(testId, dataContext);
-                this.testMode = TestMode.ISOLATED;
+                
+                // Attach context to test world
+                this.testMode = finalMode;
                 this.dataContext = dataContext;
-                this.testConfig = fallbackConfig;
-                Log.info('Successfully degraded to isolated mode');
-            } catch (fallbackError) {
-                Log.error(`Fallback to isolated mode also failed: ${fallbackError.message}`);
-                throw new Error(`Both primary mode (${detectedMode}) and fallback mode failed`);
+                this.testConfig = { ...testConfig, mode: finalMode };
+                
+                Log.info(`Data context validated and attached to test world for mode: ${finalMode}`);
+                break; // Success, exit the retry loop
             }
-        } else {
-            throw error;
+            
+        } catch (error) {
+            Log.error(`Data context setup attempt ${setupAttempts} failed for mode ${finalMode}: ${error.message}`);
+            
+            // Attempt fallback to next available mode
+            const fallbackMode = modeDetector.getFallbackMode(finalMode);
+            
+            if (fallbackMode && setupAttempts < maxSetupAttempts) {
+                Log.info(`Attempting fallback from ${finalMode} to ${fallbackMode} mode (attempt ${setupAttempts + 1})`);
+                finalMode = fallbackMode;
+                testConfig.mode = fallbackMode;
+                
+                // Add delay before retry to allow for transient issues to resolve
+                if (setupAttempts > 1) {
+                    await new Promise(resolve => setTimeout(resolve, 1000 * setupAttempts));
+                }
+                
+            } else if (setupAttempts >= maxSetupAttempts) {
+                // All attempts exhausted
+                const errorMessage = `All ${maxSetupAttempts} setup attempts failed. Last mode attempted: ${finalMode}. Original mode: ${detectedMode}`;
+                Log.error(errorMessage);
+                throw new Error(errorMessage);
+                
+            } else {
+                // No fallback available - create comprehensive error report
+                const errorMessage = `No fallback mode available for ${finalMode}. Setup failed: ${error.message}`;
+                const finalError = new Error(errorMessage);
+                const failureReport = ModeFailureReporter.createFailureReport(
+                    testContext,
+                    detectedMode,
+                    finalMode,
+                    finalError,
+                    modeResult
+                );
+                
+                Log.error(errorMessage);
+                throw finalError;
+            }
         }
+    }
+
+    // Final validation that we have a working context
+    if (!dataContext) {
+        const finalError = new Error(`Failed to establish data context after ${setupAttempts} attempts. Original mode: ${detectedMode}, Final mode: ${finalMode}`);
+        const failureReport = ModeFailureReporter.createFailureReport(
+            testContext,
+            detectedMode,
+            finalMode,
+            finalError,
+            modeResult
+        );
+        
+        throw finalError;
     }
     
     // Create browser context and page
@@ -199,6 +282,17 @@ After(async function ({ result, pickle, gherkinDocument }: ITestCaseHookParamete
                 fullPage: true 
             });
             await this.attach(image, 'image/png');
+        }
+
+        // Enhanced failure diagnostics
+        Log.error('');
+        Log.error('🔍 ENHANCED FAILURE DIAGNOSTICS:');
+        Log.error(`   Test Mode: ${this.testMode || 'unknown'}`);
+        Log.error(`   Test ID: ${testId}`);
+        Log.error(`   Failure Time: ${new Date().toISOString()}`);
+        
+        if (result.message) {
+            Log.error(`   Error Details: ${result.message}`);
         }
         
         // Collect mode-specific debugging information

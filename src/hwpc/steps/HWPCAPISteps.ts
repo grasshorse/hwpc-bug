@@ -6,6 +6,11 @@ import RESTResponse from "../../support/playwright/API/RESTResponse";
 import Assert from "../../support/playwright/asserts/Assert";
 import StringUtil from "../../support/utils/StringUtil";
 import { TestMode } from "../../support/testing/types";
+import { EnhancedDataContextManagerImpl } from "../../support/testing/EnhancedDataContextManager";
+import { ContextAwareRequestBuilderImpl, ContextAwareRequestBuilderFactory } from "../../support/testing/ContextAwareRequestBuilder";
+import { DataValidationService } from "../../support/testing/DataValidationService";
+import { ContextAwareErrorHandler, ContextAwareErrorHandlerFactory, ContextAwareError } from "../../support/testing/ContextAwareErrorHandler";
+import { EntityType } from "../../support/testing/interfaces/DataContextManager";
 import Log from "../../support/logger/Log";
 
 /**
@@ -61,20 +66,36 @@ When('user makes a request to retrieve all HWPC tickets', async function () {
 });
 
 When('user makes a request to retrieve HWPC ticket with ID {string}', async function (ticketId: string) {
-    this.response = await this.hwpcAPI.getTicketById(this.attach, ticketId);
-    this.currentTicketId = ticketId;
+    // Resolve ticket ID using context-aware data
+    const resolvedTicketId = await resolveTicketId(this, ticketId);
+    
+    this.response = await this.hwpcAPI.getTicketById(this.attach, resolvedTicketId);
+    this.currentTicketId = resolvedTicketId;
 });
 
 When('user creates a new HWPC ticket with title {string}, description {string}, and priority {string}',
     async function (title: string, description: string, priority: string) {
-        const ticketData = {
+        let ticketData = {
             title: title,
             description: description,
             priority: priority,
             status: HWPCAPIConstants.TICKET_STATUS_OPEN,
             category: "general",
-            customerId: "64fcec34-150a-476f-804a-3e9072a7e6bf" // Valid Daffy Duck customer UUID from API response
+            customerId: "64fcec34-150a-476f-804a-3e9072a7e6bf" // Default fallback customer UUID
         };
+        
+        // Use context-aware data if available
+        if (this.hwpcAPI instanceof ContextAwareHWPCAPIClient && this.dataContext) {
+            try {
+                const requestBuilder = ContextAwareRequestBuilderFactory.getBuilder(
+                    new EnhancedDataContextManagerImpl(this.testMode || TestMode.ISOLATED)
+                );
+                ticketData = await requestBuilder.buildTicketRequest(ticketData, this.dataContext);
+                Log.info(`Using context-aware ticket data for ${this.testMode} mode`);
+            } catch (error) {
+                Log.info(`Failed to use context-aware data, falling back to default: ${error.message}`);
+            }
+        }
         
         this.response = await this.hwpcAPI.createTicket(this.attach, ticketData);
         
@@ -92,16 +113,22 @@ When('user creates a new HWPC ticket with title {string}, description {string}, 
 
 When('user updates HWPC ticket {string} with title {string} and status {string}',
     async function (ticketId: string, title: string, status: string) {
+        // Resolve ticket ID using context-aware data
+        const resolvedTicketId = await resolveTicketId(this, ticketId);
+        
         // First get the current ticket data
-        const currentTicketResponse = await this.hwpcAPI.getTicketById(this.attach, ticketId);
+        const currentTicketResponse = await this.hwpcAPI.getTicketById(this.attach, resolvedTicketId);
         
         if (await currentTicketResponse.getStatusCode() === HWPCAPIConstants.STATUS_OK) {
             const currentTicketBody = JSON.parse(await currentTicketResponse.getBody());
-            const ticketData = currentTicketBody.data || currentTicketBody;
+            let ticketData = currentTicketBody.data || currentTicketBody;
             
             // Update specific fields
             ticketData.title = title;
             ticketData.status = status;
+            
+            // Apply context-aware updates
+            ticketData = await buildContextAwareRequest(this, ticketData, 'ticket');
             
             // Remove null values that cause validation errors
             if (ticketData.assignedTo === null) {
@@ -132,8 +159,8 @@ When('user updates HWPC ticket {string} with title {string} and status {string}'
             delete ticketData.customerState;
             delete ticketData.customerZipCode;
             
-            this.response = await this.hwpcAPI.updateTicket(this.attach, ticketId, ticketData);
-            this.currentTicketId = ticketId;
+            this.response = await this.hwpcAPI.updateTicket(this.attach, resolvedTicketId, ticketData);
+            this.currentTicketId = resolvedTicketId;
         } else {
             this.response = currentTicketResponse;
         }
@@ -192,8 +219,11 @@ When('user updates HWPC ticket with stored ID with title {string} and status {st
     });
 
 When('user deletes HWPC ticket {string}', async function (ticketId: string) {
-    this.response = await this.hwpcAPI.deleteTicket(this.attach, ticketId);
-    this.currentTicketId = ticketId;
+    // Resolve ticket ID using context-aware data
+    const resolvedTicketId = await resolveTicketId(this, ticketId);
+    
+    this.response = await this.hwpcAPI.deleteTicket(this.attach, resolvedTicketId);
+    this.currentTicketId = resolvedTicketId;
 });
 
 When('user deletes HWPC ticket with stored ID', async function () {
@@ -205,7 +235,85 @@ When('user deletes HWPC ticket with stored ID', async function () {
 });
 
 When('user retrieves HWPC tickets for customer {string}', async function (customerId: string) {
-    this.response = await this.hwpcAPI.getTicketsByCustomer(this.attach, customerId);
+    // Resolve customer ID using context-aware data
+    const resolvedCustomerId = await resolveCustomerId(this, customerId);
+    
+    this.response = await this.hwpcAPI.getTicketsByCustomer(this.attach, resolvedCustomerId);
+});
+
+// ===== DATA VALIDATION STEP DEFINITIONS =====
+
+Given('user validates that test data exists for {string} operations', async function (operationType: string) {
+    if (this.hwpcAPI instanceof ContextAwareHWPCAPIClient && this.dataContext) {
+        try {
+            const validationService = new DataValidationService(this.testMode || TestMode.ISOLATED, this.dataContext);
+            
+            // Validate that required entities exist based on operation type
+            const entitiesToValidate: Array<{type: EntityType, id: string}> = [];
+            
+            if (operationType.toLowerCase().includes('ticket')) {
+                // For ticket operations, validate customers and routes exist
+                if (this.dataContext.testData.customers.length > 0) {
+                    entitiesToValidate.push({type: EntityType.CUSTOMER, id: this.dataContext.testData.customers[0].id});
+                }
+                if (this.dataContext.testData.routes.length > 0) {
+                    entitiesToValidate.push({type: EntityType.ROUTE, id: this.dataContext.testData.routes[0].id});
+                }
+            } else if (operationType.toLowerCase().includes('customer')) {
+                // For customer operations, validate customers exist
+                if (this.dataContext.testData.customers.length > 0) {
+                    entitiesToValidate.push({type: EntityType.CUSTOMER, id: this.dataContext.testData.customers[0].id});
+                }
+            }
+            
+            if (entitiesToValidate.length > 0) {
+                const validationResult = await validationService.validateMultipleEntities(entitiesToValidate);
+                
+                if (!validationResult.isValid) {
+                    const errorHandler = ContextAwareErrorHandlerFactory.getHandler(this.testMode || TestMode.ISOLATED, this.dataContext);
+                    const error = await errorHandler.handleValidationFailure({}, 'create', validationResult);
+                    throw error;
+                }
+                
+                Log.info(`Test data validation passed for ${operationType} operations in ${this.testMode} mode`);
+            } else {
+                Log.info(`No test data validation required for ${operationType} operations`);
+            }
+        } catch (error) {
+            if (error instanceof ContextAwareError) {
+                Log.error(error.getFormattedMessage());
+                throw new Error(error.getFormattedMessage());
+            }
+            throw error;
+        }
+    } else {
+        Log.info('Skipping test data validation - no context-aware API client available');
+    }
+});
+
+When('user validates API request data before {string} operation', async function (operation: string) {
+    if (this.hwpcAPI instanceof ContextAwareHWPCAPIClient && this.dataContext && this.lastRequestData) {
+        try {
+            const validationService = new DataValidationService(this.testMode || TestMode.ISOLATED, this.dataContext);
+            const validationResult = await validationService.validateApiRequestData(this.lastRequestData, operation as any);
+            
+            if (!validationResult.isValid) {
+                const errorHandler = ContextAwareErrorHandlerFactory.getHandler(this.testMode || TestMode.ISOLATED, this.dataContext);
+                const error = await errorHandler.handleValidationFailure(this.lastRequestData, operation as any, validationResult);
+                throw error;
+            }
+            
+            Log.info(`API request data validation passed for ${operation} operation`);
+        } catch (error) {
+            if (error instanceof ContextAwareError) {
+                Log.error(error.getFormattedMessage());
+                throw new Error(error.getFormattedMessage());
+            }
+            throw error;
+        }
+    } else {
+        Log.info('Skipping API request validation - no context or request data available');
+    }
 });
 
 // ===== CONTEXT-AWARE STEP DEFINITIONS =====
@@ -338,19 +446,25 @@ When('user makes a request to retrieve all HWPC customers', async function () {
 });
 
 When('user makes a request to retrieve HWPC customer with ID {string}', async function (customerId: string) {
-    this.response = await this.hwpcAPI.getCustomerById(this.attach, customerId);
-    this.currentCustomerId = customerId;
+    // Resolve customer ID using context-aware data
+    const resolvedCustomerId = await resolveCustomerId(this, customerId);
+    
+    this.response = await this.hwpcAPI.getCustomerById(this.attach, resolvedCustomerId);
+    this.currentCustomerId = resolvedCustomerId;
 });
 
 When('user creates a new HWPC customer with name {string}, email {string}, and phone {string}',
     async function (name: string, email: string, phone: string) {
-        const customerData = {
+        let customerData = {
             name: name,
             email: email,
             phone: phone,
             serviceType: "standard",
             isActive: true
         };
+        
+        // Use context-aware data if available
+        customerData = await buildContextAwareRequest(this, customerData, 'customer');
         
         this.response = await this.hwpcAPI.createCustomer(this.attach, customerData);
         
@@ -368,27 +482,36 @@ When('user creates a new HWPC customer with name {string}, email {string}, and p
 
 When('user updates HWPC customer {string} with name {string} and email {string}',
     async function (customerId: string, name: string, email: string) {
+        // Resolve customer ID using context-aware data
+        const resolvedCustomerId = await resolveCustomerId(this, customerId);
+        
         // First get the current customer data
-        const currentCustomerResponse = await this.hwpcAPI.getCustomerById(this.attach, customerId);
+        const currentCustomerResponse = await this.hwpcAPI.getCustomerById(this.attach, resolvedCustomerId);
         
         if (await currentCustomerResponse.getStatusCode() === HWPCAPIConstants.STATUS_OK) {
             const currentCustomerBody = JSON.parse(await currentCustomerResponse.getBody());
-            const customerData = currentCustomerBody.data || currentCustomerBody;
+            let customerData = currentCustomerBody.data || currentCustomerBody;
             
             // Update specific fields
             customerData.name = name;
             customerData.email = email;
             
-            this.response = await this.hwpcAPI.updateCustomer(this.attach, customerId, customerData);
-            this.currentCustomerId = customerId;
+            // Apply context-aware updates
+            customerData = await buildContextAwareRequest(this, customerData, 'customer');
+            
+            this.response = await this.hwpcAPI.updateCustomer(this.attach, resolvedCustomerId, customerData);
+            this.currentCustomerId = resolvedCustomerId;
         } else {
             this.response = currentCustomerResponse;
         }
     });
 
 When('user deletes HWPC customer {string}', async function (customerId: string) {
-    this.response = await this.hwpcAPI.deleteCustomer(this.attach, customerId);
-    this.currentCustomerId = customerId;
+    // Resolve customer ID using context-aware data
+    const resolvedCustomerId = await resolveCustomerId(this, customerId);
+    
+    this.response = await this.hwpcAPI.deleteCustomer(this.attach, resolvedCustomerId);
+    this.currentCustomerId = resolvedCustomerId;
 });
 
 When('user searches for HWPC customers with query {string}', async function (searchQuery: string) {
@@ -407,8 +530,11 @@ When('user makes a request to retrieve all HWPC routes', async function () {
 });
 
 When('user makes a request to retrieve HWPC route with ID {string}', async function (routeId: string) {
-    this.response = await this.hwpcAPI.getRouteById(this.attach, routeId);
-    this.currentRouteId = routeId;
+    // Resolve route ID using context-aware data
+    const resolvedRouteId = await resolveRouteId(this, routeId);
+    
+    this.response = await this.hwpcAPI.getRouteById(this.attach, resolvedRouteId);
+    this.currentRouteId = resolvedRouteId;
 });
 
 // ===== DASHBOARD & REPORTS STEPS =====
@@ -747,3 +873,155 @@ Then('user stores HWPC user ID from response', async function () {
         console.log("Failed to store user ID from response:", error);
     }
 });
+
+// ===== CONTEXT-AWARE DATA HELPER FUNCTIONS =====
+
+/**
+ * Helper function to resolve customer ID using context-aware data with validation
+ */
+async function resolveCustomerId(context: any, baseName?: string): Promise<string> {
+    if (context.hwpcAPI instanceof ContextAwareHWPCAPIClient && context.dataContext) {
+        try {
+            const dataManager = new EnhancedDataContextManagerImpl(context.testMode || TestMode.ISOLATED);
+            const customerId = await dataManager.resolveCustomerId(baseName, context.dataContext);
+            
+            // Validate that the customer exists
+            const validationService = new DataValidationService(context.testMode || TestMode.ISOLATED, context.dataContext);
+            const validationResult = await validationService.validateTestDataExists(EntityType.CUSTOMER, customerId);
+            
+            if (!validationResult.isValid) {
+                const errorHandler = ContextAwareErrorHandlerFactory.getHandler(context.testMode || TestMode.ISOLATED, context.dataContext);
+                const error = await errorHandler.handleEntityNotFound(EntityType.CUSTOMER, customerId, 'customer ID resolution');
+                Log.error(error.getFormattedMessage());
+                throw error;
+            }
+            
+            return customerId;
+        } catch (error) {
+            if (error instanceof ContextAwareError) {
+                throw error;
+            }
+            Log.info(`Failed to resolve customer ID contextually: ${error.message}`);
+        }
+    }
+    
+    // Fallback to hardcoded ID
+    return "64fcec34-150a-476f-804a-3e9072a7e6bf";
+}
+
+/**
+ * Helper function to resolve ticket ID using context-aware data with validation
+ */
+async function resolveTicketId(context: any, baseName?: string): Promise<string> {
+    if (context.hwpcAPI instanceof ContextAwareHWPCAPIClient && context.dataContext) {
+        try {
+            const dataManager = new EnhancedDataContextManagerImpl(context.testMode || TestMode.ISOLATED);
+            const ticketId = await dataManager.resolveTicketId(baseName, context.dataContext);
+            
+            // Validate that the ticket exists
+            const validationService = new DataValidationService(context.testMode || TestMode.ISOLATED, context.dataContext);
+            const validationResult = await validationService.validateTestDataExists(EntityType.TICKET, ticketId);
+            
+            if (!validationResult.isValid) {
+                const errorHandler = ContextAwareErrorHandlerFactory.getHandler(context.testMode || TestMode.ISOLATED, context.dataContext);
+                const error = await errorHandler.handleEntityNotFound(EntityType.TICKET, ticketId, 'ticket ID resolution');
+                Log.error(error.getFormattedMessage());
+                throw error;
+            }
+            
+            return ticketId;
+        } catch (error) {
+            if (error instanceof ContextAwareError) {
+                throw error;
+            }
+            Log.info(`Failed to resolve ticket ID contextually: ${error.message}`);
+        }
+    }
+    
+    // Fallback to default pattern
+    return baseName || "ticket-001";
+}
+
+/**
+ * Helper function to resolve route ID using context-aware data with validation
+ */
+async function resolveRouteId(context: any, baseName?: string): Promise<string> {
+    if (context.hwpcAPI instanceof ContextAwareHWPCAPIClient && context.dataContext) {
+        try {
+            const dataManager = new EnhancedDataContextManagerImpl(context.testMode || TestMode.ISOLATED);
+            const routeId = await dataManager.resolveRouteId(baseName, context.dataContext);
+            
+            // Validate that the route exists
+            const validationService = new DataValidationService(context.testMode || TestMode.ISOLATED, context.dataContext);
+            const validationResult = await validationService.validateTestDataExists(EntityType.ROUTE, routeId);
+            
+            if (!validationResult.isValid) {
+                const errorHandler = ContextAwareErrorHandlerFactory.getHandler(context.testMode || TestMode.ISOLATED, context.dataContext);
+                const error = await errorHandler.handleEntityNotFound(EntityType.ROUTE, routeId, 'route ID resolution');
+                Log.error(error.getFormattedMessage());
+                throw error;
+            }
+            
+            return routeId;
+        } catch (error) {
+            if (error instanceof ContextAwareError) {
+                throw error;
+            }
+            Log.info(`Failed to resolve route ID contextually: ${error.message}`);
+        }
+    }
+    
+    // Fallback to default pattern
+    return baseName || "route-001";
+}
+
+/**
+ * Helper function to build context-aware request data with validation
+ */
+async function buildContextAwareRequest(context: any, requestData: any, requestType: 'ticket' | 'customer' | 'route'): Promise<any> {
+    if (context.hwpcAPI instanceof ContextAwareHWPCAPIClient && context.dataContext) {
+        try {
+            // Validate request data before processing
+            const validationService = new DataValidationService(context.testMode || TestMode.ISOLATED, context.dataContext);
+            const validationResult = await validationService.validateApiRequestData(requestData, 'create');
+            
+            if (!validationResult.isValid) {
+                const errorHandler = ContextAwareErrorHandlerFactory.getHandler(context.testMode || TestMode.ISOLATED, context.dataContext);
+                const error = await errorHandler.handleValidationFailure(requestData, 'create', validationResult);
+                Log.error(error.getFormattedMessage());
+                
+                // Try to recover from validation errors
+                const recovered = await errorHandler.attemptRecovery(error);
+                if (!recovered) {
+                    throw error;
+                }
+            }
+            
+            const dataManager = new EnhancedDataContextManagerImpl(context.testMode || TestMode.ISOLATED);
+            const requestBuilder = ContextAwareRequestBuilderFactory.getBuilder(dataManager);
+            
+            switch (requestType) {
+                case 'ticket':
+                    return await requestBuilder.buildTicketRequest(requestData, context.dataContext);
+                case 'customer':
+                    return await requestBuilder.buildCustomerRequest(requestData, context.dataContext);
+                case 'route':
+                    return await requestBuilder.buildRouteRequest(requestData, context.dataContext);
+                default:
+                    return await requestBuilder.resolveContextualIds(requestData, context.dataContext);
+            }
+        } catch (error) {
+            if (error instanceof ContextAwareError) {
+                throw error;
+            }
+            
+            // Handle unexpected errors
+            const errorHandler = ContextAwareErrorHandlerFactory.getHandler(context.testMode || TestMode.ISOLATED, context.dataContext);
+            const contextError = await errorHandler.handleApiRequestError(`build ${requestType} request`, requestData, error);
+            Log.error(contextError.getFormattedMessage());
+            throw contextError;
+        }
+    }
+    
+    return requestData;
+}

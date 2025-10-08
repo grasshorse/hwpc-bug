@@ -29,8 +29,8 @@ export default class HWPCConfig {
     // ===== ENVIRONMENT CONFIGURATIONS =====
     
     static readonly TEST_CONFIG: HWPCEnvironmentConfig = {
-        baseUrl: "http://10.147.17.219:3000",
-        apiBaseUrl: "http://10.147.17.219:3000/api/v1",
+        baseUrl: process.env.BASE_URL || "http://10.147.17.219:3000",
+        apiBaseUrl: process.env.HWPC_API_BASE_URL || "http://10.147.17.219:3000/api/v1",
         environment: "test",
         timeouts: {
             default: 5000,
