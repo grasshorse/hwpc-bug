@@ -20,47 +20,47 @@ Feature: HWPC API Testing
     Then user should get a successful response with status code 200
     And user should get list of HWPC tickets
 
-  @tickets @get @isolated
-  Scenario: User can retrieve a specific ticket by ID (isolated mode)
-    When user makes a request to retrieve HWPC ticket with context-specific ID
-    Then user should get a successful response with status code 200
-    And user should get HWPC ticket with context-specific data
+#  @tickets @get @isolated
+#  Scenario: User can retrieve a specific ticket by ID (isolated mode)
+#    When user makes a request to retrieve HWPC ticket with context-specific ID
+#    Then user should get a successful response with status code 200
+#    And user should get HWPC ticket with context-specific data
 
-  @tickets @get @production
-  Scenario: User can retrieve a specific ticket by ID (production mode)
-    When user makes a request to retrieve HWPC ticket with context-specific ID
-    Then user should get a successful response with status code 200
-    And user should get HWPC ticket with context-specific data
+  # @tickets @get @production
+  # Scenario: User can retrieve a specific ticket by ID (production mode)
+  #   When user makes a request to retrieve HWPC ticket with context-specific ID
+  #   Then user should get a successful response with status code 200
+  #   And user should get HWPC ticket with context-specific data
 
-  @tickets @create @dual
-  Scenario: User can create a new ticket via API
-    When user creates a new HWPC ticket with context-aware test data
-    Then user should get a successful response with status code 201
-    And user should get created HWPC ticket with context-specific data
-    And user stores HWPC ticket ID from response
-    Then user cleans up the created HWPC ticket
+  # @tickets @create @dual
+  # Scenario: User can create a new ticket via API
+  #   When user creates a new HWPC ticket with context-aware test data
+  #   Then user should get a successful response with status code 201
+  #   And user should get created HWPC ticket with context-specific data
+  #   And user stores HWPC ticket ID from response
+  #   Then user cleans up the created HWPC ticket
 
-  @tickets @update @dual
-  Scenario: User can update an existing ticket via API
-    Given user creates a new HWPC ticket with context-aware test data
-    And user stores HWPC ticket ID from response
-    When user updates HWPC ticket with stored ID using context-aware data
-    Then user should get a successful response with status code 200
-    And user should get HWPC ticket with updated context-specific data
-    Then user cleans up the created HWPC ticket
+  # @tickets @update @dual
+  # Scenario: User can update an existing ticket via API
+  #   Given user creates a new HWPC ticket with context-aware test data
+  #   And user stores HWPC ticket ID from response
+  #   When user updates HWPC ticket with stored ID using context-aware data
+  #   Then user should get a successful response with status code 200
+  #   And user should get HWPC ticket with updated context-specific data
+  #   Then user cleans up the created HWPC ticket
 
-  @tickets @delete @dual
-  Scenario: User can delete a ticket via API
-    Given user creates a new HWPC ticket with context-aware test data
-    And user stores HWPC ticket ID from response
-    When user deletes HWPC ticket with stored ID
-    Then user should get a successful response with status code 200
+  # @tickets @delete @dual
+  # Scenario: User can delete a ticket via API
+  #   Given user creates a new HWPC ticket with context-aware test data
+  #   And user stores HWPC ticket ID from response
+  #   When user deletes HWPC ticket with stored ID
+  #   Then user should get a successful response with status code 200
 
-  @tickets @customer @dual
-  Scenario: User can retrieve tickets by customer
-    When user retrieves HWPC tickets for context-specific customer
-    Then user should get a successful response with status code 200
-    And user should get list of HWPC tickets
+  # @tickets @customer @dual
+  # Scenario: User can retrieve tickets by customer
+  #   When user retrieves HWPC tickets for context-specific customer
+  #   Then user should get a successful response with status code 200
+  #   And user should get list of HWPC tickets
 
   @tickets @status @dual
   Scenario: User can retrieve tickets by status

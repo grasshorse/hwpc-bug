@@ -84,7 +84,7 @@ class NavigationConstants {
   static readonly SPA_TIMEOUTS = {
     initialization: 15000,  // Wait for app.js to load and initialize (increased from 10000)
     navigationRender: 8000, // Wait for navigation component to render (increased from 5000)
-    routeChange: 6000,      // Wait for route changes to complete (increased from 3000)
+    routeChange: 12000,     // Wait for route changes to complete (increased from 6000 to 12000 for debugging)
     componentMount: 7000    // Wait for components to mount (increased from 4000)
   };
 

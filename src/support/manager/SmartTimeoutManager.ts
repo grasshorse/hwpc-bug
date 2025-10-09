@@ -154,6 +154,17 @@ export interface ReadinessFallbackStrategy {
 }
 
 /**
+ * Enhanced fallback strategy with recovery mechanisms
+ */
+export interface EnhancedFallbackStrategy extends ReadinessFallbackStrategy {
+  priority: number; // Higher priority strategies are tried first
+  canRecover: boolean; // Whether this strategy can attempt recovery
+  recoveryAction?: (page: Page, failedIndicators: string[]) => Promise<boolean>;
+  maxRecoveryAttempts?: number;
+  fallbackIndicators?: ReadinessIndicator[]; // Alternative indicators to try
+}
+
+/**
  * Readiness scoring configuration
  */
 export interface ReadinessScoring {
@@ -904,6 +915,158 @@ export class SmartTimeoutManager {
   }
 
   /**
+   * Get enhanced fallback strategies for readiness detection failures
+   */
+  private getEnhancedFallbackStrategies(): EnhancedFallbackStrategy[] {
+    return [
+      {
+        name: 'low-score-recovery',
+        description: 'Attempt recovery when readiness score is low but some indicators pass',
+        priority: 1,
+        canRecover: true,
+        maxRecoveryAttempts: 2,
+        shouldUseFallback: (result, config) => {
+          return result.score < config.readinessScoring.scoreThresholds[config.environment] && 
+                 result.score > 30 && // Some indicators are passing
+                 result.scoreBreakdown.requiredPassed;
+        },
+        getFallbackTimeout: (originalTimeout, environment) => {
+          const multipliers = { local: 1.2, ci: 1.5, remote: 2.0 };
+          return Math.round(originalTimeout * multipliers[environment]);
+        },
+        recoveryAction: async (page, failedIndicators) => {
+          // Attempt to refresh or re-trigger failed components
+          try {
+            await page.evaluate(() => {
+              // Trigger any pending DOM updates
+              if (window.requestAnimationFrame) {
+                window.requestAnimationFrame(() => {});
+              }
+              // Dispatch a custom event to trigger component updates
+              window.dispatchEvent(new Event('readiness-recovery'));
+            });
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        onFallbackUsed: (reason, fallbackTimeout) => {
+          console.log(`[SmartTimeoutManager] Using low-score recovery fallback: ${reason} (timeout: ${fallbackTimeout}ms)`);
+        }
+      },
+      {
+        name: 'required-indicator-failure',
+        description: 'Handle cases where required indicators fail but optional ones pass',
+        priority: 2,
+        canRecover: true,
+        maxRecoveryAttempts: 1,
+        shouldUseFallback: (result, config) => {
+          return !result.scoreBreakdown.requiredPassed && result.score > 20;
+        },
+        getFallbackTimeout: (originalTimeout, environment) => {
+          const multipliers = { local: 1.5, ci: 2.0, remote: 2.5 };
+          return Math.round(originalTimeout * multipliers[environment]);
+        },
+        recoveryAction: async (page, failedIndicators) => {
+          // Focus on recovering required indicators
+          try {
+            await page.evaluate(() => {
+              // Force a layout recalculation
+              document.body.offsetHeight;
+              // Trigger any lazy-loaded components
+              window.dispatchEvent(new Event('scroll'));
+              window.dispatchEvent(new Event('resize'));
+            });
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        fallbackIndicators: [
+          {
+            name: 'basic-dom-ready',
+            description: 'Basic DOM readiness check',
+            check: async (page) => {
+              return await page.evaluate(() => {
+                return document.readyState === 'complete' && 
+                       document.body && 
+                       document.body.children.length > 0;
+              });
+            },
+            timeout: 1000,
+            required: true,
+            weight: 0.8,
+            viewport: 'all'
+          }
+        ],
+        onFallbackUsed: (reason, fallbackTimeout) => {
+          console.log(`[SmartTimeoutManager] Using required-indicator fallback: ${reason} (timeout: ${fallbackTimeout}ms)`);
+        }
+      },
+      {
+        name: 'complete-failure',
+        description: 'Last resort fallback when all indicators fail',
+        priority: 3,
+        canRecover: false,
+        shouldUseFallback: (result, config) => {
+          return result.score < 20 || (!result.scoreBreakdown.requiredPassed && result.score < 50);
+        },
+        getFallbackTimeout: (originalTimeout, environment) => {
+          const multipliers = { local: 2.0, ci: 3.0, remote: 4.0 };
+          return Math.round(originalTimeout * multipliers[environment]);
+        },
+        onFallbackUsed: (reason, fallbackTimeout) => {
+          console.log(`[SmartTimeoutManager] Using complete-failure fallback: ${reason} (timeout: ${fallbackTimeout}ms)`);
+        }
+      },
+      {
+        name: 'environment-adaptive',
+        description: 'Adaptive fallback based on environment characteristics',
+        priority: 4,
+        canRecover: true,
+        maxRecoveryAttempts: 1,
+        shouldUseFallback: (result, config) => {
+          // More lenient in local environment, stricter in remote
+          const thresholds = { local: 40, ci: 30, remote: 20 };
+          return result.score < thresholds[config.environment];
+        },
+        getFallbackTimeout: (originalTimeout, environment) => {
+          // Environment-specific timeout adjustments
+          switch (environment) {
+            case 'local': return Math.round(originalTimeout * 1.3); // Minimal increase for local
+            case 'ci': return Math.round(originalTimeout * 2.0);    // Moderate increase for CI
+            case 'remote': return Math.round(originalTimeout * 3.0); // Significant increase for remote
+            default: return Math.round(originalTimeout * 2.0);
+          }
+        },
+        recoveryAction: async (page, failedIndicators) => {
+          // Environment-specific recovery actions
+          try {
+            await page.evaluate(() => {
+              // Wait for any pending promises or timers
+              return new Promise(resolve => {
+                setTimeout(() => {
+                  // Trigger a comprehensive DOM update
+                  document.body.style.display = 'none';
+                  document.body.offsetHeight; // Force reflow
+                  document.body.style.display = '';
+                  resolve(true);
+                }, 50);
+              });
+            });
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        onFallbackUsed: (reason, fallbackTimeout) => {
+          console.log(`[SmartTimeoutManager] Using environment-adaptive fallback: ${reason} (timeout: ${fallbackTimeout}ms)`);
+        }
+      }
+    ];
+  }
+
+  /**
    * Apply fallback strategies when readiness is not achieved
    */
   private async applyFallbackStrategies(
@@ -912,6 +1075,9 @@ export class SmartTimeoutManager {
     page: Page,
     indicators: ReadinessIndicator[]
   ): Promise<Partial<ReadinessResult>> {
+    // Get available fallback strategies
+    const fallbackStrategies = this.getEnhancedFallbackStrategies();
+    
     // Determine fallback reason
     let fallbackReason = '';
     if (!result.scoreBreakdown.requiredPassed) {
@@ -923,13 +1089,80 @@ export class SmartTimeoutManager {
     }
 
     if (config.performance.logDiagnostics) {
-      console.log(`[SmartTimeoutManager] Applying fallback strategy: ${fallbackReason}`);
+      console.log(`[SmartTimeoutManager] Applying fallback strategies for: ${fallbackReason}`);
+    }
+
+    // Try enhanced fallback strategies in priority order
+    const sortedStrategies = fallbackStrategies.sort((a, b) => b.priority - a.priority);
+    
+    for (const strategy of sortedStrategies) {
+      if (strategy.shouldUseFallback(result, config)) {
+        const fallbackTimeout = strategy.getFallbackTimeout(config.progressiveStrategy.maxWait, config.environment);
+        
+        if (config.performance.logDiagnostics) {
+          console.log(`[SmartTimeoutManager] Trying fallback strategy: ${strategy.name} with timeout ${fallbackTimeout}ms`);
+        }
+
+        // Attempt recovery if strategy supports it
+        if (strategy.canRecover && strategy.recoveryAction) {
+          const failedIndicators = Object.entries(result.indicators)
+            .filter(([_, indicatorResult]) => !indicatorResult.passed)
+            .map(([name, _]) => name);
+
+          try {
+            const recoverySuccessful = await strategy.recoveryAction(page, failedIndicators);
+            if (recoverySuccessful) {
+              // Re-run readiness check with fallback indicators if available
+              if (strategy.fallbackIndicators && strategy.fallbackIndicators.length > 0) {
+                const fallbackResult = await this.waitForReadiness(page, strategy.fallbackIndicators, {
+                  ...config,
+                  progressiveStrategy: {
+                    ...config.progressiveStrategy,
+                    maxWait: fallbackTimeout,
+                    maxChecks: Math.min(config.progressiveStrategy.maxChecks, 10) // Limit checks for fallback
+                  }
+                });
+
+                if (fallbackResult.ready) {
+                  if (config.performance.logDiagnostics) {
+                    console.log(`[SmartTimeoutManager] Fallback strategy ${strategy.name} succeeded with recovery`);
+                  }
+                  
+                  return {
+                    fallbackUsed: true,
+                    fallbackReason: `${fallbackReason} - recovered using ${strategy.name}`,
+                    ready: true,
+                    score: Math.max(result.score, fallbackResult.score),
+                    duration: result.duration + fallbackResult.duration
+                  };
+                }
+              }
+            }
+          } catch (recoveryError) {
+            if (config.performance.logDiagnostics) {
+              console.log(`[SmartTimeoutManager] Recovery failed for strategy ${strategy.name}: ${recoveryError instanceof Error ? recoveryError.message : String(recoveryError)}`);
+            }
+          }
+        }
+
+        // Call fallback callback if provided
+        if (strategy.onFallbackUsed) {
+          strategy.onFallbackUsed(fallbackReason, fallbackTimeout);
+        }
+
+        // Strategy was applied but didn't recover
+        if (config.performance.logDiagnostics) {
+          console.log(`[SmartTimeoutManager] Fallback strategy ${strategy.name} applied but did not recover readiness`);
+        }
+        
+        break; // Only apply the first matching strategy
+      }
     }
 
     return {
       fallbackUsed: true,
       fallbackReason,
-      ready: false // Fallback doesn't change ready state
+      ready: false // Fallback doesn't change ready state unless recovery succeeds
     };
   }
 

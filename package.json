@@ -41,7 +41,10 @@
     "dry:test:isolated": "cross-env TEST_MODE=isolated npx cucumber-js -p isolated --dry-run",
     "dry:test:production": "cross-env TEST_MODE=production npx cucumber-js -p production --dry-run",
     "baseline:timeout": "npx ts-node scripts/run-baseline-measurements.ts",
-    "test:baseline": "npx playwright test src/tests/baseline/timeout-performance-baseline.test.ts --reporter=line"
+    "test:baseline": "npx playwright test src/tests/baseline/timeout-performance-baseline.test.ts --reporter=line",
+    "catest:SmartTimeout": "npx vitest --run src/support/manager/SmartTimeoutManager.test.ts ",
+    "catest:ApplicationReadinessDetector": "npx vitest --run src/support/manager/ApplicationReadinessDetector.test.ts",
+    "catest:thing": "echo hi"
   },
   "keywords": [],
   "author": "Chris Trees",
